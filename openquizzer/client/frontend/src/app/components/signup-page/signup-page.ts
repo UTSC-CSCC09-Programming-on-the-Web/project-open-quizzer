@@ -38,7 +38,7 @@ export class SignupPage implements OnInit {
         ],
         confirmPassword: ['', [Validators.required]],
       },
-      { validators: this.passwordMatchValidator }
+      { validators: this.passwordMatchValidator },
     );
   }
 
@@ -59,7 +59,7 @@ export class SignupPage implements OnInit {
   }
 
   passwordMatchValidator(
-    control: AbstractControl
+    control: AbstractControl,
   ): { [key: string]: any } | null {
     const password = control.get('password');
     const confirmPassword = control.get('confirmPassword');

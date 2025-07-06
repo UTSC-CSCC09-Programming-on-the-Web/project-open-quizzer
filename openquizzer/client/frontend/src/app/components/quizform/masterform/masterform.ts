@@ -1,13 +1,18 @@
 import { Component } from '@angular/core';
 // import modules from angular library to use a reactive angular form
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  Validators,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-masterform',
   imports: [ReactiveFormsModule, CommonModule],
   templateUrl: './masterform.html',
-  styleUrl: './masterform.scss'
+  styleUrl: './masterform.scss',
 })
 export class Masterform {
   quizForm: FormGroup;
@@ -16,24 +21,27 @@ export class Masterform {
     this.quizForm = this.formBuilder.group({
       questionTitle: ['', [Validators.required, Validators.minLength(3)]],
       answer: ['', [Validators.required]],
-      confidenceLevel: [3, [Validators.required, Validators.min(1), Validators.max(5)]] // 1-5 scale, default 3
+      confidenceLevel: [
+        3,
+        [Validators.required, Validators.min(1), Validators.max(5)],
+      ], // 1-5 scale, default 3
     });
   }
 
   onSubmit(): void {
     if (this.quizForm.valid) {
       console.log('Quiz Form Submitted:', this.quizForm.value);
-      
+
       // TODO: Send data to backend/service
       // For now, just log the form data
-      
+
       // Clear form after submission
       this.clearForm();
-      
+
       // Show success message
       alert('Quiz submitted successfully!');
     } else {
-      Object.keys(this.quizForm.controls).forEach(field => {
+      Object.keys(this.quizForm.controls).forEach((field) => {
         const control = this.quizForm.get(field);
         control?.markAsTouched({ onlySelf: true });
       });
@@ -44,7 +52,7 @@ export class Masterform {
     this.quizForm.reset({
       questionTitle: '',
       answer: '',
-      confidenceLevel: 3
+      confidenceLevel: 3,
     });
   }
   // catchall to check if any field has error

@@ -5,7 +5,7 @@
   justify-content: center;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   padding: 20px;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .auth-card {
@@ -206,7 +206,7 @@
       justify-content: center;
 
       &::after {
-        content: '';
+        content: "";
         width: 16px;
         height: 16px;
         border: 2px solid transparent;

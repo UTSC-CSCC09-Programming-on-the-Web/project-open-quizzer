@@ -3,5 +3,4 @@ import { appConfig } from './app/app.config';
 import { App } from './app/app';
 import { Masterform } from './app/components/quizform/masterform/masterform';
 
-bootstrapApplication(App, appConfig)
-  .catch((err) => console.error(err));
+bootstrapApplication(App, appConfig).catch((err) => console.error(err));

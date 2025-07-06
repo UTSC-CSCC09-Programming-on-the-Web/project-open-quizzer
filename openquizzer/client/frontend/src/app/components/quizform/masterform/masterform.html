@@ -1,83 +1,77 @@
 <div class="quiz-form-container">
-<h2>Create Quiz</h2>
+  <h2>Create Quiz</h2>
 
-<form [formGroup]="quizForm" (ngSubmit)="onSubmit()" class="quiz-form">
-    
+  <form [formGroup]="quizForm" (ngSubmit)="onSubmit()" class="quiz-form">
     <!-- Question Title -->
     <div class="form-field">
       <label for="questionTitle">Question Title *</label>
-        <input 
-        type="text" 
-        id="questionTitle" 
-        formControlName="questionTitle" 
+      <input
+        type="text"
+        id="questionTitle"
+        formControlName="questionTitle"
         placeholder="Enter your question (e.g., 'What does UTSC stand for?')"
         class="form-input"
         [class.error]="hasError('questionTitle', 'required') || hasError('questionTitle', 'minlength')"
-    />
+      />
       <div class="error-message" *ngIf="getErrorMessage('questionTitle')">
         {{ getErrorMessage('questionTitle') }}
-    </div>
+      </div>
     </div>
 
     <!-- Answer -->
     <div class="form-field">
       <label for="answer">Answer *</label>
-        <textarea 
-        id="answer" 
-        formControlName="answer" 
+      <textarea
+        id="answer"
+        formControlName="answer"
         placeholder="Enter the target answer here... (e.g., 'UTSC = University of Toronto Scarborough')"
         rows="4"
         class="form-textarea"
         [class.error]="hasError('answer', 'required')"
-        ></textarea>
-    <div class="error-message" *ngIf="getErrorMessage('answer')">
+      ></textarea>
+      <div class="error-message" *ngIf="getErrorMessage('answer')">
         {{ getErrorMessage('answer') }}
-    </div>
+      </div>
     </div>
 
     <!-- Confidence Level -->
     <div class="form-field">
       <label for="confidenceLevel">Confidence Level (1-5) *</label>
-        <input 
-        type="range" 
-        id="confidenceLevel" 
-        formControlName="confidenceLevel" 
-        min="1" 
-        max="5" 
+      <input
+        type="range"
+        id="confidenceLevel"
+        formControlName="confidenceLevel"
+        min="1"
+        max="5"
         step="1"
         class="form-range"
-        />
-        <div class="confidence-display">
+      />
+      <div class="confidence-display">
         <span>Level: {{ quizForm.get('confidenceLevel')?.value }}</span>
         <div class="confidence-labels">
-            <span>1 - Not Sure</span>
-            <span>3 - Moderate</span>
-            <span>5 - Very Confident</span>
+          <span>1 - Not Sure</span>
+          <span>3 - Moderate</span>
+          <span>5 - Very Confident</span>
         </div>
-        </div>
-        <div class="error-message" *ngIf="getErrorMessage('confidenceLevel')">
+      </div>
+      <div class="error-message" *ngIf="getErrorMessage('confidenceLevel')">
         {{ getErrorMessage('confidenceLevel') }}
-        </div>
+      </div>
     </div>
 
     <!-- Form Actions -->
     <div class="form-actions">
-    <button 
-    type="button" 
-    (click)="clearForm()" 
-    class="btn btn-secondary"
-    >
+      <button type="button" (click)="clearForm()" class="btn btn-secondary">
         Clear Form
-    </button>
-    
-    <button 
-    type="submit" 
-    class="btn btn-primary"
-    [disabled]="quizForm.invalid"
-    >
-    Submit Response
-    </button>
-</div>
+      </button>
 
-</form>
+      <button
+        type="submit"
+        class="btn btn-primary"
+        [disabled]="quizForm.invalid"
+      >
+        Submit Response
+      </button>
+    </div>
+  </form>
 </div>

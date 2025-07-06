@@ -8,9 +8,8 @@ describe('Masterform', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [Masterform]
-    })
-    .compileComponents();
+      imports: [Masterform],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(Masterform);
     component = fixture.componentInstance;
