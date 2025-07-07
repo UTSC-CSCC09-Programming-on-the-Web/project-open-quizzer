@@ -1,8 +1,6 @@
-const router = require('express').Router();
-const subscriptionController = require('../controllers/subscriptionController');
 const express = require('express');
-
-
+const router  = express.Router();
+const subscriptionController = require('../controllers/subscriptionController');
 router.post(
   '/stripe',
   //stripe returns raw bytes

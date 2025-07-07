@@ -4,6 +4,8 @@ const userModel = require("../models/userModel");
 exports.processEvents = async event => {
   //payload from stripe events
   const obj = event.data.object;       // the payload for all cases
+  console.log(obj);
+  console.log(event.type);
   let userName;
   
   try{
@@ -12,8 +14,9 @@ exports.processEvents = async event => {
         /* CASE 1: User successfully subscribed to our application */
       case 'checkout.session.completed':{
         userName = obj.metadata.userName;
-        if(!userName)
-          return;
+
+        // if(!userName)
+        //   return;
         await userModel.activateSubscription(userName);
         //delete console.log later
         console.log("user has been subscribed to our application");
@@ -24,8 +27,8 @@ exports.processEvents = async event => {
       case 'customer.subscription.deleted' :{
         userName = obj.metadata?.userName ||
             obj.lines?.data[0]?.metadata?.userName;
-        if(!userName)
-          return;
+        // if(!userName)
+        //   return;
         await userModel.deactivateSubscription(userName);
         //delete console.log later
         console.log("user has been unsubscribed to our application");

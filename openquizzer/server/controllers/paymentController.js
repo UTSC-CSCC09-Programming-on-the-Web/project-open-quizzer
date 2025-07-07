@@ -1,9 +1,9 @@
 const paymentService = require('../services/paymentService');
 
-exports.handlePayment = async(req,res) => {
-   const {price,userId} = req.body;
+exports.createCheckout = async(req,res) => {
+   const {priceId,userName} = req.body;
    try{
-    const sessionId = await paymentService.startCheckout({price,userId});
+    const sessionId = await paymentService.startCheckout({priceId,userName});
     return res.status(200).json({ok:true, sessionId});
   }
   catch(error){

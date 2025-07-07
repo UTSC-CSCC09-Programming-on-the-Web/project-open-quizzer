@@ -9,14 +9,14 @@ import { PaymentService } from './paymentService';
   selector: 'app-pay',
   standalone: true,
   imports: [CommonModule],
-  templateUrl: './pay.component.html',
-  styleUrls: ['./pay.component.scss']
+  templateUrl: './subscribe.component.html',
+  styleUrls: ['./subscribe.component.scss']
 })
 export class PayComponent implements OnInit {
   loading = false;
   errorMsg = '';
   //setting them readonly so template can only read their values
-  readonly priceId = 'price_123';
+  readonly priceId = 'price_1RgiT6FN6emTzMixYpv9ZkXL';
   readonly planName = 'Pro Subscription';
   readonly planPrice = '$5 / month';
 
@@ -41,8 +41,9 @@ export class PayComponent implements OnInit {
     this.loading = true;
 
     try {
-      await this.payService.startCheckout(this.priceId);
-    } catch (err: any) {
+      await this.payService.startCheckout(this.priceId,'john');
+    } 
+    catch (err: any) {
       console.error(err);
       this.errorMsg =
         err?.message || 'Something went wrong; please try again.';
