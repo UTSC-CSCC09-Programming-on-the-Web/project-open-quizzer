@@ -2,8 +2,8 @@
 const database = require('../config/db');
 
 //method to return a quiz from database based on the quizcode 'code'
-exports.findQuiz =  async() => {
-  const rows  = await db.query(
+exports.findQuiz =  async(code) => {
+  const rows  = await database.query(
     `SELECT id, code, status, owner_id, title
        FROM quizzes
       WHERE code = $1`,
