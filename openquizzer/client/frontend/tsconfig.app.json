@@ -8,7 +8,7 @@
   },
   "include": [
     "src/**/*.ts"
-  ],
+, "src/app/student/join-quiz/join-quiz.components"  ],
   "exclude": [
     "src/**/*.spec.ts"
   ]

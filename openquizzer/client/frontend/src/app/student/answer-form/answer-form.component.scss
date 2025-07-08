@@ -1,0 +1,118 @@
+
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: center; 
+  width: 100%;
+  gap: 1.5rem; 
+}
+
+label {
+  /* Visually hidden label for accessibility if not explicitly shown in HTML */
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+textarea {
+  width: 200%;
+  height: 220px; 
+  padding: 1.2rem 1.5rem; 
+  font-size: 1.05rem;
+  line-height: 1.5;
+  border: 1px solid #b0bec5; 
+  border-radius: 12px; 
+  background: #ffffff; 
+  color: #37474f; 
+  resize: none; 
+  transition: border-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out, background-color 0.3s ease-in-out;
+  box-sizing: border-box;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05); 
+}
+
+textarea::placeholder {
+  color: #90a4ae; 
+  font-style: italic;
+  opacity: 0.9;
+}
+
+textarea:focus {
+  outline: none;
+  border-color: #00bcd4; 
+  box-shadow: 0 0 0 4px rgba(0, 188, 212, 0.25), 0 4px 12px rgba(0, 0, 0, 0.1);
+  background-color: #ffffff;
+}
+
+
+textarea.ng-valid.ng-touched {
+  border-color: #4caf50; 
+  box-shadow: 0 0 0 4px rgba(76, 175, 80, 0.15);
+}
+textarea.ng-invalid.ng-touched {
+  border-color: #ef5350; 
+  box-shadow: 0 0 0 4px rgba(239, 83, 80, 0.15);
+}
+
+/* Button styling */
+button {
+  padding: 0.9rem 2.5rem; 
+  font-size: 1.15rem; 
+  font-weight: 600;
+  color: #fff;
+  background: #9572bd; 
+  border: none;
+  border-radius: 12px; 
+  cursor: pointer;
+  transition: background 0.25s ease-in-out, transform 0.25s ease-in-out, box-shadow 0.25s ease-in-out;
+  box-shadow: 0 4px 15px rgba(91, 61, 109, 0.297); /* Prominent shadow */
+}
+
+button:hover:not(:disabled) {
+  background: #3e1b61; 
+  transform: translateY(-2px); 
+  box-shadow: 0 6px 20px rgba(0, 188, 212, 0.4); 
+}
+
+button:active:not(:disabled) {
+  transform: translateY(0); 
+  box-shadow: 0 2px 8px rgba(0, 188, 212, 0.2); 
+  background: #ccc9cea3; 
+
+button:disabled {
+  background: #b0bec5; 
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+  opacity: 0.7;
+}
+
+/* Error text styling */
+.error {
+  color: #ef5350; /* Red for error messages */
+  font-size: 0.875rem;
+  margin-top: -0.75rem; /* Adjust margin to be closer to the field */
+  align-self: flex-start; /* Align error text to the left */
+  padding-left: 0.25rem;
+}
+
+/* Responsive adjustments for form elements */
+@media (max-width: 480px) {
+  textarea {
+    height: 140px; 
+    padding: 0.9rem 1rem;
+    font-size: 1rem;
+  }
+  button {
+    padding: 0.8rem 2rem;
+    font-size: 1.05rem;
+  }
+  .error {
+    font-size: 0.8rem;
+  }
+}

@@ -1,0 +1,363 @@
+:host {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 1rem;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+  position: relative;
+  overflow: hidden;
+  animation: slideUp 0.6s ease-out;
+}
+
+:host::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+  transform: rotate(45deg);
+  animation: shimmer 3s infinite;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes shimmer {
+  0% { transform: translateX(-100%) rotate(45deg); }
+  100% { transform: translateX(100%) rotate(45deg); }
+}
+
+form {
+  position: relative;
+  z-index: 2;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(15px);
+  border-radius: 24px;
+  padding: 2.5rem;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+  width: 100%;
+  max-width: 420px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+label {
+  display: block;
+  margin-bottom: 1.5rem;
+  font-weight: 700;
+  color: #2d3748;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  position: relative;
+  animation: fadeInLeft 0.5s ease-out;
+  text-align: center;
+}
+
+label:nth-child(1) { animation-delay: 0.1s; }
+label:nth-child(3) { animation-delay: 0.2s; }
+
+@keyframes fadeInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+input {
+  width: 100%;
+  padding: 1.2rem 1.5rem;
+  margin-top: 0.8rem;
+  border: 2px solid #e2e8f0;
+  border-radius: 16px;
+  font-size: 1.1rem;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  background: #ffffff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  position: relative;
+  text-align: center; /* Center all input text */
+  box-sizing: border-box;
+}
+
+input::placeholder {
+  text-align: center;
+  color: #a0aec0;
+  font-style: italic;
+}
+
+input:focus {
+  outline: none;
+  border-color: #ff6b6b;
+  box-shadow: 0 0 0 4px rgba(255, 107, 107, 0.15), 0 8px 25px rgba(255, 107, 107, 0.2);
+  transform: translateY(-3px);
+  background: linear-gradient(145deg, #ffffff, #fef5f5);
+}
+
+input[formControlName="quizCode"] {
+  font-family: 'Courier New', monospace;
+  font-weight: bold;
+  font-size: 1.4rem;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  text-align: center;
+  background: linear-gradient(145deg, #f8fafc, #ffffff);
+  border: 2px solid #4ecdc4;
+}
+
+input[formControlName="quizCode"]:focus {
+  border-color: #26d0ce;
+  box-shadow: 0 0 0 4px rgba(38, 208, 206, 0.15), 0 8px 25px rgba(38, 208, 206, 0.2);
+  background: linear-gradient(145deg, #f0fdfa, #ffffff);
+}
+
+input[formControlName="nickname"] {
+  background: linear-gradient(145deg, #fef7ff, #ffffff);
+  border: 2px solid #a78bfa;
+  text-align: center;
+}
+
+input[formControlName="nickname"]:focus {
+  border-color: #8b5cf6;
+  box-shadow: 0 0 0 4px rgba(139, 92, 246, 0.15), 0 8px 25px rgba(139, 92, 246, 0.2);
+}
+
+input.ng-valid.ng-touched {
+  border-color: #10b981;
+  background: linear-gradient(145deg, #ecfdf5, #ffffff);
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.15);
+}
+
+input.ng-invalid.ng-touched {
+  border-color: #ef4444;
+  background: linear-gradient(145deg, #fef2f2, #ffffff);
+  animation: shake 0.5s ease-in-out;
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.15);
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-8px); }
+  75% { transform: translateX(8px); }
+}
+
+button {
+  width: 100%;
+  padding: 1.4rem 2rem;
+  margin-top: 2rem;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, rgba(255, 255, 255, 0.9) 100%);
+  color: white;
+  border: none;
+  border-radius: 16px;
+  font-size: 1.2rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+  position: relative;
+  overflow: hidden;
+  animation: fadeInUp 0.6s ease-out 0.3s both;
+  text-align: center;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+  transition: left 0.6s;
+}
+
+button:hover::before {
+  left: 100%;
+}
+
+button:hover {
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: 0 15px 35px rgba(102, 126, 234, 0.6);
+  background: linear-gradient(135deg, #5a67d8 0%, #6b46c1 50%, rgba(255, 255, 255, 0.95) 100%);
+}
+
+button:active {
+  transform: translateY(-2px) scale(1.01);
+}
+
+button:disabled {
+  background: linear-gradient(135deg, #cbd5e0 0%, #a0aec0 50%, rgba(255, 255, 255, 0.8) 100%);
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  animation: pulse 2s infinite;
+  color: #718096;
+  text-shadow: none;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 0.8; }
+}
+
+.error {
+  color: #e53e3e;
+  font-size: 0.9rem;
+  margin-top: 0.8rem;
+  margin-bottom: 0;
+  padding: 1rem 1.2rem;
+  background: linear-gradient(135deg, rgba(254, 226, 226, 0.8), rgba(255, 245, 245, 0.9));
+  border-left: 4px solid #e53e3e;
+  border-radius: 0 12px 12px 0;
+  animation: slideInRight 0.4s ease-out;
+  position: relative;
+  font-weight: 600;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 12px rgba(229, 62, 62, 0.15);
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.error::before {
+  content: '⚠️';
+  margin-right: 0.8rem;
+  font-size: 1.1rem;
+}
+
+/* Floating particles effect */
+:host::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: 
+    radial-gradient(circle at 20% 80%, rgba(255, 255, 255, 0.15) 2px, transparent 2px),
+    radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.15) 2px, transparent 2px),
+    radial-gradient(circle at 40% 40%, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+  background-size: 120px 120px, 180px 180px, 100px 100px;
+  animation: float 25s infinite linear;
+  pointer-events: none;
+}
+
+@keyframes float {
+  0% { transform: translateY(0px) rotate(0deg); }
+  100% { transform: translateY(-30px) rotate(360deg); }
+}
+
+/* Responsive design */
+@media (max-width: 480px) {
+  :host {
+    padding: 0.5rem;
+  }
+  
+  form {
+    padding: 2rem 1.5rem;
+    border-radius: 20px;
+  }
+  
+  input {
+    padding: 1rem 1.2rem;
+    font-size: 1rem;
+  }
+  
+  input[formControlName="quizCode"] {
+    font-size: 1.2rem;
+    letter-spacing: 2px;
+  }
+  
+  button {
+    padding: 1.2rem 1.5rem;
+    font-size: 1.1rem;
+    letter-spacing: 1.5px;
+  }
+}
+
+/* Focus indicators for accessibility */
+input:focus-visible,
+button:focus-visible {
+  outline: 3px solid #667eea;
+  outline-offset: 3px;
+}
+
+/* Loading state animation */
+button.loading {
+  position: relative;
+  color: transparent;
+}
+
+button.loading::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 24px;
+  height: 24px;
+  margin: -12px 0 0 -12px;
+  border: 3px solid transparent;
+  border-top: 3px solid #ffffff;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Additional visual enhancements */
+form::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(45deg, #667eea, #764ba2, #f093fb, #667eea);
+  border-radius: 26px;
+  z-index: -1;
+  opacity: 0.1;
+  animation: borderGlow 3s ease-in-out infinite alternate;
+}
+
+@keyframes borderGlow {
+  0% { opacity: 0.1; }
+  100% { opacity: 0.3; }
+}

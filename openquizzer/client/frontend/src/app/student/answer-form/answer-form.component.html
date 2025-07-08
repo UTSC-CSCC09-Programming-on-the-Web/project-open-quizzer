@@ -1,0 +1,15 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()" class="answer-form">
+  <textarea
+    formControlName="answer"
+    rows="4"
+    placeholder="Type your answer"
+    class="w-full"
+  ></textarea>
+   <!-- error checking in real time for the user answers -->
+  <p *ngIf="getUserAnswer.touched && getUserAnswer.errors?.['required']" class="error">
+    Answer is required.
+  </p>
+
+  <button type="submit"  [disabled]="form.invalid">Submit</button>
+</form>
+

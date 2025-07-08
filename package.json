@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "@stripe/stripe-js": "^7.4.0",
     "cjs": "^0.0.11",
     "dotenv": "^16.5.0",
     "pg": "^8.16.2"

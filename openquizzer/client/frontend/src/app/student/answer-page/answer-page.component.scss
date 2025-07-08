@@ -1,0 +1,68 @@
+
+:host {
+  display: flex;
+  flex-direction: column; 
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 2rem 1rem;
+  background: linear-gradient(180deg, #c2d7dd 0%, #816ce9 100%);
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif,
+    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  color: #37474f; 
+  box-sizing: border-box;
+  overflow: auto; 
+}
+
+.content-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4rem; 
+  width: 100%;
+  padding: 1rem; 
+  animation: fadeInSlideUp 0.7s ease-out forwards;
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+/* Prompt text styling */
+.prompt {
+  text-align: center;
+  font-size: 1.8rem; /* Slightly larger font for prominence */
+  font-weight: 600;
+  line-height: 1.3;
+  color: #2b383f; /* Dark slate grey */
+  margin: 0; /* Remove default margins */
+}
+
+/* Keyframes for the content wrapper animation */
+@keyframes fadeInSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .prompt {
+    font-size: 1.6rem;
+  }
+  .content-wrapper {
+    gap: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .prompt {
+    font-size: 1.4rem;
+  }
+  .content-wrapper {
+    padding: 0.5rem;
+  }
+}

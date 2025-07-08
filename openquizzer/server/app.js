@@ -2,6 +2,8 @@ const express = require("express");
 const cors = require("cors");
 const http = require("http");
 const { Server } = require("socket.io");
+//mounting student route
+const studentRoutes = require('./routes/student');
 require("dotenv").config();
 //creates the pool and logs 
 require('./config/db'); 
@@ -13,6 +15,7 @@ app.use(express.json());
 
 const apiRoutes = require("./routes");
 app.use("/api", apiRoutes);
+app.use('/api',studentRoutes);
 
 app.get("/", (req, res) => {
   res.send("OpenQuizzer backend is up and running!");
@@ -43,7 +46,7 @@ const db = require('./config/db');
   } 
   catch (err) {
     console.error('DB connection failed!', err);
-    process.exit(1);                       
+    process.exit(1); 
   }
   
 })();

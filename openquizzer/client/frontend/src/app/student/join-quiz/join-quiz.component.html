@@ -1,0 +1,25 @@
+<form [formGroup]="form" (ngSubmit)="submit()">
+  <!-- Quiz Code -->
+  <label>
+    Quiz code
+    <input formControlName="quizCode" placeholder="e.g. ABC123" />
+  </label>
+  <p *ngIf="quizCode.touched && quizCode.errors?.['required']" class="error">
+    Code is required.
+  </p>
+  <p *ngIf="quizCode.errors?.['pattern']" class="error">
+    4–10 letters/numbers, caps only.
+  </p>
+
+  <!-- Nickname (optional) -->
+  <label>
+    Nickname
+    <input formControlName="nickname" placeholder="your name (optional)" />
+  </label>
+
+  <!-- Submit -->
+  <button type="submit" [disabled]="form.invalid">
+    Start
+  </button>
+</form>
+
