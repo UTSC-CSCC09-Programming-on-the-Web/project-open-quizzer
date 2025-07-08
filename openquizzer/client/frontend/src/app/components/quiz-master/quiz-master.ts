@@ -15,4 +15,8 @@ export class QuizMaster {
   goHome(): void {
     this.router.navigate(['/']);
   }
+
+  viewQuiz(): void {
+    this.router.navigate(['/quiz-list']);
+  }
 }

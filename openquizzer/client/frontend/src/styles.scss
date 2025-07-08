@@ -1,4 +1,64 @@
 /* You can add global styles to this file, and also import other style files */
+
+// Importing Roboto font
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+
+// Setting font family
+* {
+font-family: 'Roboto', sans-serif;
+}
+
+html, body {
+margin: 0;
+padding: 0;
+font-family: 'Roboto', sans-serif;
+font-weight: 400;
+line-height: 1.6;
+}
+
 h1 {
     text-align: center;
+    font-weight: 500;
+}
+
+h2, h3, h4, h5, h6 {
+    font-weight: 500;
+}
+
+p {
+    text-align: center;
+    font-weight: 400;
+}
+
+
+// Set button styles for default, primary and secondary
+.btn {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    font-weight: 500;
+    font-family: 'Roboto', sans-serif;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    text-decoration: none;
+    display: inline-block;
+
+    &.btn-primary {
+    background-color: #007bff;
+    color: white;
+
+    &:hover {
+        background-color: #0056b3;
+    }
+    }
+
+    &.btn-secondary {
+    background-color: #6c757d;
+    color: white;
+
+    &:hover {
+        background-color: #545b62;
+    }
+    }
 }
