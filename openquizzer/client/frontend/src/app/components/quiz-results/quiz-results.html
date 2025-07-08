@@ -1,1 +1,72 @@
-<p>quiz-results works!</p>
+<div class="quiz-results-container">
+  <div class="header">
+    <h1>Quiz Results</h1>
+    <p>Summary of Quiz Taker Performance</p>
+  </div>
+
+  <div class="results-content">
+    <div class="summary-section">
+      <h2>Summary of all Answers</h2>
+
+      <span class="Quiz Taker Correctness">LLM Autograded Quiz Taker Correctness: 100%</span>
+
+      <p> LLM generated summary of all answered provided by Quiz Takers. <br> for example:
+        The majority of students demonstrated a strong understanding of the core concepts, particularly in areas such as data structures and algorithms. However, there were some challenges observed in more advanced topics like system design and concurrency. Many students struggled with questions related to distributed systems and real-time data processing, indicating a need for further study in these areas.</p>
+    </div>
+
+    
+
+    <div class="distribution-section">
+    
+      <h3>Distribution of Answer Topics</h3>
+      <div class="chart-placeholder">
+        <div class="answer-topics">
+          
+        </div>
+        <div class="topic-bars">
+          <!-- TODO: Remove with proper API call of top 5 answer themes! -->
+          <div class="topic-bar data-structures">Data Structures</div>
+          <div class="topic-bar algorithms">Algorithms</div>
+          <div class="topic-bar system-design">System Design</div>
+          <div class="topic-bar concurrency">Concurrency</div>
+          <div class="topic-bar distributed-systems">Distributed Systems</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="metrics-section">
+      <h3>Key Metrics</h3>
+      <div class="metrics-grid">
+        <div class="metric-card">
+          <h4>Correct Answers</h4>
+          <span class="metric-value">75%</span>
+        </div>
+        <div class="metric-card">
+          <h4>Students Attempted</h4>
+          <span class="metric-value">120</span>
+        </div>
+        <div class="metric-card">
+          <h4>Avg. Response Time</h4>
+          <span class="metric-value">25s</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="comments-section">
+      <h3>Topic-Specific Comments</h3>
+      <p>Click on a bar in the 'Distribution of Answer Topics' chart to view comments related to that specific topic. This feature allows for a deeper understanding of student feedback and challenges within each subject area.</p>
+    </div>
+  </div>
+
+    <div class="btn-container">
+    <button class="btn btn-secondary" (click)="navigateToQuizMaster()">
+        Back to Quiz Master
+    </button>
+    </div>
+
+    <div class="btn-container">
+    <button class="btn btn-primary" (click)="viewQuiz()">
+    Back to Quiz List
+    </button>
+    </div>
+</div>
