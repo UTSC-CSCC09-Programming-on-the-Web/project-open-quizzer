@@ -4,6 +4,7 @@ import { provideHttpClient }    from '@angular/common/http';
 
 import { App } from './app/app';
 import { routes } from './app/app.routes';
+import { Masterform } from './app/components/masterform/masterform';
 
 bootstrapApplication(App, {
   providers: [
