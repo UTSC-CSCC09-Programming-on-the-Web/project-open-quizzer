@@ -6,8 +6,9 @@ import {
   ReactiveFormsModule,
 } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { HttpClient } from '@angular/common/http';
 import { RouterLink } from '@angular/router';
-
+import { lastValueFrom } from 'rxjs';
 @Component({
   selector: 'app-login-page',
   imports: [ReactiveFormsModule, CommonModule, RouterLink],
@@ -19,7 +20,7 @@ export class LoginPage implements OnInit {
   isLoading = false;
   errorMessage = '';
 
-  constructor(private fb: FormBuilder) {}
+  constructor(private fb: FormBuilder,private http: HttpClient) {}
 
   ngOnInit(): void {
     this.loginForm = this.fb.group({
@@ -28,31 +29,38 @@ export class LoginPage implements OnInit {
     });
   }
 
-  onSubmit(): void {
-    if (this.loginForm.valid) {
+  async onSubmit(): Promise<void>{
+    if (this.loginForm.invalid) {
+    this.markFormGroupTouched();
+    return;
+    }
       this.isLoading = true;
       this.errorMessage = '';
 
       const { email, password } = this.loginForm.value;
-      console.log('Form Submitted:', { email, password });
 
-      setTimeout(() => {
+      try {
+        const res = await lastValueFrom(
+          this.http.post<{ success: boolean; token?: string; error?: string }>(
+            'http://localhost:3000/api/auth/login',
+            { email, password }
+          )
+        );
         this.isLoading = false;
-        console.log('Login successful!');
-
-        this.loginForm.reset();
-
-        Object.keys(this.loginForm.controls).forEach((key) => {
-          const control = this.loginForm.get(key);
-          control?.markAsUntouched();
-          control?.markAsPristine();
-        });
-
-        alert('Login successful! Welcome to OpenQuizzer.');
-      }, 1000);
-    } else {
-      this.markFormGroupTouched();
-    }
+        if (res.success) {
+          localStorage.setItem('token', res.token!);
+          alert('Login successful! Welcome to OpenQuizzer.');
+          this.loginForm.reset();
+        } 
+        else {
+          this.errorMessage = res.error || 'Login failed';
+        }
+      } 
+      catch (err) {
+      this.isLoading    = false;
+      this.errorMessage = 'Server error. Please try again later.';
+      console.error(err);
+      }
   }
 
   private markFormGroupTouched(): void {

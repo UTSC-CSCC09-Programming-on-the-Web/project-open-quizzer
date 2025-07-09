@@ -58,9 +58,9 @@ router.post(
       const hashedPassword = await bcrypt.hash(password, saltRounds);
 
       const createUserQuery = `
-      INSERT INTO users (first_name, last_name, email, password_hash, created_at)
+      INSERT INTO users (first_name, last_name, email, hash_password, created_at)
       VALUES ($1, $2, $3, $4, NOW())
-      RETURNING id, first_name, last_name, email, created_at
+      RETURNING id, first_name, last_name, email,created_at
     `;
       const newUser = await db.query(createUserQuery, [
         firstName,
@@ -88,7 +88,8 @@ router.post(
           token,
         },
       });
-    } catch (error) {
+    } 
+    catch (error) {
       console.error("Signup error:", error);
       res.status(500).json({
         success: false,
@@ -126,7 +127,7 @@ router.post(
 
       const isPasswordValid = await bcrypt.compare(
         password,
-        userData.password_hash,
+        userData.hash_password,
       );
       if (!isPasswordValid) {
         return res.status(401).json({
