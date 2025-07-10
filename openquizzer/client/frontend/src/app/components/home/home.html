@@ -1,0 +1,26 @@
+<div class="home-container">
+    <h1>Welcome to OpenQuizzer!</h1>
+    <p>Choose a role to get started:</p>
+    
+    <div class="role-selection">
+    <div class="role-card">
+    <h2>Quiz Master</h2>
+    <p>Create and start a quiz</p>
+    <button 
+        class="btn btn-primary" 
+        (click)="navigateToQuizMaster()">
+        I'm a Quiz Master
+    </button>
+    </div>
+    
+    <div class="role-card">
+    <h2>Quiz Taker</h2>
+    <p>Join a quiz</p>
+    <button 
+        class="btn btn-secondary" 
+        (click)="navigateToQuizTaker()">
+        I'm a Quiz Taker
+    </button>
+    </div>
+    </div>
+</div>
