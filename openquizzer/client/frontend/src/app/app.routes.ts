@@ -14,7 +14,7 @@ export const routes: Routes = [
   { path: 'quiz-list', component: QuizList },              // Quiz list home page
   { path: 'active-quiz/:id', component: ActiveQuiz },      // Active quiz
   { path: 'quiz-results/:id', component: QuizResults },    // Quiz results 
-  { path: '**', redirectTo: '' }                           // Else route -> redirect to home
+  { path: '**', redirectTo: '' },                           // Else route -> redirect to home
   { path: '', redirectTo: 'pay', pathMatch: 'full' }, 
   { path: 'pay', component: PayComponent },
   {
