@@ -8,18 +8,18 @@ import { ActiveQuiz } from './components/active-quiz/active-quiz';
 import { QuizResults } from './components/quiz-results/quiz-results';
 
 export const routes: Routes = [
-  { path: '', component: Home },                           // Home page
-  { path: 'quiz-master', component: QuizMaster },          // Quiz master home page
-  { path: 'quiz-taker', component: QuizTaker },            // Quiz taker home page
-  { path: 'quiz-list', component: QuizList },              // Quiz list home page
-  { path: 'active-quiz/:id', component: ActiveQuiz },      // Active quiz
-  { path: 'quiz-results/:id', component: QuizResults },    // Quiz results 
-  { path: '**', redirectTo: '' },                           // Else route -> redirect to home
-  { path: '', redirectTo: 'pay', pathMatch: 'full' }, 
+  { path: '', component: Home },
+  { path: 'quiz-master', component: QuizMaster },
+  { path: 'quiz-taker', component: QuizTaker },
+  { path: 'quiz-list', component: QuizList },
+  { path: 'active-quiz/:id', component: ActiveQuiz },
+  { path: 'quiz-results/:id', component: QuizResults },
+  { path: 'payhome', redirectTo: 'pay', pathMatch: 'full' },
   { path: 'pay', component: PayComponent },
   {
     path: 'student',
     loadChildren: () =>
       import('./student/student.module').then(m => m.StudentModule)
-  }
+  },
+  { path: '**', redirectTo: '' }  // ⬅️ wildcard route always last
 ];

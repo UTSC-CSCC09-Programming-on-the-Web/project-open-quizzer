@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { Masterform } from '../quizform/masterform/masterform';
+import { Masterform } from '../masterform/masterform';
 
 @Component({
   selector: 'app-quiz-master',
