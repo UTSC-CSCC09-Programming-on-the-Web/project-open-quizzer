@@ -7,7 +7,6 @@ const HF_MODEL_URL =
 
 async function summarizeAnswers(answers) {
   const inputText = answers.join(" ");
-
   const response = await fetch(HF_MODEL_URL, {
     method: "POST",
     headers: {

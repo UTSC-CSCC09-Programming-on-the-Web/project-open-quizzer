@@ -23,15 +23,21 @@ export class Masterform {
   onSubmit(): void {
     if (this.quizForm.valid) {
       console.log('Quiz Form Submitted:', this.quizForm.value);
+
+      // Generate random quiz ID
+      const randomArray = new Uint32Array(1);
+      crypto.getRandomValues(randomArray);
+      const quizId = (randomArray[0] % 900000) + 100000; // Generates a random ID between 100000 and 999999
       
       // TODO: Send data to backend/service
+        // now including "quizId"
       // For now, just log the form data
       
       // Clear form after submission
       this.clearForm();
       
       // Show success message
-      alert('Quiz submitted successfully!');
+      alert(`Quiz submitted successfully! \nQuiz ID: ${quizId}`);
     } else {
       Object.keys(this.quizForm.controls).forEach(field => {
         const control = this.quizForm.get(field);
