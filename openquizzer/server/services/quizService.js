@@ -55,3 +55,43 @@ exports.getAllQuizzes = async () => {
   const quizzes = await quizModel.getAllQuizzes();
   return quizzes;
 };
+
+exports.activateQuiz = async (quizId) => {
+  if (!quizId) {
+    const error = new Error("Quiz ID is required");
+    error.statusCode = 400;
+    throw error;
+  }
+  const quiz = await quizModel.getQuizById(quizId);
+  if (!quiz) {
+    const error = new Error("Quiz not found");
+    error.statusCode = 404;
+    throw error;
+  }
+  quiz.status = 'active';
+  await quizModel.updateQuiz(quizId, quiz);
+  return quiz;
+};
+
+exports.closeQuiz = async (quizId) => {
+  if (!quizId) {
+    const error = new Error("Quiz ID is required");
+    error.statusCode = 400;
+    throw error;
+  }
+  const quiz = await quizModel.getQuizById(quizId);
+  if (!quiz) {
+    const error = new Error("Quiz not found");
+    error.statusCode = 404;
+    throw error;
+  }
+  const updatedQuizData = {
+    id: quiz.id,
+    userid: quiz.userid,
+    title: quiz.title,
+    answer: quiz.answer,
+    status: 'inactive'  // Change status to inactive -- now that quiz is over
+  };
+  const updatedQuiz = await quizModel.updateQuiz(quizId, updatedQuizData);
+  return updatedQuiz;
+};

@@ -35,6 +35,41 @@ exports.getAllQuizzes = async (req, res) => {
             message: "All quizzes retrieved successfully",
             quizzes: quizzes
         });
+    } 
+    catch (error) {
+        res.status(error.statusCode || 500).json({
+            ok: false,
+            message: error.message
+        });
+    }
+}
+
+exports.activateQuiz = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const updatedQuiz = await quizService.activateQuiz(id);
+        res.status(200).json({
+            ok: true,
+            message: "Quiz activated successfully",
+            quiz: updatedQuiz
+        });
+    } catch (error) {
+        res.status(error.statusCode || 501).json({
+            ok: false,
+            message: error.message
+        });
+    }
+}
+
+exports.closeQuiz = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const updatedQuiz = await quizService.closeQuiz(id);
+        res.status(200).json({
+            ok: true,
+            message: "Quiz closed successfully",
+            quiz: updatedQuiz
+        });
     } catch (error) {
         res.status(error.statusCode || 500).json({
             ok: false,

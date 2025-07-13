@@ -56,7 +56,23 @@ export class QuizList implements OnInit {
   }
 
   activateQuiz(quizId: string): void {
-    this.router.navigate(['/active-quiz', quizId]);
+  this.http.patch(`http://localhost:3000/api/quiz/${quizId}`, {})
+    .subscribe({
+      next: (response: any) => {
+        console.log('Quiz activated successfully:', response);
+        // Update the local quiz status immediately
+        const quiz = this.quizzes.find(q => q.id === quizId);
+        if (quiz) {
+          quiz.status = 'active';
+        }
+        // navigate to active quiz page
+        this.router.navigate(['/active-quiz', quizId]);
+      },
+      error: (error) => {
+        console.error('Failed to activate quiz:', error);
+        alert('Failed to activate quiz. Please try again.');
+      }
+    });
   }
 
   goBack(): void {
@@ -66,4 +82,5 @@ export class QuizList implements OnInit {
   refreshQuizzes(): void {
     this.loadQuizzes();
   }
+  
 }

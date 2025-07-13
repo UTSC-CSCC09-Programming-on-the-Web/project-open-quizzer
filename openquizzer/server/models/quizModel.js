@@ -59,3 +59,25 @@ exports.getAllQuizzes = async() => {
   );
   return rows;
 };
+
+exports.getQuizById = async(quizId) => {
+  const { rows } = await database.query(
+    `SELECT id, userid, title, answer, status, created_at
+     FROM quizzes
+     WHERE id = $1`,
+    [quizId]
+  );
+  return rows[0] || null;
+};
+
+exports.updateQuiz = async(quizid, newQuizData) => {
+  const { id, userid, title, answer, status } = newQuizData;
+  const { rows } = await database.query(
+    `UPDATE quizzes
+       SET id = $1, userid = $2, title = $3, answer = $4, status = $5
+     WHERE id = $6
+     RETURNING id, userid, title, answer, status`,
+    [id, userid, title, answer, status, quizid] // quizid is used to match with id (in event of edge case)
+  );
+  return rows[0];
+};
