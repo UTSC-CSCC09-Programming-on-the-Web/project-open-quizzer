@@ -50,3 +50,8 @@ exports.createQuiz = async (quizData) => {
 
   return quiz;
 }
+
+exports.getAllQuizzes = async () => {
+  const quizzes = await quizModel.getAllQuizzes();
+  return quizzes;
+};

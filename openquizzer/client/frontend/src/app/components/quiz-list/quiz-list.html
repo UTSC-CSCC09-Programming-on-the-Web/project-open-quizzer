@@ -1,20 +1,47 @@
 <div class="quiz-list-container">
-<div class="header">
+  <div class="header">
     <h1>Quiz List</h1>
-    <button class="btn btn-secondary" (click)="goBack()">Back to Quiz Master</button>
-    <p>Choose a quiz to start:</p>
-</div>
-
-<!-- Placeholder to display fetched quizzes -->
-<div class="quiz-list">
-    <div class="quiz-item">
+    <div class="header-actions">
+      <button class="btn btn-secondary" (click)="goBack()">Back to Quiz Master</button>
+      <button class="btn btn-primary" (click)="refreshQuizzes()">Refresh</button>
     </div>
-</div>
+  </div>
 
-<!-- Example quiz button  (just for testing) -->
-<div>
-    <button class="btn btn-primary" (click)="activateQuiz('000000')">
-        Start Example Quiz
-    </button>
-</div> 
+  <!-- Loading state -->
+  <div *ngIf="isLoading" class="loading">
+    <p>Loading quizzes...</p>
+  </div>
+
+  <!-- Error state -->
+  <div *ngIf="error" class="error">
+    <p>{{ error }}</p>
+    <button class="btn btn-primary" (click)="refreshQuizzes()">Try Again</button>
+  </div>
+
+  <!-- Quiz list -->
+  <div *ngIf="!isLoading && !error" class="quiz-content">
+    <div *ngIf="quizzes.length === 0" class="no-quizzes">
+      <p>No quizzes found. Create your first quiz!</p>
+      <button class="btn btn-primary" (click)="goBack()">Create Quiz</button>
+    </div>
+
+    <div *ngIf="quizzes.length > 0" class="quiz-list">
+      <div class="quiz-item" *ngFor="let quiz of quizzes; trackBy: trackByQuizId">
+        <div class="quiz-info">
+          <h3>{{ quiz.title }}</h3>
+          <p class="quiz-answer">Answer: {{ quiz.answer }}</p>
+          <p class="quiz-created">Created: {{ quiz.created_at | date:'medium' }}</p>
+          <p class="quiz-status">Status: {{ quiz.status }}</p>
+        </div>
+        <div class="quiz-actions">
+          <button 
+            class="btn btn-primary" 
+            (click)="activateQuiz(quiz.id)"
+            [disabled]="quiz.status === 'active'">
+            {{ quiz.status === 'active' ? 'Active' : 'Start Quiz' }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

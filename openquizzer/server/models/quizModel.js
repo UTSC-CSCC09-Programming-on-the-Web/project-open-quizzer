@@ -51,3 +51,11 @@ exports.createQuiz = async(quizData) => {
   }
 };
 
+exports.getAllQuizzes = async() => {
+  const { rows } = await database.query(
+    `SELECT id, title, answer, userid, status, created_at
+    FROM quizzes
+    ORDER BY created_at DESC`
+  );
+  return rows;
+};

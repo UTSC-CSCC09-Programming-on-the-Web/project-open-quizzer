@@ -26,3 +26,19 @@ exports.createQuiz = async (req, res) => {
         });
     }
 }
+
+exports.getAllQuizzes = async (req, res) => {
+    try {
+        const quizzes = await quizService.getAllQuizzes();
+        res.status(200).json({
+            ok: true,
+            message: "All quizzes retrieved successfully",
+            quizzes: quizzes
+        });
+    } catch (error) {
+        res.status(error.statusCode || 500).json({
+            ok: false,
+            message: error.message
+        });
+    }
+}
