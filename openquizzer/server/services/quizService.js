@@ -26,5 +26,27 @@ exports.joinQuiz = async (code, nickname) => {
   }
   
   return { quizId: quiz.id, title: quiz.title };
- 
+
+};
+
+// createQuiz method
+exports.createQuiz = async (quizData) => {
+  // initial validation check
+  const { id, userid, title, answer, status } = quizData;
+  if (!id || !title || !answer) {
+    const error = new Error("Missing required fields: id, title, or description");
+    error.statusCode = 400;
+    throw error;
+  }
+
+  // actually create quiz
+  const quiz = await quizModel.createQuiz({
+    id,
+    userid,
+    title,
+    answer,
+    status
+  });
+
+  return quiz;
 }

@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 // import modules from angular library to use a reactive angular form
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-masterform',
@@ -12,7 +13,7 @@ import { CommonModule } from '@angular/common';
 export class Masterform {
   quizForm: FormGroup;
 
-  constructor(private formBuilder: FormBuilder) {
+  constructor(private formBuilder: FormBuilder, private http: HttpClient) {
     this.quizForm = this.formBuilder.group({
       questionTitle: ['', [Validators.required, Validators.minLength(3)]],
       answer: ['', [Validators.required]],
@@ -29,16 +30,32 @@ export class Masterform {
       crypto.getRandomValues(randomArray);
       const quizId = (randomArray[0] % 900000) + 100000; // Generates a random ID between 100000 and 999999
       
-      // TODO: Send data to backend/service
-        // now including "quizId"
-      // For now, just log the form data
-      
-      // Clear form after submission
-      this.clearForm();
-      
-      // Show success message
-      alert(`Quiz submitted successfully! \nQuiz ID: ${quizId}`);
-    } else {
+      const quizData = {
+        id: quizId,
+        userid: '000000', // placeholder for now
+        title: this.quizForm.get('questionTitle')?.value,
+        answer: this.quizForm.get('answer')?.value
+      }
+
+
+      // actually call backend API
+      this.http.post('http://localhost:3000/api/quiz', quizData)
+      .subscribe({
+        next: (response: any) => {
+          console.log('Quiz created successfully:', response);
+          alert(`Quiz created successfully! \nQuiz Code: ${response.quiz.id}`);
+          // Clear form after submission
+          this.clearForm();
+        },
+        error: (error: any) => {
+          console.error('Error creating quiz:', error);
+          alert('Failed to create quiz. Please try again.');
+        }
+      });
+
+
+    }
+    else {
       Object.keys(this.quizForm.controls).forEach(field => {
         const control = this.quizForm.get(field);
         control?.markAsTouched({ onlySelf: true });
