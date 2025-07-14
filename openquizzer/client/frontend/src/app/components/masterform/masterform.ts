@@ -17,7 +17,7 @@ export class Masterform {
     this.quizForm = this.formBuilder.group({
       questionTitle: ['', [Validators.required, Validators.minLength(3)]],
       answer: ['', [Validators.required]],
-      confidenceLevel: [3, [Validators.required, Validators.min(1), Validators.max(5)]] // 1-5 scale, default 3
+      difficultyLevel: [3, [Validators.required, Validators.min(1), Validators.max(5)]] // 1-5 scale, default 3
     });
   }
 

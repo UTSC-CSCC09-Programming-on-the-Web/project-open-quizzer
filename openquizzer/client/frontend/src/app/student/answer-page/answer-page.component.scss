@@ -66,3 +66,68 @@
     padding: 0.5rem;
   }
 }
+
+.submitted-message {
+  text-align: center;
+  padding: 2rem;
+  background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
+  border-radius: 12px;
+  border: 1px solid #c3e6cb;
+  margin: 2rem 0;
+  
+  h2 {
+    color: #155724;
+    margin-bottom: 1rem;
+  }
+  
+  p {
+    color: #155724;
+    margin-bottom: 1rem;
+  }
+}
+
+.redirect-info {
+  margin-top: 1rem;
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.7);
+  border-radius: 8px;
+  
+  p {
+    margin: 0;
+    font-weight: 600;
+    color: #495057;
+  }
+}
+
+.navigation-options {
+  margin-top: 1.5rem;
+  
+  .btn {
+    padding: 0.75rem 1.5rem;
+    background: #28a745;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    
+    &:hover {
+      background: #218838;
+      transform: translateY(-2px);
+    }
+  }
+  
+  .auto-redirect {
+    margin-top: 1rem;
+    font-size: 0.9rem;
+    color: #6c757d;
+  }
+}
+
+.loading {
+  text-align: center;
+  padding: 2rem;
+  color: #007bff;
+  font-weight: 600;
+}

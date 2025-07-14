@@ -4,16 +4,25 @@
     <p>Please provide your answer below:</p>
   </div>
   
-  <div *ngIf="!submitted">
+  <div *ngIf="!submitted && !isSubmitting">
     <app-answer-form (submitted)="handleSubmit($event)"></app-answer-form>
   </div>
   
   <div *ngIf="submitted" class="submitted-message">
-    <h2>Answer Submitted!</h2>
-    <p>Thank you for your response. Please wait for the quiz to close.</p>
+    <h2>✅ Answer Submitted Successfully!</h2>
+    <p>Thank you for your response!</p>
+    
+    <div class="navigation-options">
+      <button 
+        class="btn btn-primary" 
+        (click)="router.navigate(['/student/join'])">
+        Join Another Quiz
+      </button>
+      <p class="auto-redirect">Auto-redirecting in 10 seconds...</p>
+    </div>
   </div>
   
-  <div *ngIf="isSubmitting" class="loading">
-    <p>Submitting your answer...</p>
+  <div *ngIf="isSubmitting && !submitted" class="loading">
+    <p>📤 Submitting your answer...</p>
   </div>
 </div>

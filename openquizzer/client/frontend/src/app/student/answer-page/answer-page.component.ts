@@ -1,3 +1,4 @@
+// Update: src/app/student/answer-page/answer-page.component.ts
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
@@ -19,7 +20,7 @@ export class AnswerPageComponent implements OnInit, OnDestroy {
   private subscriptions: Subscription[] = [];
 
   constructor(
-    private router: Router,
+    public router: Router,
     private socketService: SocketService
   ) {
     // Get quiz data from navigation state
@@ -40,8 +41,11 @@ export class AnswerPageComponent implements OnInit, OnDestroy {
         console.log('Answer confirmed:', data);
         this.isSubmitting = false;
         this.submitted = true;
-        // Navigate to waiting page
-        this.router.navigate(['/student/waiting']);
+        
+        // Show success message briefly, then redirect to join page
+        setTimeout(() => {
+          this.router.navigate(['/student/join']);
+        }, 10000); // 10 second delay to show success message
       }),
 
       this.socketService.onAnswerError().subscribe((error) => {
