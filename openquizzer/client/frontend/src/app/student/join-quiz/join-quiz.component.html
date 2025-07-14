@@ -2,24 +2,41 @@
   <!-- Quiz Code -->
   <label>
     Quiz code
-    <input formControlName="quizCode" placeholder="e.g. ABC123" />
+    <input 
+      formControlName="quizCode" 
+      placeholder="e.g. 123456" 
+      [disabled]="isConnecting" />
   </label>
-  <p *ngIf="quizCode.touched && quizCode.errors?.['required']" class="error">
+  <p *ngIf="quizCode?.touched && quizCode?.errors?.['required']" class="error">
     Code is required.
   </p>
-  <p *ngIf="quizCode.errors?.['pattern']" class="error">
-    4–10 letters/numbers, caps only.
+  <p *ngIf="quizCode?.errors?.['pattern']" class="error">
+    Must be 6 digits.
   </p>
 
-  <!-- Nickname (optional) -->
+  <!-- Nickname TODO: maybe default to just using account username* -->
   <label>
     Nickname
-    <input formControlName="nickname" placeholder="your name (optional)" />
+    <input 
+      formControlName="nickname" 
+      placeholder="Your name" 
+      [disabled]="isConnecting" />
   </label>
+  <p *ngIf="nickname?.touched && nickname?.errors?.['required']" class="error">
+    Nickname is required.
+  </p>
+  <p *ngIf="nickname?.errors?.['minlength']" class="error">
+    Nickname must be at least 2 characters.
+  </p>
 
-  <!-- Submit -->
-  <button type="submit" [disabled]="form.invalid">
-    Start
+  <p *ngIf="errorMessage" class="error">
+    {{ errorMessage }}
+  </p>
+
+  <button 
+    type="submit" 
+    [disabled]="form.invalid || isConnecting">
+    {{ isConnecting ? 'Joining...' : 'Join Quiz' }}
   </button>
 </form>
 

@@ -1,4 +1,19 @@
-<section class="answer-page">
-  <h2>{{ prompt }}</h2>
-  <app-answer-form (submitted)="handleSubmit($event)"></app-answer-form>
-</section>
+<div class="content-wrapper">
+  <div class="prompt">
+    <h1>{{ quiz?.title || 'Quiz Question' }}</h1>
+    <p>Please provide your answer below:</p>
+  </div>
+  
+  <div *ngIf="!submitted">
+    <app-answer-form (submitted)="handleSubmit($event)"></app-answer-form>
+  </div>
+  
+  <div *ngIf="submitted" class="submitted-message">
+    <h2>Answer Submitted!</h2>
+    <p>Thank you for your response. Please wait for the quiz to close.</p>
+  </div>
+  
+  <div *ngIf="isSubmitting" class="loading">
+    <p>Submitting your answer...</p>
+  </div>
+</div>

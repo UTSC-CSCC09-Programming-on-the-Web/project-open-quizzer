@@ -1,18 +1,28 @@
 <div class="quiz-taker-container">
-<h1>Quiz Taker</h1>
-<p>Welcome, Quiz Taker! This page is coming soon...</p>
-
-<div class="placeholder-content">
-<h2>Future Features:</h2>
-<ul>
-    <li>Join quiz by entering Quiz ID</li>
-    <li>View active quizzes</li>
-    <li>Submit quiz responses</li>
-    <li>View quiz results</li>
-</ul>
+  <div class="header">
+  <h1>Quiz Taker</h1>
+  <div>
+    <button class="btn btn-secondary" (click)="goHome()">
+      Back to Home
+    </button>
+  </div>
 </div>
 
-<button class="btn btn-primary" (click)="goHome()">
-Back to Home
-</button>
+<p>Welcome, Quiz Taker! Join an active quiz to get started:</p>
+
+  <div class="placeholder-content">
+    <h2>Available Actions:</h2>
+    <ul>
+      <li>Join quiz by entering Quiz Code</li>
+      <li>Submit your responses</li>
+      <li>Get real-time feedback</li>
+    </ul>
+  </div>
+
+  <div>
+  <button class="btn btn-primary" (click)="joinQuiz()">
+    Join a Quiz
+  </button>
+  </div>
+
 </div>
