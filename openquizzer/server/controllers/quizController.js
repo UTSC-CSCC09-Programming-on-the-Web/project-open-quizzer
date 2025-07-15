@@ -77,3 +77,26 @@ exports.closeQuiz = async (req, res) => {
         });
     }
 }
+
+exports.getQuizById = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const quiz = await quizService.getQuizById(id);
+        if (!quiz) {
+            return res.status(404).json({
+                ok: false,
+                message: "Quiz not found"
+            });
+        }
+        res.status(200).json({
+            ok: true,
+            message: "Quiz retrieved successfully",
+            quiz: quiz
+        });
+    } catch (error) {
+        res.status(error.statusCode || 500).json({
+            ok: false,
+            message: error.message
+        });
+    }
+};

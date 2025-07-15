@@ -95,3 +95,18 @@ exports.closeQuiz = async (quizId) => {
   const updatedQuiz = await quizModel.updateQuiz(quizId, updatedQuizData);
   return updatedQuiz;
 };
+
+exports.getQuizById = async (quizId) => {
+    if (!quizId) {
+        const error = new Error("Quiz ID is required");
+        error.statusCode = 400;
+        throw error;
+    }
+    const quiz = await quizModel.getQuizById(quizId);
+    if (!quiz) {
+        const error = new Error("Quiz not found");
+        error.statusCode = 404;
+        throw error;
+    }
+    return quiz;
+};
