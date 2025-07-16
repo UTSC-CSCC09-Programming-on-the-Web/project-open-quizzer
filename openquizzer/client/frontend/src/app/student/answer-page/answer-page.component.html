@@ -1,4 +1,28 @@
-<section class="answer-page">
-  <h2>{{ prompt }}</h2>
-  <app-answer-form (submitted)="handleSubmit($event)"></app-answer-form>
-</section>
+<div class="content-wrapper">
+  <div class="prompt">
+    <h1>{{ quiz?.title || 'Quiz Question' }}</h1>
+    <p>Please provide your answer below:</p>
+  </div>
+  
+  <div *ngIf="!submitted && !isSubmitting">
+    <app-answer-form (submitted)="handleSubmit($event)"></app-answer-form>
+  </div>
+  
+  <div *ngIf="submitted" class="submitted-message">
+    <h2>✅ Answer Submitted Successfully!</h2>
+    <p>Thank you for your response!</p>
+    
+    <div class="navigation-options">
+      <button 
+        class="btn btn-primary" 
+        (click)="router.navigate(['/student/join'])">
+        Join Another Quiz
+      </button>
+      <p class="auto-redirect">Auto-redirecting in 10 seconds...</p>
+    </div>
+  </div>
+  
+  <div *ngIf="isSubmitting && !submitted" class="loading">
+    <p>📤 Submitting your answer...</p>
+  </div>
+</div>

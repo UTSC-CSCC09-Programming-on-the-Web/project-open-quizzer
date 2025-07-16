@@ -11,7 +11,11 @@ import { CommonModule } from '@angular/common';
 export class QuizTaker {
   constructor(private router: Router) {}
 
-  goHome(): void{
+  goHome(): void {
     this.router.navigate(['/']);
+  }
+
+  joinQuiz(): void {
+    this.router.navigate(['/student/join']);
   }
 }

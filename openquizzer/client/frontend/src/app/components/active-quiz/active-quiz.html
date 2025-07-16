@@ -1,13 +1,43 @@
 <div class="active-quiz-container">
-<div class="header">
+  <div class="header">
     <h1>Active Quiz</h1>
     <p>Quiz in progress! <br> Enter code: {{ quizId }} to join.</p>
-</div>
+  </div>
 
-<div class ="btn-container"> 
+  <!-- Logging Participants activity -->
+  <div class="participants-section">
+    <h3>Participants ({{ participants.length }})</h3>
+    <div class="participants-list" *ngIf="participants.length > 0">
+      <div class="participant-item" *ngFor="let participant of participants">
+        <span class="participant-name">{{ participant.nickname }}</span>
+        <span class="participant-status">Online</span>
+      </div>
+    </div>
+    <p *ngIf="participants.length === 0" class="no-participants">
+      No participants yet. Share the quiz code with quiz takers!
+    </p>
+  </div>
+
+  <!-- Logging Answer Submission activity -->
+  <div class="answers-section">
+    <h3>Submitted Answers ({{ answers.length }})</h3>
+    <div class="answers-list" *ngIf="answers.length > 0">
+      <div class="answer-item" *ngFor="let answer of answers">
+        <div class="answer-header">
+          <span class="answer-nickname">{{ answer.nickname }}</span>
+          <span class="answer-time">{{ answer.timestamp | date:'short' }}</span>
+        </div>
+        <div class="answer-content">{{ answer.answer }}</div>
+      </div>
+    </div>
+    <p *ngIf="answers.length === 0" class="no-answers">
+      No answers submitted yet.
+    </p>
+  </div>
+
+  <div class="btn-container"> 
     <button class="btn btn-primary" (click)="closeQuiz()">
-        Close Quiz
+      Close Quiz
     </button>
+  </div>
 </div>
-
-</div> 

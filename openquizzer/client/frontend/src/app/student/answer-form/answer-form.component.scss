@@ -1,10 +1,13 @@
-
 form {
   display: flex;
   flex-direction: column;
   align-items: center; 
   width: 100%;
   gap: 1.5rem; 
+}
+
+.answer-input-container {
+  margin-bottom: 2rem;
 }
 
 label {
@@ -18,6 +21,10 @@ label {
   clip: rect(0, 0, 0, 0);
   white-space: nowrap;
   border: 0;
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  color: #2b383f;
 }
 
 textarea {
@@ -59,6 +66,22 @@ textarea.ng-invalid.ng-touched {
   box-shadow: 0 0 0 4px rgba(239, 83, 80, 0.15);
 }
 
+.answer-input {
+  width: 100%;
+  padding: 1rem;
+  border: 2px solid #ddd;
+  border-radius: 12px;
+  font-size: 1rem;
+  resize: vertical;
+  transition: border-color 0.3s ease;
+  
+  &:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+  }
+}
+
 /* Button styling */
 button {
   padding: 0.9rem 2.5rem; 
@@ -83,13 +106,37 @@ button:active:not(:disabled) {
   transform: translateY(0); 
   box-shadow: 0 2px 8px rgba(0, 188, 212, 0.2); 
   background: #ccc9cea3; 
-
+}
 button:disabled {
   background: #b0bec5; 
   cursor: not-allowed;
   transform: none;
   box-shadow: none;
   opacity: 0.7;
+}
+
+.submit-btn {
+  width: 100%;
+  padding: 1rem 2rem;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  
+  &:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+  }
+  
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+  }
 }
 
 /* Error text styling */
@@ -99,6 +146,8 @@ button:disabled {
   margin-top: -0.75rem; /* Adjust margin to be closer to the field */
   align-self: flex-start; /* Align error text to the left */
   padding-left: 0.25rem;
+  margin-top: 0.5rem;
+  font-size: 0.9rem;
 }
 
 /* Responsive adjustments for form elements */
@@ -115,5 +164,4 @@ button:disabled {
   .error {
     font-size: 0.8rem;
   }
-}
 }

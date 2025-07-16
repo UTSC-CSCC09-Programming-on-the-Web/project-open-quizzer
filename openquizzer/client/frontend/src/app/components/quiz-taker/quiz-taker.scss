@@ -5,6 +5,18 @@ padding: 20px;
 text-align: center;
 }
 
+.header {
+display: flex;
+justify-content: space-between;
+align-items: center;
+margin-bottom: 30px;
+
+h1 {
+color: #333;
+margin: 0;
+}
+}
+
 .placeholder-content {
 background: #f8f9fa;
 padding: 20px;

@@ -34,28 +34,28 @@
       </div>
     </div>
 
-    <!-- Confidence Level -->
+    <!-- Difficulty Level -->
     <div class="form-field">
-      <label for="confidenceLevel">Confidence Level (1-5) *</label>
+      <label for="difficultyLevel">Difficulty Level (1-5) *</label>
       <input
         type="range"
-        id="confidenceLevel"
-        formControlName="confidenceLevel"
+        id="difficultyLevel"
+        formControlName="difficultyLevel"
         min="1"
         max="5"
         step="1"
         class="form-range"
       />
-      <div class="confidence-display">
-        <span>Level: {{ quizForm.get('confidenceLevel')?.value }}</span>
-        <div class="confidence-labels">
-          <span>1 - Not Sure</span>
+      <div class="difficulty-display">
+        <span>Level: {{ quizForm.get('difficultyLevel')?.value }}</span>
+        <div class="difficulty-labels">
+          <span>1 - Easy</span>
           <span>3 - Moderate</span>
-          <span>5 - Very Confident</span>
+          <span>5 - Very Hard</span>
         </div>
       </div>
-      <div class="error-message" *ngIf="getErrorMessage('confidenceLevel')">
-        {{ getErrorMessage('confidenceLevel') }}
+      <div class="error-message" *ngIf="getErrorMessage('difficultyLevel')">
+        {{ getErrorMessage('difficultyLevel') }}
       </div>
     </div>
 
