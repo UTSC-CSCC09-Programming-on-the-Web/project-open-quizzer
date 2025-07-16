@@ -1,22 +1,20 @@
 require("dotenv").config();
-//creates the pool and logs 
-require('./config/db'); 
+//creates the pool and logs
+require("./config/db");
 const express = require("express");
 const cors = require("cors");
-const quizModel = require('./models/quizModel');
+const quizModel = require("./models/quizModel");
 
 //connecting check for db only when the app boots
-const db = require('./config/db');
+const db = require("./config/db");
 (async () => {
   try {
-    const { rows } = await db.query('SELECT 1 AS ok');
-    console.log('DB test query returned:', rows[0].ok); 
-  } 
-  catch (err) {
-    console.error('DB connection failed!', err);
-    process.exit(1); 
+    const { rows } = await db.query("SELECT 1 AS ok");
+    console.log("DB test query returned:", rows[0].ok);
+  } catch (err) {
+    console.error("DB connection failed!", err);
+    process.exit(1);
   }
-  
 })();
 
 const http = require("http");
@@ -30,7 +28,7 @@ const app = express();
 
 app.use(cors());
 //subscription routes in  our application
-// app.use('/webhook', subscriptionRoutes); 
+// app.use('/webhook', subscriptionRoutes);
 app.use(express.json());
 
 const apiRoutes = require("./routes");
@@ -40,9 +38,6 @@ app.use("/api", apiRoutes);
 
 // //payment routes to our app subscription
 // app.use('/api', paymentRoutes);
-
-
-
 
 app.get("/", (req, res) => {
   res.send("OpenQuizzer backend is up and running!");
@@ -66,7 +61,7 @@ io.on("connection", (socket) => {
         socket.emit("join-error", { message: "Quiz not found" });
         return;
       }
-      if (quiz.status !== 'active') {
+      if (quiz.status !== "active") {
         socket.emit("join-error", { message: "Quiz is not active" });
         return;
       }
@@ -74,10 +69,10 @@ io.on("connection", (socket) => {
       socket.join(`quiz-${quizCode}`);
       // Store info in socket
       socket.quizCode = quizCode;
-      socket.nickname = nickname || 'Anonymous';
+      socket.nickname = nickname || "Anonymous";
       socket.to(`quiz-${quizCode}`).emit("participant-joined", {
         nickname: socket.nickname,
-        socketId: socket.id
+        socketId: socket.id,
       });
       // Send details to the quiz taker
       socket.emit("quiz-joined", {
@@ -96,26 +91,26 @@ io.on("connection", (socket) => {
     try {
       const { answer } = data;
       const { quizCode, nickname } = socket;
-      
+
       if (!quizCode || !answer) {
         socket.emit("answer-error", { message: "Invalid submission" });
         return;
       }
       // Store quiz answer from quiz taker
-      // TODO: Add routes call here to store in database
       const answerData = {
         quizCode,
         nickname,
         answer,
         timestamp: new Date(),
-        socketId: socket.id
+        socketId: socket.id,
       };
       // Broadcast quiz master that answer was submitted
       socket.to(`quiz-${quizCode}`).emit("answer-submitted", answerData);
-      socket.emit("answer-confirmed", { message: "Answer submitted successfully" });
+      socket.emit("answer-confirmed", {
+        message: "Answer submitted successfully",
+      });
       console.log(`${nickname} submitted answer for quiz ${quizCode}`);
-    } 
-    catch (error) {
+    } catch (error) {
       console.error("Error submitting answer:", error);
       socket.emit("answer-error", { message: "Failed to submit answer" });
     }
@@ -132,9 +127,9 @@ io.on("connection", (socket) => {
   socket.on("close-quiz", (quizId) => {
     // Notify all participants that quiz is closed
     io.to(`quiz-${quizId}`).emit("quiz-closed", {
-      message: "Quiz has been closed by the instructor"
+      message: "Quiz has been closed by the instructor",
     });
-    
+
     // Remove everyone from the room
     io.in(`quiz-${quizId}`).socketsLeave(`quiz-${quizId}`);
     console.log(`Quiz ${quizId} closed`);
@@ -145,7 +140,7 @@ io.on("connection", (socket) => {
       // Notify quiz master that participant left
       socket.to(`quiz-${socket.quizCode}`).emit("participant-left", {
         nickname: socket.nickname,
-        socketId: socket.id
+        socketId: socket.id,
       });
     }
     console.log("socket disconnected:", socket.id);
