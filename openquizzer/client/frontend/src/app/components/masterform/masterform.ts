@@ -1,6 +1,11 @@
 import { Component } from '@angular/core';
 // import modules from angular library to use a reactive angular form
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  Validators,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 
@@ -8,7 +13,7 @@ import { HttpClient } from '@angular/common/http';
   selector: 'app-masterform',
   imports: [ReactiveFormsModule, CommonModule],
   templateUrl: './masterform.html',
-  styleUrl: './masterform.scss'
+  styleUrl: './masterform.scss',
 })
 export class Masterform {
   quizForm: FormGroup;
@@ -17,7 +22,10 @@ export class Masterform {
     this.quizForm = this.formBuilder.group({
       questionTitle: ['', [Validators.required, Validators.minLength(3)]],
       answer: ['', [Validators.required]],
-      difficultyLevel: [3, [Validators.required, Validators.min(1), Validators.max(5)]] // 1-5 scale, default 3
+      difficultyLevel: [
+        3,
+        [Validators.required, Validators.min(1), Validators.max(5)],
+      ], // 1-5 scale, default 3
     });
   }
 
@@ -67,7 +75,7 @@ export class Masterform {
     this.quizForm.reset({
       questionTitle: '',
       answer: '',
-      confidenceLevel: 3
+      confidenceLevel: 3,
     });
   }
   // catchall to check if any field has error

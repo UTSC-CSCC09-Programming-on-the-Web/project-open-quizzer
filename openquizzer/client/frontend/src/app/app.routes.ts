@@ -1,4 +1,6 @@
 import { Routes } from '@angular/router';
+import { LoginPage } from './components/login-page/login-page';
+import { SignupPage } from './components/signup-page/signup-page';
 import { PayComponent } from './billing/subscripe/subscribe.component';
 import { Home } from './components/home/home';
 import { QuizMaster } from './components/quiz-master/quiz-master';
@@ -9,6 +11,7 @@ import { QuizResults } from './components/quiz-results/quiz-results';
 
 export const routes: Routes = [
   { path: '', component: Home },
+  // { path: '', redirectTo: '/login', pathMatch: 'full' }
   { path: 'quiz-master', component: QuizMaster },
   { path: 'quiz-taker', component: QuizTaker },
   { path: 'quiz-list', component: QuizList },
@@ -21,5 +24,7 @@ export const routes: Routes = [
     loadChildren: () =>
       import('./student/student.module').then(m => m.StudentModule)
   },
+  { path: 'login', component: LoginPage },
+  { path: 'signup', component: SignupPage },
   { path: '**', redirectTo: '' }  // ⬅️ wildcard route always last
 ];

@@ -1,0 +1,124 @@
+<div class="auth-container">
+  <div class="auth-card">
+    <div class="auth-header">
+      <h1>OpenQuizzer</h1>
+      <h2>Create Account</h2>
+      <p>Join us to start creating amazing quizzes</p>
+    </div>
+
+    <form [formGroup]="signupForm" (ngSubmit)="onSubmit()" class="auth-form">
+      <div class="name-group">
+        <div class="form-group">
+          <label for="firstName">First Name</label>
+          <input
+            id="firstName"
+            type="text"
+            formControlName="firstName"
+            placeholder="Enter your first name"
+            [class.error]="signupForm.get('firstName')?.invalid && signupForm.get('firstName')?.touched"
+          />
+          <div class="error-message" *ngIf="getErrorMessage('firstName')">
+            {{ getErrorMessage('firstName') }}
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="lastName">Last Name</label>
+          <input
+            id="lastName"
+            type="text"
+            formControlName="lastName"
+            placeholder="Enter your last name"
+            [class.error]="signupForm.get('lastName')?.invalid && signupForm.get('lastName')?.touched"
+          />
+          <div class="error-message" *ngIf="getErrorMessage('lastName')">
+            {{ getErrorMessage('lastName') }}
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email Address</label>
+        <input
+          id="email"
+          type="email"
+          formControlName="email"
+          placeholder="Enter your email"
+          [class.error]="signupForm.get('email')?.invalid && signupForm.get('email')?.touched"
+        />
+        <div class="error-message" *ngIf="getErrorMessage('email')">
+          {{ getErrorMessage('email') }}
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input
+          id="password"
+          type="password"
+          formControlName="password"
+          placeholder="Create a strong password"
+          [class.error]="signupForm.get('password')?.invalid && signupForm.get('password')?.touched"
+        />
+        <div
+          class="password-strength"
+          *ngIf="signupForm.get('password')?.value"
+        >
+          <div class="strength-bar">
+            <div
+              class="strength-fill"
+              [style.width]="getPasswordStrength() === 'weak' ? '33%' : getPasswordStrength() === 'medium' ? '66%' : '100%'"
+              [style.background-color]="getPasswordStrengthColor()"
+            ></div>
+          </div>
+          <span
+            class="strength-text"
+            [style.color]="getPasswordStrengthColor()"
+          >
+            {{ getPasswordStrength() | titlecase }}
+          </span>
+        </div>
+        <div class="error-message" *ngIf="getErrorMessage('password')">
+          {{ getErrorMessage('password') }}
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="confirmPassword">Confirm Password</label>
+        <input
+          id="confirmPassword"
+          type="password"
+          formControlName="confirmPassword"
+          placeholder="Confirm your password"
+          [class.error]="signupForm.get('confirmPassword')?.invalid && signupForm.get('confirmPassword')?.touched"
+        />
+        <div class="error-message" *ngIf="getErrorMessage('confirmPassword')">
+          {{ getErrorMessage('confirmPassword') }}
+        </div>
+      </div>
+
+      <div class="error-message" *ngIf="getFormError()">
+        {{ getFormError() }}
+      </div>
+
+      <button
+        type="submit"
+        class="submit-btn"
+        [disabled]="isLoading || signupForm.invalid"
+      >
+        <span *ngIf="!isLoading">Create Account</span>
+        <span *ngIf="isLoading" class="loading-spinner"
+          >Creating account...</span
+        >
+      </button>
+
+      <div class="error-message" *ngIf="errorMessage">{{ errorMessage }}</div>
+    </form>
+
+    <div class="auth-footer">
+      <p>
+        Already have an account? <a routerLink="/login" class="link">Sign in</a>
+      </p>
+    </div>
+  </div>
+</div>

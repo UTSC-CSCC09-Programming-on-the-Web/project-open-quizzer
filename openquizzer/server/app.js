@@ -19,10 +19,9 @@ const db = require("./config/db");
 
 const http = require("http");
 const { Server } = require("socket.io");
-//mounting student route
-//const studentRoutes = require('./routes/student');
-// const paymentRoutes = require('./routes/payment');
-// const subscriptionRoutes = require("./routes/subscription");
+require("dotenv").config();
+//creates the pool and logs
+require("./config/db");
 
 const app = express();
 
@@ -31,8 +30,11 @@ app.use(cors());
 // app.use('/webhook', subscriptionRoutes);
 app.use(express.json());
 
-const apiRoutes = require("./routes");
-app.use("/api", apiRoutes);
+const authRoutes = require("./routes/auth");
+const userRoutes = require("./routes/user");
+
+app.use("/api/auth", authRoutes);
+app.use("/api/user", userRoutes);
 // //student routes to interact with our application
 // //app.use('/api',studentRoutes);
 
@@ -146,6 +148,18 @@ io.on("connection", (socket) => {
     console.log("socket disconnected:", socket.id);
   });
 });
+
+//connecting check for db only when the app boots
+const db = require("./config/db");
+(async () => {
+  try {
+    const { rows } = await db.query("SELECT 1 AS ok");
+    console.log("DB test query returned:", rows[0].ok);
+  } catch (err) {
+    console.error("DB connection failed!", err);
+    process.exit(1);
+  }
+})();
 
 const PORT = process.env.PORT || 3000;
 server.listen(PORT, () => {

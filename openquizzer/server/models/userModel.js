@@ -1,10 +1,10 @@
 //pg queries of User table to interact with db.
-const database = require('../config/db');
+const database = require("../config/db");
 
 //checking the status of the User in the database for subscription given a userId
 
 //uncomment the queries and remove console log once we have a final schema of db.
-exports.checkStatus = async(userName) => { 
+exports.checkStatus = async (userName) => {
   /*
   try {
   const {rows} = await database.query(
@@ -24,10 +24,10 @@ exports.checkStatus = async(userName) => {
     throw err; 
   }
     */
-   console.log("user status has been checked");
+  console.log("user status has been checked");
 };
 
-exports.activateSubscription = async(userName) => { 
+exports.activateSubscription = async (userName) => {
   /*
     await database.query(
       `UPDATE Users
@@ -36,10 +36,10 @@ exports.activateSubscription = async(userName) => {
     [userName]
     );
     */
-   console.log("user has been subscribed");
-}
+  console.log("user has been subscribed");
+};
 
-exports.deactivateSubscription = async(userName) => {
+exports.deactivateSubscription = async (userName) => {
   /* 
     await database.query(
       `UPDATE Users
@@ -48,5 +48,5 @@ exports.deactivateSubscription = async(userName) => {
     [userName]
     );
   */
-    console.log("user has been unsubscribed");
-}
+  console.log("user has been unsubscribed");
+};
