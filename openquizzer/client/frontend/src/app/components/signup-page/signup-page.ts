@@ -8,7 +8,8 @@ import {
 } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
-
+import { HttpClient } from '@angular/common/http';
+import { lastValueFrom } from 'rxjs';
 @Component({
   selector: 'app-signup-page',
   imports: [ReactiveFormsModule, CommonModule, RouterLink],
@@ -20,7 +21,7 @@ export class SignupPage implements OnInit {
   isLoading = false;
   errorMessage = '';
 
-  constructor(private fb: FormBuilder) {}
+  constructor(private fb: FormBuilder, private http: HttpClient) {}
 
   ngOnInit(): void {
     this.signupForm = this.fb.group(
@@ -74,38 +75,53 @@ export class SignupPage implements OnInit {
     return null;
   }
 
-  onSubmit(): void {
-    if (this.signupForm.valid) {
-      this.isLoading = true;
-      this.errorMessage = '';
-
-      const formData = this.signupForm.value;
-      console.log('Signup Form Submitted:', formData);
-
-      setTimeout(() => {
-        this.isLoading = false;
-        console.log('Signup successful!');
-
-        this.signupForm.reset();
-
-        Object.keys(this.signupForm.controls).forEach((key) => {
-          const control = this.signupForm.get(key);
-          control?.markAsUntouched();
-          control?.markAsPristine();
-        });
-
-        alert('Account created successfully!');
-      }, 1000);
-    } else {
+  async onSubmit(): Promise<void> {
+    if (this.signupForm.invalid) {
       this.markFormGroupTouched();
+    return;
+    } 
+    //If the form is valid then proceed
+    this.isLoading = true;
+    this.errorMessage = '';
+    const formData = this.signupForm.value;
+    console.log('Signup Form Submitted:', formData);
+    try {
+      const res = await lastValueFrom(
+        this.http.post<{
+          success: boolean;
+          message?: string;
+          error?: string;
+        }>(
+          'http://localhost:3000/api/auth/signup',
+          formData
+        )
+      );
+      this.isLoading = false;
+      if (res.success) {
+        alert('Account created successfully!');
+        this.signupForm.reset();
+        Object.keys(this.signupForm.controls).forEach((key) => {
+          const c = this.signupForm.get(key);
+          c?.markAsUntouched();
+          c?.markAsPristine();
+        });
+      } 
+      else {
+        this.errorMessage = res.error || res.message || 'Signup failed';
+      }
+    } 
+    catch (err) {
+      this.isLoading    = false;
+      this.errorMessage = 'Server error. Please try again later.';
+      console.error(err);
     }
   }
-
+  
   private markFormGroupTouched(): void {
-    Object.keys(this.signupForm.controls).forEach((key) => {
-      const control = this.signupForm.get(key);
-      control?.markAsTouched();
-    });
+  Object.keys(this.signupForm.controls).forEach((key) => {
+    const control = this.signupForm.get(key);
+    control?.markAsTouched();
+  });
   }
 
   getErrorMessage(controlName: string): string {
