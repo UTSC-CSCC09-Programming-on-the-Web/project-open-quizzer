@@ -78,7 +78,7 @@ io.on("connection", (socket) => {
       });
       // Send details to the quiz taker
       socket.emit("quiz-joined", {
-        quizId: quiz.id,
+        quizId: quiz.id,  
         title: quiz.title,
       });
       console.log(`${socket.nickname} joined quiz ${quizCode}`);
