@@ -11,4 +11,4 @@ function getAllResponses() {
   return answers.slice();
 }
 
-module.exports = { add, getAll };
+module.exports = { addResponse, getAllResponses };

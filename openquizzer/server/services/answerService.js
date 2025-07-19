@@ -1,4 +1,4 @@
-const answerModel = require('../models/answerModel');
+const answerModel = require('../models/answersModel');
 
 exports.submitAnswer = ({ nickname, answer }) => {
   if(!nickname || !answer){

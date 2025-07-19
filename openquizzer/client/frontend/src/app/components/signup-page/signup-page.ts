@@ -6,8 +6,11 @@ import {
   ReactiveFormsModule,
   AbstractControl,
 } from '@angular/forms';
+
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
+import { lastValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-signup-page',
@@ -15,12 +18,13 @@ import { RouterLink } from '@angular/router';
   templateUrl: './signup-page.html',
   styleUrl: './signup-page.scss',
 })
+
 export class SignupPage implements OnInit {
   signupForm!: FormGroup;
   isLoading = false;
   errorMessage = '';
 
-  constructor(private fb: FormBuilder) {}
+  constructor(private fb: FormBuilder, private http: HttpClient ) {}
 
   ngOnInit(): void {
     this.signupForm = this.fb.group(
@@ -74,31 +78,50 @@ export class SignupPage implements OnInit {
     return null;
   }
 
-  onSubmit(): void {
-    if (this.signupForm.valid) {
+  async onSubmit(): Promise<void> {
+    if (this.signupForm.invalid) {
+      this.markFormGroupTouched();
+      return;
+    }
       this.isLoading = true;
       this.errorMessage = '';
 
       const formData = this.signupForm.value;
       console.log('Signup Form Submitted:', formData);
 
-      setTimeout(() => {
+      try {
+        //POST to your actual backend signup route:
+        const res = await lastValueFrom(
+          this.http.post<{
+            success: boolean;
+            message?: string;
+            error?: string;
+          }>(
+            'http://localhost:3000/api/auth/signup',
+            formData
+          )
+        );
+
         this.isLoading = false;
-        console.log('Signup successful!');
 
-        this.signupForm.reset();
-
-        Object.keys(this.signupForm.controls).forEach((key) => {
-          const control = this.signupForm.get(key);
-          control?.markAsUntouched();
-          control?.markAsPristine();
-        });
-
-        alert('Account created successfully!');
-      }, 1000);
-    } else {
-      this.markFormGroupTouched();
-    }
+        if (res.success) {
+          alert('Account created successfully!');
+          this.signupForm.reset();
+          Object.keys(this.signupForm.controls).forEach((key) => {
+            const c = this.signupForm.get(key);
+            c?.markAsUntouched();
+            c?.markAsPristine();
+          });
+        } 
+        else {
+          this.errorMessage = res.error || res.message || 'Signup failed';
+        }
+      }
+      catch (err) {
+        this.isLoading    = false;
+        this.errorMessage = 'Server error. Please try again later.';
+        console.error(err);
+      }
   }
 
   private markFormGroupTouched(): void {

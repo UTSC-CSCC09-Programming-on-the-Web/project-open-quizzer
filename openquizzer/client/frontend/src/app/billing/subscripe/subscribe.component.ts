@@ -41,7 +41,7 @@ export class PayComponent implements OnInit {
     this.loading = true;
 
     try {
-      await this.payService.startCheckout(this.priceId,'john');
+      await this.payService.startCheckout(this.priceId,'abcd');
     } 
     catch (err: any) {
       console.error(err);

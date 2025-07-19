@@ -6,7 +6,7 @@ import { firstValueFrom } from 'rxjs';
 //uncomment the following and import the key from env file and past it here.
 const apiBaseUrl = 'http://localhost:3000/api';
 //Also import the value from env file
-const stripePublishableKey = '';
+const stripePublishableKey = 'pk_test_51RgWgZFN6emTzMixVAdccRqitOHK1jFVNxt9VXEDRnOyWsGDX0bitBM5V10WKgkkYCowQfXBK6NLo9RO7YHAoHpt00Iea6KPst';
 //injecting this in our payment component to start a checkout session
 
 //import this from env file

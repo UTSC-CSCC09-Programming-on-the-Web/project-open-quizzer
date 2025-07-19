@@ -22,6 +22,7 @@ const validateRequest = (req, res, next) => {
 
 router.post(
   "/signup",
+  //parsing the req body from the frontend 
   [
     body("firstName")
       .trim()
@@ -58,7 +59,7 @@ router.post(
       const hashedPassword = await bcrypt.hash(password, saltRounds);
 
       const createUserQuery = `
-      INSERT INTO users (first_name, last_name, email, password_hash, created_at)
+      INSERT INTO users (first_name, last_name, email, hash_password, created_at)
       VALUES ($1, $2, $3, $4, NOW())
       RETURNING id, first_name, last_name, email, created_at
     `;
@@ -126,7 +127,7 @@ router.post(
 
       const isPasswordValid = await bcrypt.compare(
         password,
-        userData.password_hash,
+        userData.hash_password,
       );
       if (!isPasswordValid) {
         return res.status(401).json({
@@ -154,7 +155,8 @@ router.post(
           token,
         },
       });
-    } catch (error) {
+    } 
+    catch (error) {
       console.error("Login error:", error);
       res.status(500).json({
         success: false,
@@ -206,7 +208,8 @@ router.get("/verify", async (req, res) => {
         },
       },
     });
-  } catch (error) {
+  } 
+  catch (error) {
     console.error("Token verification error:", error);
     res.status(401).json({
       success: false,

@@ -19,27 +19,27 @@ const db = require("./config/db");
 
 const http = require("http");
 const { Server } = require("socket.io");
-require("dotenv").config();
 //creates the pool and logs
-require("./config/db");
 
 const app = express();
 
 app.use(cors());
 //subscription routes in  our application
-// app.use('/webhook', subscriptionRoutes);
+const subscriptionRoutes = require("./routes/subscription");
+app.use('/webhook', subscriptionRoutes);
+
 app.use(express.json());
 
+const quizRoutes = require("./routes/index");
 const authRoutes = require("./routes/auth");
 const userRoutes = require("./routes/user");
-
+const paymentRoutes = require("./routes/payment");
 app.use("/api/auth", authRoutes);
 app.use("/api/user", userRoutes);
-// //student routes to interact with our application
-// //app.use('/api',studentRoutes);
+app.use("/api", quizRoutes);
 
-// //payment routes to our app subscription
-// app.use('/api', paymentRoutes);
+//payment routes to our app subscription
+app.use('/api', paymentRoutes);
 
 app.get("/", (req, res) => {
   res.send("OpenQuizzer backend is up and running!");
@@ -150,7 +150,6 @@ io.on("connection", (socket) => {
 });
 
 //connecting check for db only when the app boots
-const db = require("./config/db");
 (async () => {
   try {
     const { rows } = await db.query("SELECT 1 AS ok");
