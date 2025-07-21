@@ -12,6 +12,8 @@ import { CommonModule } from '@angular/common';
 export class QuizResults implements OnInit {
   quizId: string;
   quiz: any = null;
+  participants: number = 0;
+  totalAns: number = 0;
   isLoading = true;
   error: string | null = null;
 
@@ -22,6 +24,13 @@ export class QuizResults implements OnInit {
   ) {
     // fetch quiz id from route url
     this.quizId = this.route.snapshot.params['id'] || 'Unknown';
+
+    // Fetch participant and answer count from router state variable
+    const navigation = this.router.getCurrentNavigation();
+    if (navigation?.extras?.state) {
+      this.participants = navigation.extras.state['participants'] || 0;
+      this.totalAns = navigation.extras.state['totalAns'] || 0;
+    }
   }
 
   ngOnInit(): void {

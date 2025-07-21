@@ -48,12 +48,18 @@
         <h3>Quiz Metrics</h3>
         <div class="metrics-grid">
           <div class="metric-card">
-            <h4>Correct Answers</h4>
-            <span class="metric-value">75%</span>
+            <h4>Total Participants</h4>
+            <span class="metric-value">{{ participants }}</span>
           </div>
           <div class="metric-card">
-            <h4>Students Attempted</h4>
-            <span class="metric-value">120</span>
+            <h4>Total Answers</h4>
+            <span class="metric-value">{{ totalAns }}</span>
+          </div>
+          <div class="metric-card">
+            <h4>Participation Rate</h4>
+            <span class="metric-value">
+              {{ participants > 0 ? ((totalAns / participants) * 100).toFixed(1) + '%' : '0%' }}
+            </span>
           </div>
           <div class="metric-card">
             <h4>Avg. Response Time</h4>

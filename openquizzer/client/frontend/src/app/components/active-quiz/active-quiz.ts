@@ -70,12 +70,22 @@ export class ActiveQuiz implements OnInit, OnDestroy {
         next: (response: any) => {
           console.log('Quiz closed successfully:', response);
           // Navigate to quiz results page
-          this.router.navigate(['/quiz-results', quizId]);
+          this.router.navigate(['/quiz-results', quizId], {
+            state: {
+              participants: this.participants.length,
+              totalAns: this.answers.length
+            }
+          });
         },
         error: (error) => {
           console.error('Failed to close quiz:', error);
           // Still navigate to results even if API call fails
-          this.router.navigate(['/quiz-results', quizId]);
+          this.router.navigate(['/quiz-results', quizId], {
+            state: {
+              participants: this.participants.length,
+              totalAns: this.answers.length
+            }
+          });
         }
       });
   }
