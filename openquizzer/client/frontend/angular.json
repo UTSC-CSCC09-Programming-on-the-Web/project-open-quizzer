@@ -27,7 +27,11 @@
                 "input": "public"
               }
             ],
-            "styles": ["src/styles.scss"]
+            "styles": [
+              "src/styles.scss",
+              "node_modules/codemirror/lib/codemirror.css",
+              "node_modules/codemirror/theme/material.css"
+            ]
           },
           "configurations": {
             "production": {
