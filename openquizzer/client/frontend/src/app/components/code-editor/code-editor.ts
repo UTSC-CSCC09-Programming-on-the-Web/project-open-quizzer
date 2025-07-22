@@ -26,6 +26,7 @@ export class CodeEditorComponent {
 
   submitCode(): void {
     console.log('Submitting code:', this.code);
+    console.log(typeof this.code);
     this.http
       .post('/api/code/analyze', { code: this.code })
       .subscribe({

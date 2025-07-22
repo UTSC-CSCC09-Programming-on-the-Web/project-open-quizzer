@@ -32,7 +32,7 @@ exports.activateSubscription = async (userName) => {
     await database.query(
       `UPDATE users
       SET status=TRUE
-      WHERE first_name=$1`,
+      WHERE email=$1`,
     [userName]
     );
     
@@ -44,7 +44,7 @@ exports.deactivateSubscription = async (userName) => {
     await database.query(
       `UPDATE users
       SET status=FALSE
-      WHERE first_name=$1`,
+      WHERE email=$1`,
     [userName]
     );
   

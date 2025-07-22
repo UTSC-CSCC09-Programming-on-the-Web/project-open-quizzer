@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { PaymentService } from './paymentService';
+import { HttpClient } from '@angular/common/http';
+import { HttpHeaders } from '@angular/common/http';
+import { lastValueFrom } from 'rxjs';
 //uncomment the following line when the authentication has deployed to redirect the user
 //import { AuthService } from '../auth/auth.service';
 
@@ -22,8 +25,8 @@ export class PayComponent implements OnInit {
 
   constructor(
     private payService: PaymentService,
-    //private auth: AuthService,  (uncomment this once authentication has deployed)
-    private router: Router
+    private router: Router,
+    private http: HttpClient
   ) {}
 
   /* If the user is already active, bypass this page */
@@ -34,14 +37,22 @@ export class PayComponent implements OnInit {
     }
     */
   }
-
+  
   //Stripe Checkout redirect when the user clicks subscribe button
   async subscribe(): Promise<void> {
     this.errorMsg = '';
     this.loading = true;
 
     try {
-      await this.payService.startCheckout(this.priceId,'abcd');
+      const token = localStorage.getItem('token')!;
+      const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
+      const profile = await lastValueFrom(
+        this.http.get<{ data: { user: { email: string }}}>(
+          'http://localhost:3000/api/auth/verify',
+          { headers }
+        )
+      );
+    await this.payService.startCheckout(this.priceId,profile.data.user.email);
     } 
     catch (err: any) {
       console.error(err);
