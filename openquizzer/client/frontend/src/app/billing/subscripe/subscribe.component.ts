@@ -21,7 +21,7 @@ export class PayComponent implements OnInit {
   //setting them readonly so template can only read their values
   readonly priceId = 'price_1RgiT6FN6emTzMixYpv9ZkXL';
   readonly planName = 'Pro Subscription';
-  readonly planPrice = '$5 / month';
+  readonly planPrice = '$10 / month';
 
   constructor(
     private payService: PaymentService,
@@ -62,5 +62,42 @@ export class PayComponent implements OnInit {
     finally {
       this.loading = false;
     }
+  }
+
+
+  //unsubsrribe button so that the user is no longer subscribed to our app
+  async unsubscribe() : Promise<void>{
+
+    try {
+      //getting the user info from the bearer access token
+      const token = localStorage.getItem('token')!;
+      const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
+      const profile = await lastValueFrom(
+        this.http.get<{ data: { user: { subscriptionId: string }}}>(
+          'http://localhost:3000/api/auth/verify',
+          { headers }
+        )
+      );
+      const subscriptionId = profile.data.user.subscriptionId;
+      console.log(subscriptionId);
+      //making a post req to our server 
+      try {
+      await lastValueFrom(
+        this.http.post<{ success: boolean }>(
+          'http://localhost:3000/api/subscription/cancel',
+          { subscriptionId}
+        )
+      );
+      alert('Your subscription has been cancelled—updating your status now.');
+      // Optionally refresh your profile or redirect
+    } 
+    catch (err) {
+      console.error('Unsubscribe failed', err);
+      alert('Could not cancel. Please try again.');
+    }
+  }
+  catch(err){
+    console.log(err);
+  }
   }
 }

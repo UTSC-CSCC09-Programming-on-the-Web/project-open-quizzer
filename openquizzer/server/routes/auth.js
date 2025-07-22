@@ -187,7 +187,7 @@ router.get("/verify", async (req, res) => {
     const decoded = jwt.verify(token, JWT_SECRET);
 
     const getUserQuery =
-      "SELECT id, first_name, last_name, email, status FROM users WHERE id = $1";
+      "SELECT id, first_name, last_name, email, status, subs_id FROM users WHERE id = $1";
     const user = await db.query(getUserQuery, [decoded.userId]);
 
     if (user.rows.length === 0) {
@@ -205,7 +205,8 @@ router.get("/verify", async (req, res) => {
           firstName: user.rows[0].first_name,
           lastName: user.rows[0].last_name,
           email: user.rows[0].email,
-          status: user.rows[0].status
+          status: user.rows[0].status,
+          subscriptionId: user.rows[0].subs_id
         },
       },
     });

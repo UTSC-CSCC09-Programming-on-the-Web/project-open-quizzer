@@ -22,5 +22,4 @@ exports.handleSubscription = async (req, res) => {
     //tells the stripe of error in the event
     return res.status(500).json({ received: false });
   }
-
 }

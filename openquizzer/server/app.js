@@ -40,7 +40,6 @@ app.use("/api", quizRoutes);
 
 //payment routes to our app subscription
 app.use('/api', paymentRoutes);
-
 app.get("/", (req, res) => {
   res.send("OpenQuizzer backend is up and running!");
 });
