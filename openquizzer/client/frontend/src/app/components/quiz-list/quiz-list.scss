@@ -17,7 +17,32 @@
 
   .header-actions {
     display: flex;
-    gap: 10px;
+    gap: 15px;
+    align-items: center;
+  }
+}
+
+// Add UTC timer styles
+.utc-timer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 8px 12px;
+  background: #f8f9fa;
+  border: 1px solid #dee2e6;
+  border-radius: 6px;
+  font-family: 'Courier New', monospace;
+  
+  .utc-label {
+    font-size: 0.8rem;
+    color: #6c757d;
+    font-weight: 500;
+  }
+  
+  .utc-time {
+    font-size: 0.9rem;
+    color: #495057;
+    font-weight: bold;
   }
 }
 

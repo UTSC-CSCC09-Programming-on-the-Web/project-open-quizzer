@@ -22,11 +22,13 @@ export class QuizList implements OnInit {
   quizzes: Quiz[] = [];
   isLoading = true;
   error: string | null = null;
+  currentUtcTime: string = ''; // Add utc time property
 
   constructor(private router: Router, private http: HttpClient) {}
 
   ngOnInit(): void {
     this.loadQuizzes();
+    this.updateUtcTime(); // Initialize utc time
   }
 
   loadQuizzes(): void {
@@ -81,6 +83,58 @@ export class QuizList implements OnInit {
 
   refreshQuizzes(): void {
     this.loadQuizzes();
+    this.updateUtcTime(); // Update UTC time on refresh
+  }
+
+  // Add UTC timer update method
+  updateUtcTime(): void {
+    const now = new Date();
+    
+    // Format with AM/PM
+    const utcTimeFormatted = now.toLocaleString('en-US', {
+      timeZone: 'UTC',
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      hour: 'numeric',
+      minute: '2-digit',
+      hour12: true
+    });
+    
+    // Replace comma with dash
+    this.currentUtcTime = utcTimeFormatted.replace(',', ' -');
   }
   
+  // Keep your existing getFormattedDate method unchanged
+  getFormattedDate(utcTimeString: string): string {
+    if (!utcTimeString) return 'Unknown';
+    
+    try {
+      // Don't add 'Z' if the timestamp already has timezone info
+      let dateToFormat: Date;
+      
+      if (utcTimeString.includes('T') && (utcTimeString.endsWith('Z') || utcTimeString.includes('+'))) {
+        dateToFormat = new Date(utcTimeString);
+      } else {
+        dateToFormat = new Date(utcTimeString + 'Z');
+      }
+      if (isNaN(dateToFormat.getTime())) {
+        return utcTimeString; // Fallback to original string
+      }
+      
+      // Format using local timezone
+      return dateToFormat.toLocaleString('en-US', {
+        year: 'numeric',
+        month: 'short',
+        day: 'numeric',
+        hour: 'numeric',
+        minute: '2-digit',
+        second: '2-digit',
+        hour12: true
+      });
+    } catch (error) {
+      console.error('Error formatting date:', utcTimeString, error);
+      return utcTimeString; // Fallback to original string
+    }
+  }
 }

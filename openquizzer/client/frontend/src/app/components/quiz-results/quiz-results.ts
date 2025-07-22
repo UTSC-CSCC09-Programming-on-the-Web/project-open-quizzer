@@ -66,4 +66,21 @@ export class QuizResults implements OnInit {
   navigateToQuizMaster(): void {
     this.router.navigate(['/quiz-master']);
   }
+
+  getDifficultyLevel(): number {
+    // Use the correct property name from backend
+    return this.quiz?.difficulty || 3;
+  }
+
+  getDifficultyText(): string {
+    const level = this.getDifficultyLevel();
+    const difficultyMap: { [key: number]: string } = {
+      1: 'Very Easy',
+      2: 'Easy', 
+      3: 'Moderate',
+      4: 'Hard',
+      5: 'Very Hard'
+    };
+    return difficultyMap[level] || 'Moderate';
+  }
 }
