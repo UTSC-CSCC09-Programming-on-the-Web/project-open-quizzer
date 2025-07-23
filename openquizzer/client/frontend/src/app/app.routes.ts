@@ -8,6 +8,7 @@ import { QuizTaker } from './components/quiz-taker/quiz-taker';
 import { QuizList } from './components/quiz-list/quiz-list';
 import { ActiveQuiz } from './components/active-quiz/active-quiz';
 import { QuizResults } from './components/quiz-results/quiz-results';
+import { AccountsPage } from './components/accounts-page/accounts-page';
 
 export const routes: Routes = [
   { path: '', component: Home },
@@ -22,9 +23,10 @@ export const routes: Routes = [
   {
     path: 'student',
     loadChildren: () =>
-      import('./student/student.module').then(m => m.StudentModule)
+      import('./student/student.module').then((m) => m.StudentModule),
   },
+  { path: 'account', component: AccountsPage },
   { path: 'login', component: LoginPage },
   { path: 'signup', component: SignupPage },
-  { path: '**', redirectTo: '' }  // ⬅️ wildcard route always last
+  { path: '**', redirectTo: '' }, // ⬅️ wildcard route always last
 ];
