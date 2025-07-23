@@ -3,7 +3,7 @@ const userModel = require("../models/userModel");
 //cases to handle stripe webhooks event
 exports.processEvents = async event => {
   //payload from stripe events
-  const obj = event.data.object;       // the payload for all cases
+  const obj = event.data.object;       
   let userName;
   
   try{
@@ -14,8 +14,6 @@ exports.processEvents = async event => {
         userName = obj.metadata.userName;
         const subscriptionId = obj.subscription;
         console.log(subscriptionId);
-        // if(!userName || !subscriptionId)
-        //   return;
         await userModel.activateSubscription(userName,subscriptionId);
         break;
         }
@@ -25,36 +23,29 @@ exports.processEvents = async event => {
         userName = obj.metadata?.userName ||
             obj.lines?.data[0]?.metadata?.userName;
         console.log(userName);
-        // if(!userName || !subscriptionId)
-        //   return;
         await userModel.deactivateSubscription(userName);
         break;
         }
 
       
-      // /* CASE 3: User payment method failed(card error,expiry,not enough funds etc results in unsubscribed.) */
-      // case 'invoice.payment_failed' :{
-      //   userName = obj.metadata?.userName ||
-      //       obj.lines?.data[0]?.metadata?.userName;
-      //   if(!userName)
-      //     return;
-      //   await userModel.deactivateSubscription(userName);
-      //   //delete console.log later
-      //   console.log("user has been unsubscribed to our application due to failure of payment");
-      //   break;
-      //   }
+      /* CASE 3: User payment method failed(card error,expiry,not enough funds etc results in unsubscribed.) */
+      case 'invoice.payment_failed' :{
+        const invoice = event.data.object;
+        const userName = invoice.metadata.userName;
+        await userModel.deactivateSubscription(userName);
+        //delete console.log later
+        console.log("user has been unsubscribed to our application due to failure of payment");
+        break;
+        }
 
-      // case 'invoice.payment_succeeded' :{
-      //   userName = obj.metadata?.userName ||
-      //       obj.lines?.data[0]?.metadata?.userName;
-      //   if(!userName)
-      //     return;
-      //   await userModel.activateSubscription(userName);
-      //   //delete console.log later
-      //   console.log("user has been resubscribed to our application");
-      //   break;
-      //   }
-      
+      case 'invoice.payment_succeeded' :{
+        const invoice = event.data.object;
+        const subscriptionId = invoice.subscription;
+        const userName = invoice.metadata.userName;
+        await userModel.activateSubscription(userName,subscriptionId);
+        //delete console.log later
+        break;
+        }
 
       default:
         console.log(`Unhandled event type ${event.type}`);

@@ -44,6 +44,7 @@ app.get("/", (req, res) => {
   res.send("OpenQuizzer backend is up and running!");
 });
 
+let answers = [];
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
@@ -86,7 +87,7 @@ io.on("connection", (socket) => {
       socket.emit("join-error", { message: "Failed to join quiz" });
     }
   });
-
+  
   // Handle quiz taker submitting answer
   socket.on("submit-answer", async (data) => {
     try {
@@ -105,6 +106,8 @@ io.on("connection", (socket) => {
         timestamp: new Date(),
         socketId: socket.id,
       };
+      console.log(answerData);
+      answers.push(answerData);
       // Broadcast quiz master that answer was submitted
       socket.to(`quiz-${quizCode}`).emit("answer-submitted", answerData);
       socket.emit("answer-confirmed", {

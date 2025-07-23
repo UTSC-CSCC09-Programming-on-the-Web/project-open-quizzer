@@ -47,11 +47,15 @@ export class PayComponent implements OnInit {
       const token = localStorage.getItem('token')!;
       const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
       const profile = await lastValueFrom(
-        this.http.get<{ data: { user: { email: string }}}>(
+        this.http.get<{ data: { user: { email: string, status : boolean }}}>(
           'http://localhost:3000/api/auth/verify',
           { headers }
         )
       );
+      if(profile.data.user.status){
+        alert("you are already subscribed to the application. please proceed to home page");
+        return;
+      }
     await this.payService.startCheckout(this.priceId,profile.data.user.email);
     } 
     catch (err: any) {
@@ -73,11 +77,15 @@ export class PayComponent implements OnInit {
       const token = localStorage.getItem('token')!;
       const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
       const profile = await lastValueFrom(
-        this.http.get<{ data: { user: { subscriptionId: string }}}>(
+        this.http.get<{ data: { user: { subscriptionId: string, status:boolean }}}>(
           'http://localhost:3000/api/auth/verify',
           { headers }
         )
       );
+      if(!profile.data.user.status){
+        alert("you are already unsubscribed to the application. please subscribe to proceed");
+        return;
+      }
       const subscriptionId = profile.data.user.subscriptionId;
       console.log(subscriptionId);
       //making a post req to our server 
@@ -89,7 +97,8 @@ export class PayComponent implements OnInit {
         )
       );
       alert('Your subscription has been cancelled—updating your status now.');
-      // Optionally refresh your profile or redirect
+      this.router.navigateByUrl('/login');
+
     } 
     catch (err) {
       console.error('Unsubscribe failed', err);

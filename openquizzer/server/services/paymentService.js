@@ -29,6 +29,17 @@ exports.cancelsubscription = async (subscriptionId) => {
   if (!subscriptionId) {
     throw new Error('Missing subscriptionId');
   }
-   stripe.subscriptions.cancel(subscriptionId);
+  try {
+   await stripe.subscriptions.cancel(subscriptionId);
+   } 
+  catch (err) {
+  console.error('Error cancelling subscription:', err);
+    return res.status(500).json({
+      success: false,
+      message: 'Could not cancel subscription',
+      error: err.message
+    });
+  }
+
 
 };
