@@ -34,6 +34,23 @@
       </div>
     </div>
 
+    <!-- Time Limit -->
+    <div class="form-field">
+      <label for="time_limit">Time Limit *</label>
+      <input
+        type="text"
+        id="time_limit"
+        formControlName="time_limit"
+        placeholder="Enter a time in MM:SS format (e.g., 01:30 for 90 seconds)"
+        class="form-input"
+        maxlength="5"
+        [class.error]="hasError('time_limit', 'required') || hasError('time_limit', 'invalidTimeFormat') || hasError('time_limit', 'zeroTime') || hasError('time_limit', 'maxTimeExceeded')"
+      />
+      <div class="error-message" *ngIf="getErrorMessage('time_limit')">
+        {{ getErrorMessage('time_limit') }}
+      </div>
+    </div>
+
     <!-- Difficulty Level -->
     <div class="form-field">
       <label for="difficultyLevel">Difficulty Level (1-5) *</label>

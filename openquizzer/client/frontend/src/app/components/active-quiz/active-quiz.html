@@ -2,6 +2,18 @@
   <div class="header">
     <h1>Active Quiz</h1>
     <p>Quiz in progress! <br> Enter code: {{ quizId }} to join.</p>
+    
+    <!-- Timer Section -->
+    <div *ngIf="time_limit && time_limit > 0" class="timer-section">
+      <div class="timer-container" [ngClass]="getTimerClass()">
+        <h3>Time Remaining</h3>
+        <div class="timer-display">{{ timerDisplay }}</div>
+      </div>
+    </div>
+    
+    <div *ngIf="!time_limit" class="no-timer">
+      <p>No time limit set for this quiz</p>
+    </div>
   </div>
 
   <!-- Logging Participants activity -->

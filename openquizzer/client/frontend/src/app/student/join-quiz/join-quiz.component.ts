@@ -35,7 +35,7 @@ export class JoinQuizComponent implements OnInit, OnDestroy {
       this.socketService.onQuizJoined().subscribe((data) => {
         console.log('Successfully joined quiz:', data);
         this.isConnecting = false;
-        this.router.navigate(['/student/answer'], { 
+        this.router.navigate(['/student/answer', data.quizId], { 
           state: { quiz: data } 
         });
       }),
