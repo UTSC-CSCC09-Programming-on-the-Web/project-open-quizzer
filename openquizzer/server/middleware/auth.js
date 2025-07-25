@@ -18,7 +18,7 @@ const authenticateToken = async (req, res, next) => {
     const decoded = jwt.verify(token, JWT_SECRET);
 
     const getUserQuery =
-      "SELECT id, first_name, last_name, email FROM users WHERE id = $1";
+      "SELECT id, first_name, last_name, email, token_version FROM users WHERE id = $1";
     const user = await db.query(getUserQuery, [decoded.userId]);
 
     if (user.rows.length === 0) {
@@ -26,6 +26,11 @@ const authenticateToken = async (req, res, next) => {
         success: false,
         message: "Invalid token. User not found.",
       });
+    }
+    
+    //payload
+    if (decoded.tokenVersion !== user.rows[0].token_version) {
+      return res.status(401).json({ success: false, message: "Token expired or logged out." });
     }
 
     req.user = {
@@ -36,7 +41,8 @@ const authenticateToken = async (req, res, next) => {
     };
 
     next();
-  } catch (error) {
+  } 
+  catch (error) {
     console.error("Authentication error:", error);
     res.status(401).json({
       success: false,

@@ -3,7 +3,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { body, validationResult } = require("express-validator");
 const db = require("../config/db");
-
+const { authenticateToken } = require("../middleware/auth");
 const router = express.Router();
 
 const JWT_SECRET = process.env.JWT_SECRET || "your-secret-key";
@@ -71,7 +71,7 @@ router.post(
       ]);
 
       const token = jwt.sign(
-        { userId: newUser.rows[0].id, email: newUser.rows[0].email },
+        { userId: newUser.rows[0].id, email: newUser.rows[0].email,tokenVersion: 0 },
         JWT_SECRET,
         { expiresIn: "24h" },
       );
@@ -137,7 +137,7 @@ router.post(
       }
 
       const token = jwt.sign(
-        { userId: userData.id, email: userData.email },
+        { userId: userData.id, email: userData.email, tokenVersion: userData.token_version },
         JWT_SECRET,
         { expiresIn: "24h" },
       );
@@ -166,12 +166,29 @@ router.post(
   },
 );
 
-router.post("/logout", (req, res) => {
-  res.json({
-    success: true,
-    message: "Logged out successfully",
-  });
+router.post("/logout", authenticateToken, async (req, res) => {
+  try {
+    const updateTokenQuery = `
+      UPDATE users
+      SET token_version = token_version + 1
+      WHERE id = $1
+    `;
+    await db.query(updateTokenQuery, [req.user.id]);
+
+    return res.json({
+      success: true,
+      message: "Logged out successfully. All tokens invalidated."
+    });
+  } 
+  catch (error) {
+    console.error("Logout error:", error);
+    res.status(500).json({
+      success: false,
+      message: "Error during logout",
+    });
+  }
 });
+
 
 router.get("/verify", async (req, res) => {
   try {
