@@ -1,28 +1,43 @@
 <div class="content-wrapper">
   <div class="prompt">
     <h1>{{ quiz?.title || 'Quiz Question' }}</h1>
-    <p>Please provide your answer below:</p>
+    <!-- Only show instruction text when form is still visible -->
+    <p *ngIf="!submitted && !isSubmitting">Please provide your answer below:</p>
   </div>
   
+  <!-- Answer submission form -->
   <div *ngIf="!submitted && !isSubmitting">
     <app-answer-form (submitted)="handleSubmit($event)"></app-answer-form>
   </div>
   
-  <div *ngIf="submitted" class="submitted-message">
+  <!-- Submitting state -->
+  <div *ngIf="isSubmitting && !submitted" class="loading">
+    <p>📤 Submitting your answer...</p>
+  </div>
+  
+  <!-- Answer confirmed - waiting for quiz to end -->
+  <div *ngIf="submitted && answerConfirmed" class="submitted-message">
     <h2>✅ Answer Submitted Successfully!</h2>
     <p>Thank you for your response!</p>
     
-    <div class="navigation-options">
-      <button 
-        class="btn btn-primary" 
-        (click)="router.navigate(['/student/join'])">
-        Join Another Quiz
-      </button>
-      <p class="auto-redirect">Auto-redirecting in 10 seconds...</p>
+    <div class="waiting-notice">
+      <div class="waiting-content">
+        <h3>⏳ Waiting for Quiz Master</h3>
+        <p>Your answer has been submitted and confirmed. Please wait for the quiz master to close the quiz.</p>
+        <p class="instruction">You will be automatically taken to the results page when the quiz ends.</p>
+        
+        <!-- Optional: Show what answer was submitted -->
+        <div class="submitted-answer-preview" *ngIf="submittedAnswerText">
+          <h4>Your Submitted Answer:</h4>
+          <div class="answer-preview">{{ submittedAnswerText }}</div>
+        </div>
+      </div>
     </div>
   </div>
   
-  <div *ngIf="isSubmitting && !submitted" class="loading">
-    <p>📤 Submitting your answer...</p>
+  <!-- Fallback for answer submitted but not confirmed -->
+  <div *ngIf="submitted && !answerConfirmed" class="submitted-message">
+    <h2>Answer Submitted</h2>
+    <p>Waiting for server confirmation...</p>
   </div>
 </div>
