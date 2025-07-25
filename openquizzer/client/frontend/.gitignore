@@ -41,8 +41,3 @@ testem.log
 .DS_Store
 Thumbs.db
 
-#STRIPE PUBLISHABLE KEY
-STRIPE_PUBLISHABLE_KEY=pk_test_51RgWgZFN6emTzMixVAdccRqitOHK1jFVNxt9VXEDRnOyWsGDX0bitBM5V10WKgkkYCowQfXBK6NLo9RO7YHAoHpt00Iea6KPst
-apiBaseUrl=http://localhost:3000/api
-
-
