@@ -34,10 +34,11 @@ const quizRoutes = require("./routes/index");
 const authRoutes = require("./routes/auth");
 const userRoutes = require("./routes/user");
 const paymentRoutes = require("./routes/payment");
+const googleAuthRoutes = require("./routes/google_auth");
 app.use("/api/auth", authRoutes);
 app.use("/api/user", userRoutes);
 app.use("/api", quizRoutes);
-
+app.use("/api/auth", googleAuthRoutes);
 //payment routes to our app subscription
 app.use('/api', paymentRoutes);
 
