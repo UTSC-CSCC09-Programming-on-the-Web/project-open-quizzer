@@ -7,5 +7,4 @@ router.post(
   express.raw({ type: 'application/json' }),
   subscriptionController.handleSubscription);
 
-
 module.exports = router;

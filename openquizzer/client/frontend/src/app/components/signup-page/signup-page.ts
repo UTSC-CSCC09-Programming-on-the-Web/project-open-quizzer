@@ -11,7 +11,7 @@ import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { lastValueFrom } from 'rxjs';
-
+import {Router } from '@angular/router';
 @Component({
   selector: 'app-signup-page',
   imports: [ReactiveFormsModule, CommonModule, RouterLink],
@@ -24,7 +24,7 @@ export class SignupPage implements OnInit {
   isLoading = false;
   errorMessage = '';
 
-  constructor(private fb: FormBuilder, private http: HttpClient ) {}
+  constructor(private fb: FormBuilder, private http: HttpClient, private router: Router ) {}
 
   ngOnInit(): void {
     this.signupForm = this.fb.group(
@@ -112,6 +112,7 @@ export class SignupPage implements OnInit {
             c?.markAsUntouched();
             c?.markAsPristine();
           });
+          this.router.navigateByUrl('/login');
         } 
         else {
           this.errorMessage = res.error || res.message || 'Signup failed';

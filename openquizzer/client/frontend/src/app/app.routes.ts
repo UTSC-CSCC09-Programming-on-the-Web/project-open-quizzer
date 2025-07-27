@@ -8,8 +8,8 @@ import { QuizTaker } from './components/quiz-taker/quiz-taker';
 import { QuizList } from './components/quiz-list/quiz-list';
 import { ActiveQuiz } from './components/active-quiz/active-quiz';
 import { QuizResults } from './components/quiz-results/quiz-results';
+import { CodeEditorComponent } from './components/code-editor/code-editor';
 import { AccountsPage } from './components/accounts-page/accounts-page';
-
 export const routes: Routes = [
   { path: '', component: Home },
   // { path: '', redirectTo: '/login', pathMatch: 'full' }
@@ -28,5 +28,7 @@ export const routes: Routes = [
   { path: 'account', component: AccountsPage },
   { path: 'login', component: LoginPage },
   { path: 'signup', component: SignupPage },
-  { path: '**', redirectTo: '' }, // ⬅️ wildcard route always last
+  { path: 'editor', component: CodeEditorComponent },
+  { path: '**', redirectTo: '' }  
+
 ];
