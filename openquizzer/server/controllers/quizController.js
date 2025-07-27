@@ -2,12 +2,14 @@ const quizService = require("../services/quizService");
 
 exports.createQuiz = async (req, res) => {
     try {
-        const { id, userid, title, answer } = req.body;
+        const { id, userid, title, answer, time_limit, difficulty } = req.body;
         const newQuiz = await quizService.createQuiz({
             id,
             userid: userid || '00000', // TODO: Default with 00000 for now
             title,
             answer,
+            time_limit,
+            difficulty,
             status: 'inactive'
         });
 

@@ -1,40 +1,51 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
-  selector: 'app-quiz-results',
+  selector: 'app-answer-results',
   imports: [CommonModule],
-  templateUrl: './quiz-results.html',
-  styleUrl: './quiz-results.scss'
+  templateUrl: './answer-results.html',
+  styleUrl: './answer-results.scss'
 })
-export class QuizResults implements OnInit {
-  quizId: string;
+export class AnswerResults implements OnInit {
+  quizId: string = '';
   quiz: any = null;
-  participants: number = 0;
-  totalAns: number = 0;
-  isLoading = true;
+  submittedAnswer: any = null;
+  quizClosed: boolean = false;
+  isLoading: boolean = true;
   error: string | null = null;
 
   constructor(
-    private router: Router, 
     private route: ActivatedRoute,
+    private router: Router,
     private http: HttpClient
   ) {
-    // fetch quiz id from route url
-    this.quizId = this.route.snapshot.params['id'] || 'Unknown';
-
-    // Fetch participant and answer count from router state variable
+    // Get data passed from answer-page component
     const navigation = this.router.getCurrentNavigation();
     if (navigation?.extras?.state) {
-      this.participants = navigation.extras.state['participants'] || 0;
-      this.totalAns = navigation.extras.state['totalAns'] || 0;
+      this.quiz = navigation.extras.state['quiz'];
+      this.quizId = navigation.extras.state['quizId'];
+      this.submittedAnswer = navigation.extras.state['submittedAnswer'];
+      this.quizClosed = navigation.extras.state['quizClosed'] || false;
     }
   }
 
   ngOnInit(): void {
+    // Get quiz ID from route params as fallback
+    this.quizId = this.route.snapshot.params['id'] || this.quizId;
+    
+    // Always load full quiz data from API to ensure we have all properties
+    // Router state might only contain partial data (id, title) but not answer, difficulty
     this.loadQuizData();
+    
+    console.log('Results page loaded with:', {
+      quiz: this.quiz,
+      quizId: this.quizId,
+      submittedAnswer: this.submittedAnswer,
+      quizClosed: this.quizClosed
+    });
   }
 
   loadQuizData(): void {
@@ -59,16 +70,8 @@ export class QuizResults implements OnInit {
       });
   }
 
-  viewQuiz(): void {
-    this.router.navigate(['/quiz-list']);
-  }
-
-  navigateToQuizMaster(): void {
-    this.router.navigate(['/quiz-master']);
-  }
-
+  // Copy difficulty methods from quiz-results component
   getDifficultyLevel(): number {
-    // Use the correct property name from backend
     return this.quiz?.difficulty || 3;
   }
 
@@ -82,5 +85,13 @@ export class QuizResults implements OnInit {
       5: 'Very Hard'
     };
     return difficultyMap[level] || 'Moderate';
+  }
+
+  rejoinQuiz(): void {
+    this.router.navigate(['/student/join']);
+  }
+
+  returnHome(): void {
+    this.router.navigate(['']);
   }
 }

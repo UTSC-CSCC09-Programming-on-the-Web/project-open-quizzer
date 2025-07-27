@@ -1,40 +1,71 @@
 .navbar {
   width: 100%;
-  background: linear-gradient(to right, #5b2a86, #7d3fbf);
-  padding: 1rem 2rem;
+  background: white;
+  border-radius: 14px;
+  box-shadow: 0 4px 24px rgba(102, 126, 234, 0.10);
+  padding: 0.75rem 2rem;
+  margin: 1.5rem auto 1rem auto;
+  max-width: 900px;
+  border-top: 4px solid;
+  border-image: linear-gradient(135deg, #667eea 0%, #764ba2 100%) 1;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.navbar-content {
   display: flex;
+  align-items: center;
   justify-content: space-between;
-  align-items: center;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-}
-
-.nav-left,
-.nav-right {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-}
-
-.nav-btn {
-  background: rgba(255, 255, 255, 0.15);
-  color: white;
-  border: none;
-  padding: 0.5rem 1rem;
-  border-radius: 6px;
-  cursor: pointer;
-  font-weight: 500;
-  transition: background 0.3s ease;
-}
-
-.nav-btn:hover {
-  background: rgba(255, 255, 255, 0.3);
 }
 
 .brand {
   font-weight: 700;
-  font-size: 1.2rem;
+  font-size: 1.3rem;
+  color: #667eea;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-decoration: none;
+  margin-right: 1.5rem;
 }
 
-.signout-btn {
-  border: 1px solid white;
+.nav-btn {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  padding: 0.5rem 1.2rem;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, box-shadow 0.2s;
+  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.08);
+}
+
+.nav-btn:hover {
+  background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+}
+
+@media (max-width: 600px) {
+  .navbar {
+    padding: 0.5rem 0.7rem;
+    max-width: 100%;
+    border-radius: 0;
+    margin: 0 0 1rem 0;
+  }
+
+  .navbar-content {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .brand {
+    margin-right: 0;
+    font-size: 1.1rem;
+  }
+
+  .nav-btn {
+    width: 100%;
+    font-size: 0.95rem;
+  }
 }

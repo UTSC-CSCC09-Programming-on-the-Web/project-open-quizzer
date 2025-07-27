@@ -32,13 +32,28 @@
           <h3>Expected Answer:</h3>
           <p class="quiz-answer">{{ quiz.answer }}</p>
         </div>
+        <div class="detail-item">
+          <h3>Difficulty Level:</h3>
+          <div class="difficulty-rating">
+            <div class="stars-container">
+              <span 
+                *ngFor="let star of [1,2,3,4,5]; let i = index" 
+                class="star"
+                [class.filled]="i < getDifficultyLevel()"
+                [class.empty]="i >= getDifficultyLevel()">
+                ★
+              </span>
+            </div>
+            <span class="difficulty-text">{{ getDifficultyText() }}</span>
+          </div>
+        </div>
       </div>
     </div>
 
     <!-- Performance Summary Section -->
     <div class="results-content">
       <div class="summary-section">
-        <h2>Summary of all Answers</h2>
+        <h2> Answers Summary </h2>
         <span class="Quiz Taker Correctness">LLM Autograded Quiz Taker Correctness: 100%</span>
         <p>LLM generated summary of all answered provided by Quiz Takers. <br> for example:
           The majority of students demonstrated a strong understanding of the core concepts, particularly in areas such as data structures and algorithms. However, there were some challenges observed in more advanced topics like system design and concurrency. Many students struggled with questions related to distributed systems and real-time data processing, indicating a need for further study in these areas.</p>
@@ -48,12 +63,18 @@
         <h3>Quiz Metrics</h3>
         <div class="metrics-grid">
           <div class="metric-card">
-            <h4>Correct Answers</h4>
-            <span class="metric-value">75%</span>
+            <h4>Total Participants</h4>
+            <span class="metric-value">{{ participants }}</span>
           </div>
           <div class="metric-card">
-            <h4>Students Attempted</h4>
-            <span class="metric-value">120</span>
+            <h4>Total Answers</h4>
+            <span class="metric-value">{{ totalAns }}</span>
+          </div>
+          <div class="metric-card">
+            <h4>Participation Rate</h4>
+            <span class="metric-value">
+              {{ participants > 0 ? ((totalAns / participants) * 100).toFixed(1) + '%' : '0%' }}
+            </span>
           </div>
           <div class="metric-card">
             <h4>Avg. Response Time</h4>

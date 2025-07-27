@@ -7,6 +7,11 @@
     </div>
   </div>
 
+  <div class="utc-timer">
+    <span class="utc-label">Current Time (UTC):</span>
+    <span class="utc-time">{{ currentUtcTime }}</span>
+  </div>
+
   <!-- Loading state -->
   <div *ngIf="isLoading" class="loading">
     <p>Loading quizzes...</p>
@@ -30,7 +35,7 @@
         <div class="quiz-info">
           <h3>{{ quiz.title }}</h3>
           <p class="quiz-answer">Answer: {{ quiz.answer }}</p>
-          <p class="quiz-created">Created: {{ quiz.created_at | date:'medium' }}</p>
+          <p class="quiz-created">Created: {{ getFormattedDate(quiz.created_at) }}</p>
           <p class="quiz-status">Status: {{ quiz.status }}</p>
         </div>
         <div class="quiz-actions">

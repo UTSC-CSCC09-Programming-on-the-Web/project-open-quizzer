@@ -1,6 +1,6 @@
 // Update: src/app/student/answer-page/answer-page.component.ts
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router'; 
 import { CommonModule } from '@angular/common';
 import { SocketService } from '../../services/socket.service';
 import { Subscription } from 'rxjs';
@@ -15,17 +15,24 @@ import { AnswerFormComponent } from '../answer-form/answer-form.component';
 })
 export class AnswerPageComponent implements OnInit, OnDestroy {
   quiz: any;
+  quizId: string = ''; 
   isSubmitting = false;
   submitted = false;
+  answerConfirmed = false;
+  submittedAnswerText: string = '';
+  waitingForQuizEnd = false; // New flag for waiting state
   private subscriptions: Subscription[] = [];
 
   constructor(
     public router: Router,
+    private route: ActivatedRoute, 
     private socketService: SocketService
   ) {
     // Get quiz data from navigation state
     const navigation = this.router.getCurrentNavigation();
     this.quiz = navigation?.extras?.state?.['quiz'] || null;
+    // fetching quiz id from url
+    this.quizId = this.route.snapshot.params['id'] || 'Unknown';
   }
 
   ngOnInit(): void {
@@ -41,23 +48,33 @@ export class AnswerPageComponent implements OnInit, OnDestroy {
         console.log('Answer confirmed:', data);
         this.isSubmitting = false;
         this.submitted = true;
+        this.answerConfirmed = true;
+        this.waitingForQuizEnd = true; // Set waiting flag
         
-        // Show success message briefly, then redirect to join page
-        setTimeout(() => {
-          this.router.navigate(['/student/join']);
-        }, 10000); // 10 second delay to show success message
+        // Remove auto-redirect - now wait for quiz-closed event
+        console.log('Answer submitted successfully. Waiting for quiz to end...');
       }),
 
       this.socketService.onAnswerError().subscribe((error) => {
         console.error('Answer submission error:', error);
         this.isSubmitting = false;
+        this.submittedAnswerText = ''; // Clear on error
         alert('Failed to submit answer. Please try again.');
       }),
 
+      // Key navigation listener - navigate here when quiz master closes quiz
       this.socketService.onQuizClosed().subscribe((data) => {
-        console.log('Quiz closed:', data);
-        alert('Quiz has been closed by the instructor');
-        this.router.navigate(['/student/join']);
+        console.log('Quiz closed by instructor:', data);
+        
+        // Navigate to results with the stored answer
+        this.router.navigate(['/student/results', this.quizId], {
+          state: {
+            quiz: this.quiz,
+            quizId: this.quizId,
+            submittedAnswer: this.submittedAnswerText,
+            quizClosed: true
+          }
+        });
       })
     );
   }
@@ -70,9 +87,9 @@ export class AnswerPageComponent implements OnInit, OnDestroy {
     if (this.isSubmitting || this.submitted) return;
     
     this.isSubmitting = true;
+    this.submittedAnswerText = answer;
     console.log('Submitting answer:', answer);
     
-    // Use socket instead of HTTP request
     this.socketService.submitAnswer(answer);
   }
 }

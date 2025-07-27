@@ -1,0 +1,92 @@
+<div class="answer-results-container">
+  <div class="header">
+    <h1>Quiz Results</h1>
+    <button class="btn btn-secondary" (click)="returnHome()">
+      Back to Home
+    </button>
+  </div>
+
+  <!-- Loading state -->
+  <div *ngIf="isLoading" class="loading">
+    <p>Loading your results...</p>
+  </div>
+
+  <!-- Error state -->
+  <div *ngIf="error" class="error">
+    <p>{{ error }}</p>
+    <button class="btn btn-primary" (click)="loadQuizData()">Try Again</button>
+  </div>
+
+  <!-- Results Content -->
+  <div *ngIf="!isLoading && !error" class="results-content">
+    <!-- Quiz Information Section -->
+    <div *ngIf="quiz" class="quiz-info-section">
+      <h2>Quiz Information</h2>
+      <div class="quiz-details">
+        <div class="detail-item">
+          <h3>Question:</h3>
+          <p class="quiz-question">{{ quiz.title }}</p>
+        </div>
+        <div class="detail-item">
+          <h3>Expected Answer:</h3>
+          <p class="quiz-answer">{{ quiz.answer }}</p>
+        </div>
+        <div class="detail-item">
+          <h3>Difficulty Level:</h3>
+          <div class="difficulty-rating">
+            <div class="stars-container">
+              <span 
+                *ngFor="let star of [1,2,3,4,5]; let i = index" 
+                class="star"
+                [class.filled]="i < getDifficultyLevel()"
+                [class.empty]="i >= getDifficultyLevel()">
+                ★
+              </span>
+            </div>
+            <span class="difficulty-text">{{ getDifficultyText() }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Student's Answer Section -->
+    <div class="student-answer-section">
+      <h2>Your Response</h2>
+      <div class="answer-content">
+        <div class="detail-item">
+          <h3>Your Answer:</h3>
+          <p class="student-answer" *ngIf="submittedAnswer && submittedAnswer !== 'Manual navigation'">
+            {{ submittedAnswer }}
+          </p>
+          <p class="no-answer" *ngIf="!submittedAnswer || submittedAnswer === 'Manual navigation'">
+            Your answer was submitted successfully but is not available for display.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- LLM Analysis Section (Placeholder) -->
+    <div class="llm-analysis-section">
+      <h2>AI Autograder</h2>
+      <div class="analysis-content">
+          <ul class="feature-list">
+            <li>Correctness assessment compared to expected answer</li>
+            <li>Key concepts identified in your response</li>
+            <li>Suggestions for improvement</li>
+            <li>Similarity score with model answer</li>
+          </ul>
+      </div>
+    </div>
+
+    <div *ngIf="!quiz" class="no-data">
+      <p>No quiz data available.</p>
+    </div>
+  </div>
+
+  <!-- Navigation Button -->
+  <div class="btn-container">
+    <button class="btn btn-primary" (click)="rejoinQuiz()">
+      Join Another Quiz
+    </button>
+  </div>
+</div>
