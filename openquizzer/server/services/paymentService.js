@@ -15,8 +15,31 @@ exports.startCheckout = async ({priceId,userName}) => {
     success_url:`${process.env.BASE_URL}/student/join?session_id={CHECKOUT_SESSION_ID}`,
     //where to navigate the user on unsuccessful payments
     cancel_url: `${process.env.BASE_URL}/pay`,
-    metadata: {userName} 
+    metadata: { userName },
+    subscription_data: {
+    metadata: { userName }
+  }
   });
 
   return {sessionId:session.id};
+};
+
+
+exports.cancelsubscription = async (subscriptionId) => {
+  if (!subscriptionId) {
+    throw new Error('Missing subscriptionId');
+  }
+  try {
+   await stripe.subscriptions.cancel(subscriptionId);
+   } 
+  catch (err) {
+  console.error('Error cancelling subscription:', err);
+    return res.status(500).json({
+      success: false,
+      message: 'Could not cancel subscription',
+      error: err.message
+    });
+  }
+
+
 };

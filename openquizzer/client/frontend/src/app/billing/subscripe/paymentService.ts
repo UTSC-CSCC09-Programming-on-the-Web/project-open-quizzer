@@ -1,15 +1,15 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { loadStripe } from '@stripe/stripe-js';
+import { environment } from '../../../environments/environment';
 //change this later with your actual STRIPE key
 import { firstValueFrom } from 'rxjs';
 //uncomment the following and import the key from env file and past it here.
-const apiBaseUrl = 'http://localhost:3000/api';
+const apiBaseUrl = environment.apiBaseUrl;
 //Also import the value from env file
-const stripePublishableKey = 'pk_test_51RgWgZFN6emTzMixVAdccRqitOHK1jFVNxt9VXEDRnOyWsGDX0bitBM5V10WKgkkYCowQfXBK6NLo9RO7YHAoHpt00Iea6KPst';
+const stripePublishableKey =  environment.stripePublishableKey;
 //injecting this in our payment component to start a checkout session
 
-//import this from env file
 
 @Injectable({ providedIn: 'root' })
 export class PaymentService {

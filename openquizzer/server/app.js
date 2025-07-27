@@ -26,7 +26,7 @@ const app = express();
 app.use(cors());
 //subscription routes in  our application
 const subscriptionRoutes = require("./routes/subscription");
-app.use('/webhook', subscriptionRoutes);
+app.use("/webhook", subscriptionRoutes);
 
 app.use(express.json());
 
@@ -40,12 +40,12 @@ app.use("/api/user", userRoutes);
 app.use("/api", quizRoutes);
 app.use("/api/auth", googleAuthRoutes);
 //payment routes to our app subscription
-app.use('/api', paymentRoutes);
-
+app.use("/api", paymentRoutes);
 app.get("/", (req, res) => {
   res.send("OpenQuizzer backend is up and running!");
 });
 
+let answers = [];
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
@@ -79,7 +79,7 @@ io.on("connection", (socket) => {
       });
       // Send details to the quiz taker
       socket.emit("quiz-joined", {
-        quizId: quiz.id,  
+        quizId: quiz.id,
         title: quiz.title,
       });
       console.log(`${socket.nickname} joined quiz ${quizCode}`);
@@ -107,6 +107,8 @@ io.on("connection", (socket) => {
         timestamp: new Date(),
         socketId: socket.id,
       };
+      console.log(answerData);
+      answers.push(answerData);
       // Broadcast quiz master that answer was submitted
       socket.to(`quiz-${quizCode}`).emit("answer-submitted", answerData);
       socket.emit("answer-confirmed", {
@@ -150,16 +152,16 @@ io.on("connection", (socket) => {
   });
 });
 
-//connecting check for db only when the app boots
-(async () => {
-  try {
-    const { rows } = await db.query("SELECT 1 AS ok");
-    console.log("DB test query returned:", rows[0].ok);
-  } catch (err) {
-    console.error("DB connection failed!", err);
-    process.exit(1);
-  }
-})();
+// //connecting check for db only when the app boots
+// (async () => {
+//   try {
+//     const { rows } = await db.query("SELECT 1 AS ok");
+//     console.log("DB test query returned:", rows[0].ok);
+//   } catch (err) {
+//     console.error("DB connection failed!", err);
+//     process.exit(1);
+//   }
+// })();
 
 const PORT = process.env.PORT || 3000;
 server.listen(PORT, () => {

@@ -27,13 +27,13 @@ exports.checkStatus = async (userName) => {
   console.log("user status has been checked");
 };
 
-exports.activateSubscription = async (userName) => {
+exports.activateSubscription = async (userName,subscriptionId) => {
   
     await database.query(
       `UPDATE users
-      SET status=TRUE
-      WHERE first_name=$1`,
-    [userName]
+      SET status=TRUE, subs_id=$2
+      WHERE email=$1`,
+    [userName,subscriptionId]
     );
     
   console.log("user has been subscribed");
@@ -43,10 +43,11 @@ exports.deactivateSubscription = async (userName) => {
   
     await database.query(
       `UPDATE users
-      SET status=FALSE
-      WHERE first_name=$1`,
+      SET status=FALSE, subs_id = NULL 
+      WHERE email=$1`,
     [userName]
     );
   
   console.log("user has been unsubscribed");
+
 };

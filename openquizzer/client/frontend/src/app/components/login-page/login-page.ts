@@ -8,9 +8,9 @@ import {
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
+import { HttpHeaders } from '@angular/common/http';
 import { lastValueFrom } from 'rxjs';
 import { Router } from '@angular/router';
-
 
 @Component({
   selector: 'app-login-page',
@@ -23,7 +23,7 @@ export class LoginPage implements OnInit{
   loginForm!: FormGroup;
   isLoading = false;
   errorMessage = '';
-  
+
   private googleClientId = '246084124226-5sl2r5124hl2ugd1hst63ko55k94p49u.apps.googleusercontent.com';
   private googleRedirectUri = 'http://localhost:3000/api/auth/google';
   
@@ -64,9 +64,25 @@ export class LoginPage implements OnInit{
       );
       this.isLoading = false;
       if (res.success) {
+        //storing the bearer token in the local storage
         localStorage.setItem('token', res.token!);
         alert('Login successful! Welcome to OpenQuizzer.');
         this.loginForm.reset();
+        const token = localStorage.getItem('token')!;
+        const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
+        const profile = await lastValueFrom(
+        this.http.get<{ data: { user: { status: boolean }}}>(
+          'http://localhost:3000/api/auth/verify',
+          { headers }
+        )
+        );
+        if (profile.data.user.status) {
+        this.router.navigateByUrl('/');
+        } 
+        else {
+        this.router.navigateByUrl('/pay');
+        }
+
       } 
       else {
         this.errorMessage = res.error || 'Login failed';
