@@ -26,7 +26,7 @@ const app = express();
 app.use(cors());
 //subscription routes in  our application
 const subscriptionRoutes = require("./routes/subscription");
-app.use('/webhook', subscriptionRoutes);
+app.use("/webhook", subscriptionRoutes);
 
 app.use(express.json());
 
@@ -39,7 +39,7 @@ app.use("/api/user", userRoutes);
 app.use("/api", quizRoutes);
 
 //payment routes to our app subscription
-app.use('/api', paymentRoutes);
+app.use("/api", paymentRoutes);
 app.get("/", (req, res) => {
   res.send("OpenQuizzer backend is up and running!");
 });
@@ -78,7 +78,7 @@ io.on("connection", (socket) => {
       });
       // Send details to the quiz taker
       socket.emit("quiz-joined", {
-        quizId: quiz.id,  
+        quizId: quiz.id,
         title: quiz.title,
       });
       console.log(`${socket.nickname} joined quiz ${quizCode}`);
@@ -87,7 +87,7 @@ io.on("connection", (socket) => {
       socket.emit("join-error", { message: "Failed to join quiz" });
     }
   });
-  
+
   // Handle quiz taker submitting answer
   socket.on("submit-answer", async (data) => {
     try {
@@ -151,16 +151,16 @@ io.on("connection", (socket) => {
   });
 });
 
-//connecting check for db only when the app boots
-(async () => {
-  try {
-    const { rows } = await db.query("SELECT 1 AS ok");
-    console.log("DB test query returned:", rows[0].ok);
-  } catch (err) {
-    console.error("DB connection failed!", err);
-    process.exit(1);
-  }
-})();
+// //connecting check for db only when the app boots
+// (async () => {
+//   try {
+//     const { rows } = await db.query("SELECT 1 AS ok");
+//     console.log("DB test query returned:", rows[0].ok);
+//   } catch (err) {
+//     console.error("DB connection failed!", err);
+//     process.exit(1);
+//   }
+// })();
 
 const PORT = process.env.PORT || 3000;
 server.listen(PORT, () => {
