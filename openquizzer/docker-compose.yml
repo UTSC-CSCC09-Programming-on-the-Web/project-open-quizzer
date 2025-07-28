@@ -7,6 +7,9 @@ services:
     ports:
       - "3000:3000"
     restart: unless-stopped
+    environment:
+      - STRIPE_SECRET_KEY=test_key
+      - DATABASE_URL=postgres://postgres:postgres23@db:5432/openquizzer
 
   frontend:
     build: ./client/frontend
@@ -16,3 +19,19 @@ services:
     depends_on:
       - backend
     restart: unless-stopped
+
+  db:
+    image: postgres:15
+    container_name: openquizzer_db
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres23
+      POSTGRES_DB: openquizzer
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:
