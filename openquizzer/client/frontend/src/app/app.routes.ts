@@ -29,6 +29,6 @@ export const routes: Routes = [
   { path: 'login', component: LoginPage },
   { path: 'signup', component: SignupPage },
   { path: 'editor', component: CodeEditorComponent },
-  { path: '**', redirectTo: '' }  
+  //{ path: '**', redirectTo: '' }  
 
 ];
