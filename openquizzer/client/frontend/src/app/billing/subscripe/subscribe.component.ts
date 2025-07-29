@@ -5,6 +5,7 @@ import { PaymentService } from './paymentService';
 import { HttpClient } from '@angular/common/http';
 import { HttpHeaders } from '@angular/common/http';
 import { lastValueFrom } from 'rxjs';
+import { environment } from '../../../environments/environment';
 //uncomment the following line when the authentication has deployed to redirect the user
 //import { AuthService } from '../auth/auth.service';
 
@@ -13,7 +14,7 @@ import { lastValueFrom } from 'rxjs';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './subscribe.component.html',
-  styleUrls: ['./subscribe.component.scss']
+  styleUrls: ['./subscribe.component.scss'],
 })
 export class PayComponent implements OnInit {
   loading = false;
@@ -37,7 +38,7 @@ export class PayComponent implements OnInit {
     }
     */
   }
-  
+
   //Stripe Checkout redirect when the user clicks subscribe button
   async subscribe(): Promise<void> {
     this.errorMsg = '';
@@ -47,66 +48,64 @@ export class PayComponent implements OnInit {
       const token = localStorage.getItem('token')!;
       const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
       const profile = await lastValueFrom(
-        this.http.get<{ data: { user: { email: string, status : boolean }}}>(
-          'http://localhost:3000/api/auth/verify',
+        this.http.get<{ data: { user: { email: string; status: boolean } } }>(
+          `${environment.apiBaseUrl}/auth/verify`,
           { headers }
         )
       );
-      if(profile.data.user.status){
-        alert("you are already subscribed to the application. please proceed to home page");
+      if (profile.data.user.status) {
+        alert(
+          'you are already subscribed to the application. please proceed to home page'
+        );
         return;
       }
-    await this.payService.startCheckout(this.priceId,profile.data.user.email);
-    } 
-    catch (err: any) {
+      await this.payService.startCheckout(
+        this.priceId,
+        profile.data.user.email
+      );
+    } catch (err: any) {
       console.error(err);
-      this.errorMsg =
-        err?.message || 'Something went wrong; please try again.';
-    } 
-    finally {
+      this.errorMsg = err?.message || 'Something went wrong; please try again.';
+    } finally {
       this.loading = false;
     }
   }
 
-
   //unsubsrribe button so that the user is no longer subscribed to our app
-  async unsubscribe() : Promise<void>{
-
+  async unsubscribe(): Promise<void> {
     try {
       //getting the user info from the bearer access token
       const token = localStorage.getItem('token')!;
       const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
       const profile = await lastValueFrom(
-        this.http.get<{ data: { user: { subscriptionId: string, status:boolean }}}>(
-          'http://localhost:3000/api/auth/verify',
-          { headers }
-        )
+        this.http.get<{
+          data: { user: { subscriptionId: string; status: boolean } };
+        }>(`${environment.apiBaseUrl}/auth/verify`, { headers })
       );
-      if(!profile.data.user.status){
-        alert("you are already unsubscribed to the application. please subscribe to proceed");
+      if (!profile.data.user.status) {
+        alert(
+          'you are already unsubscribed to the application. please subscribe to proceed'
+        );
         return;
       }
       const subscriptionId = profile.data.user.subscriptionId;
       console.log(subscriptionId);
-      //making a post req to our server 
+      //making a post req to our server
       try {
-      await lastValueFrom(
-        this.http.post<{ success: boolean }>(
-          'http://localhost:3000/api/subscription/cancel',
-          { subscriptionId}
-        )
-      );
-      alert('Your subscription has been cancelled—updating your status now.');
-      this.router.navigateByUrl('/login');
-
-    } 
-    catch (err) {
-      console.error('Unsubscribe failed', err);
-      alert('Could not cancel. Please try again.');
+        await lastValueFrom(
+          this.http.post<{ success: boolean }>(
+            `${environment.apiBaseUrl}/subscription/cancel`,
+            { subscriptionId }
+          )
+        );
+        alert('Your subscription has been cancelled—updating your status now.');
+        this.router.navigateByUrl('/login');
+      } catch (err) {
+        console.error('Unsubscribe failed', err);
+        alert('Could not cancel. Please try again.');
+      }
+    } catch (err) {
+      console.log(err);
     }
-  }
-  catch(err){
-    console.log(err);
-  }
   }
 }

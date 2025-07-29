@@ -4,11 +4,12 @@ import { CommonModule } from '@angular/common';
 import { Navbar } from '../navbar/navbar';
 import { HttpClient } from '@angular/common/http';
 import { lastValueFrom } from 'rxjs';
+import { environment } from '../../../environments/environment';
 @Component({
   selector: 'app-home',
   imports: [CommonModule, Navbar],
   templateUrl: './home.html',
-  styleUrl: './home.scss'
+  styleUrl: './home.scss',
 })
 export class Home {
   constructor(private router: Router, private http: HttpClient) {}
@@ -22,22 +23,20 @@ export class Home {
   }
 
   logout(): void {
-    const token = localStorage.getItem('token'); 
-    if (!token)
-      return;
+    const token = localStorage.getItem('token');
+    if (!token) return;
     const headers = {
-      Authorization: `Bearer ${token}`
+      Authorization: `Bearer ${token}`,
     };
-       lastValueFrom(
-        this.http.post<{message:string }>(
-          'http://localhost:3000/api/auth/logout',
-          {},
-          {headers}
-        )
+    lastValueFrom(
+      this.http.post<{ message: string }>(
+        `${environment.apiBaseUrl}/auth/logout`,
+        {},
+        { headers }
       )
-      .then((res) => {
-        console.log(res.message);
-      
+    ).then((res) => {
+      console.log(res.message);
+
       localStorage.removeItem('token');
       this.router.navigate(['/login']);
     });

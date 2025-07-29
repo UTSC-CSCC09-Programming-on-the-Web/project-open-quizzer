@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { io, Socket } from 'socket.io-client';
 import { Observable, BehaviorSubject } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class SocketService {
   private socket: Socket;
@@ -11,8 +12,8 @@ export class SocketService {
   public connected$ = this.connectedSubject.asObservable();
 
   constructor() {
-    this.socket = io('http://localhost:3000');
-    
+    this.socket = io(environment.apiBaseUrl.replace('/api', ''));
+
     this.socket.on('connect', () => {
       console.log('Connected to server');
       this.connectedSubject.next(true);
@@ -44,50 +45,50 @@ export class SocketService {
 
   // Event Listeners
   onQuizJoined(): Observable<any> {
-    return new Observable(observer => {
+    return new Observable((observer) => {
       this.socket.on('quiz-joined', (data) => observer.next(data));
     });
   }
 
   onJoinError(): Observable<any> {
-    return new Observable(observer => {
+    return new Observable((observer) => {
       this.socket.on('join-error', (data) => observer.next(data));
     });
   }
 
   onAnswerConfirmed(): Observable<any> {
-    return new Observable(observer => {
+    return new Observable((observer) => {
       this.socket.on('answer-confirmed', (data) => observer.next(data));
     });
   }
 
   onAnswerError(): Observable<any> {
-    return new Observable(observer => {
+    return new Observable((observer) => {
       this.socket.on('answer-error', (data) => observer.next(data));
     });
   }
 
   onQuizClosed(): Observable<any> {
-    return new Observable(observer => {
+    return new Observable((observer) => {
       this.socket.on('quiz-closed', (data) => observer.next(data));
     });
   }
 
   // Quiz Master Event Listeners
   onParticipantJoined(): Observable<any> {
-    return new Observable(observer => {
+    return new Observable((observer) => {
       this.socket.on('participant-joined', (data) => observer.next(data));
     });
   }
 
   onAnswerSubmitted(): Observable<any> {
-    return new Observable(observer => {
+    return new Observable((observer) => {
       this.socket.on('answer-submitted', (data) => observer.next(data));
     });
   }
 
   onParticipantLeft(): Observable<any> {
-    return new Observable(observer => {
+    return new Observable((observer) => {
       this.socket.on('participant-left', (data) => observer.next(data));
     });
   }

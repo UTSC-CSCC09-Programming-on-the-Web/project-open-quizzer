@@ -11,20 +11,24 @@ import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { lastValueFrom } from 'rxjs';
-import {Router } from '@angular/router';
+import { Router } from '@angular/router';
+import { environment } from '../../../environments/environment';
 @Component({
   selector: 'app-signup-page',
   imports: [ReactiveFormsModule, CommonModule, RouterLink],
   templateUrl: './signup-page.html',
   styleUrl: './signup-page.scss',
 })
-
 export class SignupPage implements OnInit {
   signupForm!: FormGroup;
   isLoading = false;
   errorMessage = '';
 
-  constructor(private fb: FormBuilder, private http: HttpClient, private router: Router ) {}
+  constructor(
+    private fb: FormBuilder,
+    private http: HttpClient,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.signupForm = this.fb.group(
@@ -42,7 +46,7 @@ export class SignupPage implements OnInit {
         ],
         confirmPassword: ['', [Validators.required]],
       },
-      { validators: this.passwordMatchValidator },
+      { validators: this.passwordMatchValidator }
     );
   }
 
@@ -63,7 +67,7 @@ export class SignupPage implements OnInit {
   }
 
   passwordMatchValidator(
-    control: AbstractControl,
+    control: AbstractControl
   ): { [key: string]: any } | null {
     const password = control.get('password');
     const confirmPassword = control.get('confirmPassword');
@@ -83,46 +87,41 @@ export class SignupPage implements OnInit {
       this.markFormGroupTouched();
       return;
     }
-      this.isLoading = true;
-      this.errorMessage = '';
+    this.isLoading = true;
+    this.errorMessage = '';
 
-      const formData = this.signupForm.value;
-      console.log('Signup Form Submitted:', formData);
+    const formData = this.signupForm.value;
+    console.log('Signup Form Submitted:', formData);
 
-      try {
-        //POST to your actual backend signup route:
-        const res = await lastValueFrom(
-          this.http.post<{
-            success: boolean;
-            message?: string;
-            error?: string;
-          }>(
-            'http://localhost:3000/api/auth/signup',
-            formData
-          )
-        );
+    try {
+      //POST to your actual backend signup route:
+      const res = await lastValueFrom(
+        this.http.post<{
+          success: boolean;
+          message?: string;
+          error?: string;
+        }>(`${environment.apiBaseUrl}/auth/signup`, formData)
+      );
 
-        this.isLoading = false;
+      this.isLoading = false;
 
-        if (res.success) {
-          alert('Account created successfully!');
-          this.signupForm.reset();
-          Object.keys(this.signupForm.controls).forEach((key) => {
-            const c = this.signupForm.get(key);
-            c?.markAsUntouched();
-            c?.markAsPristine();
-          });
-          this.router.navigateByUrl('/login');
-        } 
-        else {
-          this.errorMessage = res.error || res.message || 'Signup failed';
-        }
+      if (res.success) {
+        alert('Account created successfully!');
+        this.signupForm.reset();
+        Object.keys(this.signupForm.controls).forEach((key) => {
+          const c = this.signupForm.get(key);
+          c?.markAsUntouched();
+          c?.markAsPristine();
+        });
+        this.router.navigateByUrl('/login');
+      } else {
+        this.errorMessage = res.error || res.message || 'Signup failed';
       }
-      catch (err) {
-        this.isLoading    = false;
-        this.errorMessage = 'Server error. Please try again later.';
-        console.error(err);
-      }
+    } catch (err) {
+      this.isLoading = false;
+      this.errorMessage = 'Server error. Please try again later.';
+      console.error(err);
+    }
   }
 
   private markFormGroupTouched(): void {

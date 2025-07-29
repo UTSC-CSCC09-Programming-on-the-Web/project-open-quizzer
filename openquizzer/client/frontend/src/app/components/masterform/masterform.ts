@@ -9,6 +9,7 @@ import {
 } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-masterform',
@@ -86,7 +87,7 @@ export class Masterform {
       };
 
       // actually call backend API
-      this.http.post('http://localhost:3000/api/quiz', quizData).subscribe({
+      this.http.post(`${environment.apiBaseUrl}/quiz`, quizData).subscribe({
         next: (response: any) => {
           console.log('Quiz created successfully:', response);
           alert(`Quiz created successfully! \nQuiz Code: ${response.quiz.id}`);
@@ -126,11 +127,15 @@ export class Masterform {
     const field = this.quizForm.get(fieldName);
     if (field?.errors && field.touched) {
       if (field.errors['required']) {
-        return `${fieldName.charAt(0).toUpperCase() + fieldName.slice(1)} is required`;
+        return `${
+          fieldName.charAt(0).toUpperCase() + fieldName.slice(1)
+        } is required`;
       }
       if (field.errors['minlength']) {
         const requiredLength = field.errors['minlength'].requiredLength;
-        return `${fieldName.charAt(0).toUpperCase() + fieldName.slice(1)} must be at least ${requiredLength} characters`;
+        return `${
+          fieldName.charAt(0).toUpperCase() + fieldName.slice(1)
+        } must be at least ${requiredLength} characters`;
       }
       if (field.errors['min']) {
         return `Minimum value is ${field.errors['min'].min}`;
