@@ -8,7 +8,6 @@ services:
       - "3000:3000"
     restart: unless-stopped
     environment:
-      - STRIPE_SECRET_KEY=test_key
       - DATABASE_URL=postgres://postgres:postgres23@db:5432/openquizzer
 
   frontend:
