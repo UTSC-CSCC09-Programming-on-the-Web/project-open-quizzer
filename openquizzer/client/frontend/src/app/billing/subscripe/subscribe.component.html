@@ -1,17 +1,15 @@
-<section class="pay-card">
-  <h1>{{ planName }}</h1>
-  <p class="price">{{ planPrice }}</p>
-
-  <button
-    (click)="subscribe()"
-    [disabled]="loading"
-    class="subscribe-btn"
-  >
-    {{ loading ? 'Redirecting…' : 'Subscribe with Stripe' }}
-  </button>
-
-  <p *ngIf="errorMsg" class="error">{{ errorMsg }}</p>
-  
-</section>
-
-<button (click)="unsubscribe()">Unsubscribe stripe</button>
+<div class="payment-container">
+  <section class="pay-card">
+    <h1>{{ planName }}</h1>
+    <p class="price">{{ planPrice }}</p>
+    <button
+      (click)="subscribe()"
+      [disabled]="loading"
+      class="subscribe-btn"
+    >
+      {{ loading ? 'Redirecting…' : 'Subscribe with Stripe' }}
+    </button>
+    <p *ngIf="errorMsg" class="error">{{ errorMsg }}</p>
+  </section>
+  <button (click)="unsubscribe()">Unsubscribe stripe</button>
+</div>
