@@ -8,7 +8,7 @@ import {
   AbstractControl,
 } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 
 @Component({
@@ -87,18 +87,27 @@ export class Masterform {
       };
 
       // actually call backend API
-      this.http.post(`${environment.apiBaseUrl}/quiz`, quizData).subscribe({
-        next: (response: any) => {
-          console.log('Quiz created successfully:', response);
-          alert(`Quiz created successfully! \nQuiz Code: ${response.quiz.id}`);
-          // Clear form after submission
-          this.clearForm();
-        },
-        error: (error: any) => {
-          console.error('Error creating quiz. Please try again.');
-          alert('Failed to create quiz. Please try again.');
-        },
+      const token = localStorage.getItem('token'); // Your auth token storage
+
+      const headers = new HttpHeaders({
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
       });
+
+      this.http
+        .post(`${environment.apiBaseUrl}/quiz`, quizData, { headers })
+        .subscribe({
+          next: (response: any) => {
+            console.log('Quiz created successfully:', response);
+            alert(`Quiz created successfully! \nQuiz Code: ${response.quiz.id}`);
+            // Clear form after submission
+            this.clearForm();
+          },
+          error: (error: any) => {
+            console.error('Error creating quiz. Please try again.');
+            alert('Failed to create quiz. Please try again.');
+          },
+        });
     } else {
       Object.keys(this.quizForm.controls).forEach((field) => {
         const control = this.quizForm.get(field);
