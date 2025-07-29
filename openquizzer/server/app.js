@@ -35,12 +35,14 @@ const authRoutes = require("./routes/auth");
 const userRoutes = require("./routes/user");
 const paymentRoutes = require("./routes/payment");
 const googleAuthRoutes = require("./routes/google_auth");
+const emailRoutes = require("./routes/email");
 app.use("/api/auth", authRoutes);
 app.use("/api/user", userRoutes);
 app.use("/api", quizRoutes);
 app.use("/api/auth", googleAuthRoutes);
 //payment routes to our app subscription
 app.use("/api", paymentRoutes);
+app.use("/email", emailRoutes);
 app.get("/", (req, res) => {
   res.send("OpenQuizzer backend is up and running!");
 });
@@ -151,17 +153,6 @@ io.on("connection", (socket) => {
     console.log("socket disconnected:", socket.id);
   });
 });
-
-// //connecting check for db only when the app boots
-// (async () => {
-//   try {
-//     const { rows } = await db.query("SELECT 1 AS ok");
-//     console.log("DB test query returned:", rows[0].ok);
-//   } catch (err) {
-//     console.error("DB connection failed!", err);
-//     process.exit(1);
-//   }
-// })();
 
 const PORT = process.env.PORT || 3000;
 server.listen(PORT, () => {
