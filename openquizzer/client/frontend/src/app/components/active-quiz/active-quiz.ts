@@ -144,11 +144,12 @@ export class ActiveQuiz implements OnInit, OnDestroy {
       .subscribe({
         next: (response: any) => {
           console.log('Quiz closed successfully:', response);
-          // Navigate to quiz results page
+          // Navigate to quiz results page with answers
           this.router.navigate(['/quiz-results', quizId], {
             state: {
               participants: this.participants.length,
-              totalAns: this.answers.length
+              totalAns: this.answers.length,
+              submittedAnswers: this.answers 
             }
           });
         },
@@ -158,7 +159,8 @@ export class ActiveQuiz implements OnInit, OnDestroy {
           this.router.navigate(['/quiz-results', quizId], {
             state: {
               participants: this.participants.length,
-              totalAns: this.answers.length
+              totalAns: this.answers.length,
+              submittedAnswers: this.answers 
             }
           });
         }

@@ -19,7 +19,7 @@ async function summarizeAnswers(answers) {
         {
           role: "user",
           content:
-            "Given the following answers, summarize them and put them into categories as you deem fit. Only give me the categories. Here are the answers: " +
+            "Analyze the following student answers and categorize them into 3-5 main themes or topics. Return ONLY the category names separated by commas, no additional text or explanation. For example: 'Category1, Category2, Category3'. Here are the answers: " +
             inputText,
         },
       ],

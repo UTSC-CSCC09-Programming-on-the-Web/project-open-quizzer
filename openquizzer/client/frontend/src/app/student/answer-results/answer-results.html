@@ -65,16 +65,57 @@
       </div>
     </div>
 
-    <!-- LLM Analysis Section (Placeholder) -->
     <div class="llm-analysis-section">
       <h2>AI Autograder</h2>
-      <div class="analysis-content">
+      
+      <!-- Loading state for LLM scoring -->
+      <div *ngIf="isLoadingScore" class="llm-loading">
+        <div class="loading-spinner">
+          <div class="spinner"></div>
+          <p>🤖 AI is scoring your answer...</p>
+          <small>This may take a few moments</small>
+        </div>
+      </div>
+
+      <!-- Error state for LLM scoring -->
+      <div *ngIf="scoreError && !isLoadingScore" class="llm-error">
+        <p>❌ {{ scoreError }}</p>
+        <button class="btn btn-secondary btn-small" (click)="retryScoring()">
+          Retry Scoring
+        </button>
+      </div>
+
+      <!-- LLM Generated Score Content -->
+      <div *ngIf="scoreGenerated && !isLoadingScore" class="llm-content">
+        <div class="correctness-metric">
+          <span class="correctness-label">Your Score</span>
+          <span class="correctness-value">{{ llmScore.score || llmScore.correctness }}%</span>
+        </div>
+        
+        <div *ngIf="llmScore.feedback" class="score-feedback">
+          <h4>AI Feedback:</h4>
+          <p>{{ llmScore.feedback }}</p>
+        </div>
+      </div>
+
+      <!-- Fallback content while LLM loads -->
+      <div *ngIf="!scoreGenerated && !isLoadingScore && !scoreError && submittedAnswer && submittedAnswer !== 'Manual navigation'" class="fallback-content">
+        <span class="correctness-placeholder">AI Autograder: Analyzing your answer...</span>
+        <p>Generating personalized feedback for your response...</p>
+      </div>
+
+      <!-- Placeholder when no answer to score -->
+      <div *ngIf="!submittedAnswer || submittedAnswer === 'Manual navigation'" class="analysis-content">
+        <div class="placeholder-message">
+          <h3>AI Autograder</h3>
+          <p class="placeholder-text">No answer available for AI analysis.</p>
           <ul class="feature-list">
             <li>Correctness assessment compared to expected answer</li>
             <li>Key concepts identified in your response</li>
             <li>Suggestions for improvement</li>
             <li>Similarity score with model answer</li>
           </ul>
+        </div>
       </div>
     </div>
 

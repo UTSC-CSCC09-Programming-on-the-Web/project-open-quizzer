@@ -50,13 +50,53 @@
       </div>
     </div>
 
-    <!-- Performance Summary Section -->
+    <!-- Performance Summary Section with LLM Loading -->
     <div class="results-content">
       <div class="summary-section">
-        <h2> Answers Summary </h2>
-        <span class="Quiz Taker Correctness">LLM Autograded Quiz Taker Correctness: 100%</span>
-        <p>LLM generated summary of all answered provided by Quiz Takers. <br> for example:
-          The majority of students demonstrated a strong understanding of the core concepts, particularly in areas such as data structures and algorithms. However, there were some challenges observed in more advanced topics like system design and concurrency. Many students struggled with questions related to distributed systems and real-time data processing, indicating a need for further study in these areas.</p>
+        <h2>Answers Summary</h2>
+        
+        <!-- Loading state for LLM analysis -->
+        <div *ngIf="isLoadingSummary" class="llm-loading">
+          <div class="loading-spinner">
+            <div class="spinner"></div>
+            <p>🤖 AI is analyzing student answers...</p>
+            <small>This may take a few moments</small>
+          </div>
+        </div>
+
+        <!-- Error state for LLM analysis -->
+        <div *ngIf="summaryError && !isLoadingSummary" class="llm-error">
+          <p>❌ {{ summaryError }}</p>
+          <button class="btn btn-secondary btn-small" (click)="retryTopicSummary()">
+            Retry Analysis
+          </button>
+        </div>
+
+        <!-- LLM Generated Content -->
+        <div *ngIf="summaryGenerated && !isLoadingSummary" class="llm-content">
+          <!-- <div class="correctness-metric"> -->
+            <!-- <span class="correctness-label">LLM Autograded Quiz Taker Correctness</span> --> 
+            <!-- <span class="correctness-value">{{ llmSummary.correctness }}%</span> --> 
+          <!-- </div> -->
+
+          <!-- Convert the summary text into purple pills -->
+          <div class="summary-topics-section">
+            <div class="topics-header">AI Generated Answer Topics:</div>
+            <div class="topics-container">
+              <span 
+                *ngFor="let topic of getSummaryTopics()" 
+                class="topic-tag">
+                {{ topic }}
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Fallback content while LLM loads -->
+        <div *ngIf="!summaryGenerated && !isLoadingSummary && !summaryError" class="fallback-content">
+          <span class="correctness-placeholder">LLM Autograded Quiz Taker Correctness: Analyzing...</span>
+          <p>Generating AI-powered analysis of student responses...</p>
+        </div>
       </div>
 
       <div class="metrics-section">
@@ -76,31 +116,7 @@
               {{ participants > 0 ? ((totalAns / participants) * 100).toFixed(1) + '%' : '0%' }}
             </span>
           </div>
-          <div class="metric-card">
-            <h4>Avg. Response Time</h4>
-            <span class="metric-value">25s</span>
-          </div>
         </div>
-      </div>
-
-      <div class="distribution-section">
-        <h3>Distribution of Answer Topics</h3>
-        <div class="chart-placeholder">
-          <div class="answer-topics"></div>
-          <div class="topic-bars">
-            <!-- TODO: Remove with proper API call of top 5 answer themes! -->
-            <div class="topic-bar data-structures">Data Structures</div>
-            <div class="topic-bar algorithms">Algorithms</div>
-            <div class="topic-bar system-design">System Design</div>
-            <div class="topic-bar concurrency">Concurrency</div>
-            <div class="topic-bar distributed-systems">Distributed Systems</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="comments-section">
-        <h3>Topic-Specific Comments</h3>
-        <p>Click on a bar in the 'Distribution of Answer Topics' chart to view answers related to a particular topic. <br> This feature allows for a deeper understanding of student feedback and challenges within each subject area.</p>
       </div>
     </div>
   </div>
