@@ -10,6 +10,7 @@ import { ActiveQuiz } from './components/active-quiz/active-quiz';
 import { QuizResults } from './components/quiz-results/quiz-results';
 import { CodeEditorComponent } from './components/code-editor/code-editor';
 import { AccountsPage } from './components/accounts-page/accounts-page';
+import { LoginRequired } from './components/login-required/login-required';
 export const routes: Routes = [
   { path: '', component: Home },
   // { path: '', redirectTo: '/login', pathMatch: 'full' }
@@ -29,6 +30,6 @@ export const routes: Routes = [
   { path: 'login', component: LoginPage },
   { path: 'signup', component: SignupPage },
   { path: 'editor', component: CodeEditorComponent },
-  { path: '**', redirectTo: '' }  
-
+  { path: 'login-required', component: LoginRequired },
+  { path: '**', redirectTo: '' },
 ];
