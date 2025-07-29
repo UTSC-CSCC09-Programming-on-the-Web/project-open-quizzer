@@ -31,5 +31,5 @@ export const routes: Routes = [
   { path: 'signup', component: SignupPage },
   { path: 'editor', component: CodeEditorComponent },
   { path: 'login-required', component: LoginRequired },
-  { path: '**', redirectTo: '' },
+  // { path: '**', redirectTo: '' },
 ];

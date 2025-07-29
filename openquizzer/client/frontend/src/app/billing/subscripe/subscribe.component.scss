@@ -1,47 +1,283 @@
+
+:host {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+  padding: 20px;
+}
+
 .pay-card {
   max-width: 400px;
-  margin: 80px auto;
-  padding: 2rem;
+  width: 100%;
+  margin-bottom: 2rem;
+  padding: 2.5rem;
   background: linear-gradient(145deg, #5b2a86, #7d3fbf);
-  border-radius: 16px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  border-radius: 20px;
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.15),
+    0 0 0 1px rgba(255, 255, 255, 0.1);
   color: #fff;
   text-align: center;
-}
+  position: relative;
+  overflow: hidden;
+  transform: translateY(0);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  animation: cardSlideIn 0.6s ease-out;
 
-.pay-card h1 {
-  margin-bottom: 0.5rem;
-  font-size: 2rem;
-}
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.1),
+      transparent
+    );
+    transition: left 0.6s ease;
+  }
 
-.pay-card .price {
-  font-size: 1.5rem;
-  margin-bottom: 1.5rem;
+  &:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 
+      0 16px 48px rgba(0, 0, 0, 0.2),
+      0 0 0 1px rgba(255, 255, 255, 0.2);
+
+    &::before {
+      left: 100%;
+    }
+  }
+
+  h1 {
+    margin: 0 0 1rem 0;
+    font-size: 2.2rem;
+    font-weight: 700;
+    background: linear-gradient(45deg, #fff, #e1bee7);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: titleGlow 2s ease-in-out infinite alternate;
+    line-height: 1.2;
+  }
+
+  .price {
+    font-size: 1.8rem;
+    margin: 0 0 2rem 0;
+    font-weight: 600;
+    color: #e1bee7;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    animation: priceFloat 3s ease-in-out infinite;
+  }
 }
 
 .subscribe-btn {
-  padding: 12px 24px;
-  font-size: 1rem;
-  background: #fff;
+  padding: 14px 32px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  background: linear-gradient(45deg, #fff, #f8f9fa);
   color: #5b2a86;
   border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 220px;
+  margin: 0;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(45deg, transparent, rgba(91, 42, 134, 0.1), transparent);
+    transition: left 0.5s ease;
+  }
+
+  &:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+    background: linear-gradient(45deg, #f8f9fa, #e9ecef);
+
+    &::before {
+      left: 100%;
+    }
+  }
+
+  &:active:not(:disabled) {
+    transform: translateY(0);
+    transition: transform 0.1s ease;
+  }
+
+  &:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    transform: none;
+    animation: pulse 1.5s ease-in-out infinite;
+
+    &:hover {
+      transform: none;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+    }
+  }
+}
+
+// Style for the unsubscribe button (positioned outside the card)
+button:not(.subscribe-btn) {
+  padding: 12px 24px;
+  font-size: 0.95rem;
+  background: transparent;
+  color: #9c27b0;
+  border: 2px solid #9c27b0;
   border-radius: 8px;
   cursor: pointer;
-  transition: transform 0.2s ease, background 0.3s ease;
-}
+  transition: all 0.3s ease;
+  font-weight: 500;
+  position: relative;
+  overflow: hidden;
+  margin: 0;
+  min-width: 180px;
 
-.subscribe-btn:hover {
-  transform: scale(1.05);
-  background: #f0f0f0;
-}
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: #9c27b0;
+    transition: left 0.3s ease;
+    z-index: -1;
+  }
 
-.subscribe-btn:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
+  &:hover {
+    color: #fff;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(156, 39, 176, 0.3);
+
+    &::before {
+      left: 0;
+    }
+  }
+
+  &:active {
+    transform: translateY(0);
+    transition: transform 0.1s ease;
+  }
 }
 
 .error {
-  margin-top: 1rem;
+  margin: 1.5rem 0 0 0;
   color: #ffcdd2;
-  font-weight: bold;
+  font-weight: 600;
+  font-size: 0.95rem;
+  padding: 12px;
+  background: rgba(244, 67, 54, 0.1);
+  border-radius: 8px;
+  border-left: 4px solid #f44336;
+  animation: errorSlideIn 0.3s ease-out;
+}
+
+// Animations
+@keyframes cardSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes titleGlow {
+  from {
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+  }
+  to {
+    text-shadow: 0 0 20px rgba(255, 255, 255, 0.8);
+  }
+}
+
+@keyframes priceFloat {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-3px);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 0.7;
+  }
+  50% {
+    opacity: 0.9;
+  }
+}
+
+@keyframes errorSlideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+// Responsive design
+@media (max-width: 480px) {
+  :host {
+    padding: 15px;
+  }
+
+  .pay-card {
+    padding: 2rem;
+    margin-bottom: 1.5rem;
+
+    h1 {
+      font-size: 1.8rem;
+    }
+
+    .price {
+      font-size: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+  }
+
+  .subscribe-btn {
+    padding: 12px 24px;
+    font-size: 1rem;
+    min-width: 200px;
+  }
+
+  button:not(.subscribe-btn) {
+    min-width: 160px;
+    font-size: 0.9rem;
+  }
+}
+
+.payment-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+  padding: 20px;
 }
