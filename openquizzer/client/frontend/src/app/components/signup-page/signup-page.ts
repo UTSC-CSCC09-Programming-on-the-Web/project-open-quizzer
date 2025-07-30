@@ -113,7 +113,8 @@ export class SignupPage implements OnInit {
           c?.markAsUntouched();
           c?.markAsPristine();
         });
-        this.router.navigateByUrl('/login');
+        // Auto-login after signup
+        await this.autoLogin();
       } else {
         this.errorMessage = res.error || res.message || 'Signup failed';
       }
@@ -200,5 +201,31 @@ export class SignupPage implements OnInit {
       return 'Passwords do not match';
     }
     return '';
+  }
+
+  private async autoLogin(): Promise<void> {
+    const email = this.signupForm.get('email')?.value;
+    const password = this.signupForm.get('password')?.value;
+
+    try {
+      const loginRes = await lastValueFrom(
+        this.http.post<{ success: boolean; token?: string }>(
+          `${environment.apiBaseUrl}/auth/login`,
+          {
+            email,
+            password,
+          }
+        )
+      );
+
+      if (loginRes.success && loginRes.token) {
+        localStorage.setItem('token', loginRes.token);
+        this.router.navigateByUrl('/home');
+      } else {
+        this.router.navigateByUrl('/login');
+      }
+    } catch (error) {
+      this.router.navigateByUrl('/login');
+    }
   }
 }
