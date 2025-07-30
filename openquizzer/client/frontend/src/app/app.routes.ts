@@ -12,8 +12,8 @@ import { CodeEditorComponent } from './components/code-editor/code-editor';
 import { AccountsPage } from './components/accounts-page/accounts-page';
 import { LoginRequired } from './components/login-required/login-required';
 export const routes: Routes = [
-  { path: '', component: Home },
-  // { path: '', redirectTo: '/login', pathMatch: 'full' }
+  { path: '', redirectTo: '/login', pathMatch: 'full' },
+  { path: 'home', component: Home },
   { path: 'quiz-master', component: QuizMaster },
   { path: 'quiz-taker', component: QuizTaker },
   { path: 'quiz-list', component: QuizList },
@@ -21,7 +21,6 @@ export const routes: Routes = [
   { path: 'quiz-results/:id', component: QuizResults },
   { path: 'payhome', redirectTo: 'pay', pathMatch: 'full' },
   { path: 'pay', component: PayComponent },
-  // { path: 'home', component: Home },
   {
     path: 'student',
     loadChildren: () =>

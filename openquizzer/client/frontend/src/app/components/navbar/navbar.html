@@ -1,8 +1,8 @@
 <nav class="navbar">
   <div class="navbar-content">
-    <a routerLink="/" class="brand">OpenQuizzer</a>
+    <a routerLink="/home" class="brand">OpenQuizzer</a>
 
-    <button routerLink="/" class="nav-btn" [disabled]="!isAuthenticated">Home</button>
+    <button routerLink="/home" class="nav-btn" [disabled]="!isAuthenticated">Home</button>
 
     <!-- Show login/signup only if NOT authenticated -->
     <button routerLink="/login" class="nav-btn" *ngIf="!isAuthenticated">Login</button>
