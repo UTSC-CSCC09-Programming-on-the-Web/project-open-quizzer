@@ -24,10 +24,6 @@ const { Server } = require("socket.io");
 const app = express();
 
 app.use(cors());
-//subscription routes in  our application
-const subscriptionRoutes = require("./routes/subscription");
-
-app.use("/webhook", subscriptionRoutes);
 
 // app.use(express.json());
 app.use((req, res, next) => {  // Skip express.json() middleware for webhook routes TODO: Test
@@ -37,6 +33,12 @@ app.use((req, res, next) => {  // Skip express.json() middleware for webhook rou
     express.json()(req, res, next);
   }
 });
+
+//subscription routes in  our application
+const subscriptionRoutes = require("./routes/subscription");
+
+app.use("/webhook", subscriptionRoutes);
+
 
 const quizRoutes = require("./routes/index");
 const authRoutes = require("./routes/auth");
