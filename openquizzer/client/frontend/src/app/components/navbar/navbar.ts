@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Router, RouterModule } from '@angular/router';
+import { Router, RouterModule, NavigationEnd } from '@angular/router';
 import { lastValueFrom } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
@@ -14,9 +14,20 @@ import { environment } from '../../../environments/environment.prod';
 export class Navbar {
   isAuthenticated = false;
   
-  constructor(private http: HttpClient, private router: Router) { }
+  constructor(private http: HttpClient, private router: Router) { 
+    // Listen to route changes to update authentication status
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        this.checkAuthentication();
+      }
+    });
+  }
   
   ngOnInit() {
+    this.checkAuthentication();
+  }
+
+  private checkAuthentication() {
     const token = localStorage.getItem('token');
     this.isAuthenticated = !!token;
   }
