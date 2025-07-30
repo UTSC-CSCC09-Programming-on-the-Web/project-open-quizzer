@@ -113,7 +113,7 @@ export class AnswerResults implements OnInit {
       feedback?: string;
       correctness?: number;
       error?: string; 
-    }>(`http://localhost:3000/api/score_answers`, {
+    }>(`${environment.apiBaseUrl}/api/score_answers`, {
       quizId: this.quizId,
       studentAnswer: this.submittedAnswer,
       expectedAnswer: this.quiz?.answer,
