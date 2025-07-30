@@ -13,7 +13,7 @@ export class QuizMaster {
   constructor(private router: Router) {}
 
   goHome(): void {
-    this.router.navigate(['/']);
+    this.router.navigate(['/home']);
   }
 
   viewQuiz(): void {
