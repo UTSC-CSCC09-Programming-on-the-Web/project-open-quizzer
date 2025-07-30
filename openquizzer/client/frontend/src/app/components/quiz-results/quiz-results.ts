@@ -98,7 +98,7 @@ export class QuizResults implements OnInit {
       topics?: string[]; 
       correctness?: number;
       error?: string; 
-    }>(`${environment.apiBaseUrl}/api/summarize_cats`, {
+    }>(`${environment.apiBaseUrl}/summarize_cats`, {
       quizId: this.quizId,
       answers: answerTexts
     })
