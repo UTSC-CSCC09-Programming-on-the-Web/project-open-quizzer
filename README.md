@@ -1,5 +1,7 @@
 # OpenQuizzer (QuizGPT or better name later)
 
+> Access our app here: http://143.198.43.88/
+
 ## Team Members
 
 - Hardik Narkhede - hardik.narkhede@mail.utoronto.ca

@@ -493,3 +493,37 @@ button {
     box-shadow: 0 8px 25px rgba(79, 172, 254, 0.4);
   }
 }
+
+// Credits button at bottom
+.credits-button-container {
+  position: fixed;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 100;
+}
+
+.credits-btn {
+  background: rgba(108, 117, 125, 0.8);
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
+  &:hover {
+    background: rgba(108, 117, 125, 0.9);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(108, 117, 125, 0.3);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+}
