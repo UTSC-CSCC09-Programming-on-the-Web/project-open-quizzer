@@ -1,4 +1,4 @@
-// const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 const subscriptionService = require("../services/subscriptionService");
 const webhookSecret = process.env.STRIPE_WEBHOOK_KEY;
 
