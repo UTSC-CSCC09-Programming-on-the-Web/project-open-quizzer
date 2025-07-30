@@ -25,15 +25,18 @@ const app = express();
 
 app.use(cors());
 //subscription routes in  our application
-// const subscriptionRoutes = require("./routes/subscription");
-app.post(
-  "/webhook",
-  express.raw({ type: "application/json" }),
-  require("./routes/subscription")
-);
-//app.use("/webhook", subscriptionRoutes);
+const subscriptionRoutes = require("./routes/subscription");
 
-app.use(express.json());
+app.use("/webhook", subscriptionRoutes);
+
+// app.use(express.json());
+app.use((req, res, next) => {  // Skip express.json() middleware for webhook routes TODO: Test
+  if (req.originalUrl.startsWith('/webhook')) {
+    next(); // skip express.json() for webhook routes
+  } else {
+    express.json()(req, res, next);
+  }
+});
 
 const quizRoutes = require("./routes/index");
 const authRoutes = require("./routes/auth");
