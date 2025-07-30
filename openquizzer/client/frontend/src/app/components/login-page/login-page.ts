@@ -77,7 +77,7 @@ export class LoginPage implements OnInit{
           )
         );
         if (profile.data.user.status) {
-          this.router.navigateByUrl('/');
+          this.router.navigateByUrl('/home');
         } else {
           this.router.navigateByUrl('/pay');
         }
