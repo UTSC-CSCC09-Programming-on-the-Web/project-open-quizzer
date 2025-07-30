@@ -124,6 +124,32 @@
     </div>
   </div>
 
+  <!-- Email Results Section - MOVED TO BOTTOM -->
+  <div *ngIf="!isLoading && !error" class="email-section">
+    <h3>📧 Save Your Results</h3>
+    <p>Get a copy of your quiz results sent to your email for future reference.</p>
+    
+    <!-- Email Button -->
+    <button 
+      class="btn btn-secondary" 
+      (click)="sendResultsViaEmail()"
+      [disabled]="isEmailLoading || emailSent">
+      <span *ngIf="!isEmailLoading && !emailSent">📧 Email Results</span>
+      <span *ngIf="isEmailLoading">Sending...</span>
+      <span *ngIf="emailSent">✅ Email Sent!</span>
+    </button>
+    
+    <!-- Email Status Messages -->
+    <div *ngIf="emailSent" class="success-message">
+      <p>✅ Quiz results have been sent to your email!</p>
+    </div>
+    
+    <div *ngIf="emailError" class="error-message">
+      <p>❌ {{ emailError }}</p>
+      <button class="btn btn-small" (click)="sendResultsViaEmail()">Try Again</button>
+    </div>
+  </div>
+
   <!-- Navigation Button -->
   <div class="btn-container">
     <button class="btn btn-primary" (click)="rejoinQuiz()">

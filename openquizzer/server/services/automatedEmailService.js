@@ -7,11 +7,28 @@ const nameToEmailMap = {
 };
 
 function generateEmailContent(name, questions, answers) {
-  let content = `Hi ${name},\n\nHere’s a copy of your submission:\n\n`;
+  let content = `Hi ${name},\n\nHere's a copy of your submission:\n\n`;
   questions.forEach((q, i) => {
     content += `Q${i + 1}: ${q}\nYour Answer: ${answers[i] || "No answer"}\n\n`;
   });
   return content;
+}
+
+function generateQuizResultsContent(userName, quizName, quizQuestion, expectedAnswer, userAnswer) {
+  return `Hi ${userName},
+
+Here are your quiz results for: ${quizName}
+
+Question: ${quizQuestion}
+
+Your Answer: ${userAnswer || "No answer submitted"}
+
+Expected Answer: ${expectedAnswer}
+
+Thank you for participating in OpenQuizzer!
+
+Best regards,
+OpenQuizzer Team`;
 }
 
 async function sendUserSummaryEmail({ name, questions, answers }) {
@@ -31,6 +48,21 @@ async function sendUserSummaryEmail({ name, questions, answers }) {
   await sgMail.send(msg);
 }
 
+async function sendQuizResultsEmail({ userEmail, userName, quizName, quizQuestion, expectedAnswer, userAnswer }) {
+  const text = generateQuizResultsContent(userName, quizName, quizQuestion, expectedAnswer, userAnswer);
+
+  const msg = {
+    to: userEmail,
+    from: "vrajr.shah@mail.utoronto.ca",
+    replyTo: "vrajr.shah@mail.utoronto.ca",
+    subject: `OpenQuizzer Results: ${quizName}`,
+    text,
+  };
+
+  await sgMail.send(msg);
+}
+
 module.exports = {
   sendUserSummaryEmail,
+  sendQuizResultsEmail,
 };

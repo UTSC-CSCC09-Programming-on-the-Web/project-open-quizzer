@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { HttpClient } from '@angular/common/http';
-import { environment } from '../../../environments/environment';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { environment } from '../../../environments/environment.prod';
 
 @Component({
   selector: 'app-answer-results',
@@ -23,6 +23,11 @@ export class AnswerResults implements OnInit {
   scoreError: string | null = null;
   scoreGenerated: boolean = false;
   llmScore: any = null;
+
+  // Email result properties
+  isEmailLoading: boolean = false;
+  emailSent: boolean = false;
+  emailError: string | null = null;
 
   constructor(
     private route: ActivatedRoute,
@@ -136,6 +141,46 @@ export class AnswerResults implements OnInit {
         this.isLoadingScore = false;
       }
     });
+  }
+
+  sendResultsViaEmail(): void {
+    this.isEmailLoading = true;
+    this.emailError = null;
+    this.emailSent = false;
+
+    const token = localStorage.getItem('token');
+    if (!token) {
+      this.emailError = 'You must be logged in to email results';
+      this.isEmailLoading = false;
+      return;
+    }
+
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json'
+    });
+
+    // Prepare email data
+    const emailData = {
+      quizName: this.quiz?.title || 'Unknown Quiz',
+      quizQuestion: this.quiz?.title || 'No question available',
+      expectedAnswer: this.quiz?.answer || 'No expected answer available',
+      userAnswer: this.submittedAnswer || 'No answer submitted'
+    };
+
+    this.http.post(`${environment.apiBaseUrl}/email/send-quiz-results`, emailData, { headers })
+      .subscribe({
+        next: (response: any) => {
+          console.log('Email sent successfully:', response);
+          this.emailSent = true;
+          this.isEmailLoading = false;
+        },
+        error: (error: any) => {
+          console.error('Email sending failed:', error);
+          this.emailError = error.error?.error || 'Failed to send email';
+          this.isEmailLoading = false;
+        }
+      });
   }
 
   retryScoring(): void {
