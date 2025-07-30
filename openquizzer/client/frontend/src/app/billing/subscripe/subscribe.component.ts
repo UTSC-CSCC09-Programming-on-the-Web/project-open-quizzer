@@ -98,11 +98,11 @@ export class PayComponent implements OnInit {
             { subscriptionId }
           )
         );
-        alert('Your subscription has been cancelled—updating your status now.');
+        //alert('Your subscription has been cancelled—updating your status now.');
         this.router.navigateByUrl('/login');
       } catch (err) {
-        console.error('Unsubscribe failed', err);
-        alert('Could not cancel. Please try again.');
+        //console.error('Unsubscribe failed', err);
+        //alert('Could not cancel. Please try again.');
       }
     } catch (err) {
       console.log(err);

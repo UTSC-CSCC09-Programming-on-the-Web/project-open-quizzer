@@ -74,8 +74,8 @@ export class QuizList implements OnInit {
         this.router.navigate(['/active-quiz', quizId]);
       },
       error: (error) => {
-        console.error('Failed to activate quiz:', error);
-        alert('Failed to activate quiz. Please try again.');
+        // console.error('Failed to activate quiz:', error);
+        // alert('Failed to activate quiz. Please try again.');
       },
     });
   }

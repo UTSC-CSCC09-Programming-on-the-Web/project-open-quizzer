@@ -66,7 +66,7 @@ export class LoginPage implements OnInit{
       if (res.success) {
         //storing the bearer token in the local storage
         localStorage.setItem('token', res.token!);
-        alert('Login successful! Welcome to OpenQuizzer.');
+        // alert('Login successful! Welcome to OpenQuizzer.');
         this.loginForm.reset();
         const token = localStorage.getItem('token')!;
         const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });

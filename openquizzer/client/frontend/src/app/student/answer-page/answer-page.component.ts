@@ -59,7 +59,7 @@ export class AnswerPageComponent implements OnInit, OnDestroy {
         console.error('Answer submission error:', error);
         this.isSubmitting = false;
         this.submittedAnswerText = ''; // Clear on error
-        alert('Failed to submit answer. Please try again.');
+        // alert('Failed to submit answer. Please try again.');
       }),
 
       // Key navigation listener - navigate here when quiz master closes quiz

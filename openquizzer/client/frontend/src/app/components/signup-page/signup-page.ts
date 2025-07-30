@@ -106,7 +106,7 @@ export class SignupPage implements OnInit {
       this.isLoading = false;
 
       if (res.success) {
-        alert('Account created successfully!');
+        // alert('Account created successfully!');
         this.signupForm.reset();
         Object.keys(this.signupForm.controls).forEach((key) => {
           const c = this.signupForm.get(key);

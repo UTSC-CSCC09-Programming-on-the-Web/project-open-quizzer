@@ -12,7 +12,7 @@ export class QuizTaker {
   constructor(private router: Router) {}
 
   goHome(): void {
-    this.router.navigate(['/']);
+    this.router.navigate(['/home']);
   }
 
   joinQuiz(): void {

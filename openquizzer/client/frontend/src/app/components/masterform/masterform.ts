@@ -98,14 +98,14 @@ export class Masterform {
         .post(`${environment.apiBaseUrl}/quiz`, quizData, { headers })
         .subscribe({
           next: (response: any) => {
-            console.log('Quiz created successfully:', response);
-            alert(`Quiz created successfully! \nQuiz Code: ${response.quiz.id}`);
+            // console.log('Quiz created successfully:', response);
+            // alert(`Quiz created successfully! \nQuiz Code: ${response.quiz.id}`);
             // Clear form after submission
             this.clearForm();
           },
           error: (error: any) => {
-            console.error('Error creating quiz. Please try again.');
-            alert('Failed to create quiz. Please try again.');
+            // console.error('Error creating quiz. Please try again.');
+            //alert('Failed to create quiz. Please try again.');
           },
         });
     } else {
