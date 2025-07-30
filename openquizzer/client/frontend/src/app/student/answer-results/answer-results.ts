@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { HttpClient } from '@angular/common/http';
-import { environment } from '../../../environments/environment';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { environment } from '../../../environments/environment.prod';
 
 @Component({
   selector: 'app-answer-results',
@@ -24,6 +24,11 @@ export class AnswerResults implements OnInit {
   scoreGenerated: boolean = false;
   llmScore: any = null;
 
+  // Email result properties
+  isEmailLoading: boolean = false;
+  emailSent: boolean = false;
+  emailError: string | null = null;
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -40,16 +45,15 @@ export class AnswerResults implements OnInit {
   }
 
   ngOnInit(): void {
-    // Get quiz ID from route params as fallback
     this.quizId = this.route.snapshot.params['id'] || this.quizId;
 
-    // Always load full quiz data from API to ensure we have all properties
-    this.loadQuizData();
-    
-    // Start LLM scoring if we have a submitted answer
-    if (this.submittedAnswer && this.submittedAnswer !== 'Manual navigation') {
-      this.generateScore();
-    }
+    // Always load full quiz data from API first
+    this.loadQuizData().then(() => {
+      // Only start LLM scoring after quiz data is loaded
+      if (this.submittedAnswer && this.submittedAnswer !== 'Manual navigation') {
+        this.generateScore();
+      }
+    });
     
     console.log('Results page loaded with:', {
       quiz: this.quiz,
@@ -59,15 +63,14 @@ export class AnswerResults implements OnInit {
     });
   }
 
-  loadQuizData(): void {
-    this.isLoading = true;
-    this.error = null;
+  loadQuizData(): Promise<void> { // return promise becuase is is loading the llm call which may fail
+    return new Promise((resolve, reject) => {
+      this.isLoading = true;
+      this.error = null;
 
-    this.http
-      .get<{ ok: boolean; message: string; quiz: any }>(
+      this.http.get<{ ok: boolean; message: string; quiz: any }>(
         `${environment.apiBaseUrl}/quiz/${this.quizId}`
-      )
-      .subscribe({
+      ).subscribe({
         next: (response) => {
           if (response.ok) {
             this.quiz = response.quiz;
@@ -75,13 +78,16 @@ export class AnswerResults implements OnInit {
             this.error = response.message || 'Failed to load quiz data';
           }
           this.isLoading = false;
+          resolve();
         },
         error: (error) => {
           console.error('Error loading quiz:', error);
           this.error = 'Failed to load quiz data. Please try again.';
           this.isLoading = false;
-        },
+          reject(error);
+        }
       });
+    });
   }
 
   // Copy difficulty methods from quiz-results component
@@ -136,6 +142,46 @@ export class AnswerResults implements OnInit {
         this.isLoadingScore = false;
       }
     });
+  }
+
+  sendResultsViaEmail(): void {
+    this.isEmailLoading = true;
+    this.emailError = null;
+    this.emailSent = false;
+
+    const token = localStorage.getItem('token');
+    if (!token) {
+      this.emailError = 'You must be logged in to email results';
+      this.isEmailLoading = false;
+      return;
+    }
+
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json'
+    });
+
+    // Prepare email data
+    const emailData = {
+      quizName: this.quiz?.title || 'Unknown Quiz',
+      quizQuestion: this.quiz?.title || 'No question available',
+      expectedAnswer: this.quiz?.answer || 'No expected answer available',
+      userAnswer: this.submittedAnswer || 'No answer submitted'
+    };
+
+    this.http.post(`${environment.apiBaseUrl}/email/send-quiz-results`, emailData, { headers })
+      .subscribe({
+        next: (response: any) => {
+          console.log('Email sent successfully:', response);
+          this.emailSent = true;
+          this.isEmailLoading = false;
+        },
+        error: (error: any) => {
+          console.error('Email sending failed:', error);
+          this.emailError = error.error?.error || 'Failed to send email';
+          this.isEmailLoading = false;
+        }
+      });
   }
 
   retryScoring(): void {

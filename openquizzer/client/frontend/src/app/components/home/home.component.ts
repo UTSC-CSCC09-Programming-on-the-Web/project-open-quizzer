@@ -1,14 +1,12 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { CommonModule } from '@angular/common';
-import { Navbar } from '../navbar/navbar';
+
 @Component({
   selector: 'app-home',
-  imports: [CommonModule, Navbar,],
   templateUrl: './home.html',
-  styleUrl: './home.scss',
+  styleUrls: ['./home.scss'],
 })
-export class Home {
+export class HomeComponent {
   constructor(private router: Router) {}
 
   navigateToQuizMaster(): void {

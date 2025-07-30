@@ -46,6 +46,7 @@
     line-height: 1.2;
     text-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   }
+  
 
   // Subtitle
   > p {
@@ -141,12 +142,8 @@
   h2 {
     font-size: 2rem;
     font-weight: 700;
-    color: var(--text-primary);
+    color: black;
     margin: 0 0 1rem 0;
-    background: var(--primary-gradient);
-    background-clip: text;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
     transition: transform 0.3s ease;
     position: relative;
 
@@ -411,6 +408,15 @@
       font-size: 1rem;
     }
   }
+
+  .credits-button-container {
+    bottom: 1.5rem;
+  }
+  
+  .credits-btn {
+    font-size: 0.8rem;
+    padding: 0.4rem 0.8rem;
+  }
 }
 
 @media (max-width: 480px) {
@@ -494,5 +500,50 @@ button {
   }
   50% {
     box-shadow: 0 8px 25px rgba(79, 172, 254, 0.4);
+  }
+}
+
+// Credits button at bottom
+.credits-button-container {
+  position: fixed;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 100;
+}
+
+.credits-btn {
+  background: rgba(108, 117, 125, 0.8);
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
+  &:hover {
+    background: rgba(108, 117, 125, 0.9);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(108, 117, 125, 0.3);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 768px) {
+  .credits-button-container {
+    bottom: 1.5rem;
+  }
+  
+  .credits-btn {
+    font-size: 0.8rem;
+    padding: 0.4rem 0.8rem;
   }
 }

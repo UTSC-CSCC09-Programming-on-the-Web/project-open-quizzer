@@ -357,6 +357,60 @@
   }
 }
 
+// Email Section
+.email-section {
+  margin-top: 30px;
+  
+  h3 {
+    color: #333;
+    margin-bottom: 15px;
+    text-align: left; 
+  }
+  
+  .quiz-info-section {
+    // This will inherit the existing styling from .quiz-info-section
+    
+    p {
+      text-align: left; 
+      margin-bottom: 20px;
+      color: #666;
+      font-size: 16px;
+    }
+  }
+  
+  .email-button-container {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+  }
+  
+  .success-message,
+  .error-message {
+    text-align: center;
+    margin-top: 15px;
+    
+    p {
+      margin: 0 0 10px 0;
+    }
+  }
+  
+  .success-message {
+    color: #28a745;
+    background: #d4edda;
+    padding: 15px;
+    border-radius: 8px;
+    border: 1px solid #c3e6cb;
+  }
+  
+  .error-message {
+    color: #dc3545;
+    background: #f8d7da;
+    padding: 15px;
+    border-radius: 8px;
+    border: 1px solid #f5c6cb;
+  }
+}
+
 // Responsive design
 @media (max-width: 768px) {
   .answer-results-container {

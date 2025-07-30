@@ -11,6 +11,8 @@ import { QuizResults } from './components/quiz-results/quiz-results';
 import { CodeEditorComponent } from './components/code-editor/code-editor';
 import { AccountsPage } from './components/accounts-page/accounts-page';
 import { LoginRequired } from './components/login-required/login-required';
+import { CreditsComponent } from './components/credits/credits.component';
+
 export const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: 'home', component: Home },
@@ -31,5 +33,6 @@ export const routes: Routes = [
   { path: 'signup', component: SignupPage },
   { path: 'editor', component: CodeEditorComponent },
   { path: 'login-required', component: LoginRequired },
+  { path: 'credits', component: CreditsComponent },
   // { path: '**', redirectTo: '' },
 ];

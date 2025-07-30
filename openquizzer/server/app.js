@@ -53,7 +53,7 @@ app.use("/api", quizRoutes);
 app.use("/api/auth", googleAuthRoutes);
 //payment routes to our app subscription
 app.use("/api", paymentRoutes);
-app.use("/email", emailRoutes);
+app.use("/api/email", emailRoutes);
 app.use('/api', llmRoutes);
 
 app.get("/", (req, res) => {

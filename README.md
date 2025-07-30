@@ -1,4 +1,7 @@
-# OpenQuizzer (QuizGPT or better name later)
+# OpenQuizzer
+
+> Access our app here: http://143.198.43.88/
+> Watch a video Demo here: https://youtu.be/gWMAToZywtI
 
 ## Team Members
 
