@@ -45,16 +45,15 @@ export class AnswerResults implements OnInit {
   }
 
   ngOnInit(): void {
-    // Get quiz ID from route params as fallback
     this.quizId = this.route.snapshot.params['id'] || this.quizId;
 
-    // Always load full quiz data from API to ensure we have all properties
-    this.loadQuizData();
-    
-    // Start LLM scoring if we have a submitted answer
-    if (this.submittedAnswer && this.submittedAnswer !== 'Manual navigation') {
-      this.generateScore();
-    }
+    // Always load full quiz data from API first
+    this.loadQuizData().then(() => {
+      // Only start LLM scoring after quiz data is loaded
+      if (this.submittedAnswer && this.submittedAnswer !== 'Manual navigation') {
+        this.generateScore();
+      }
+    });
     
     console.log('Results page loaded with:', {
       quiz: this.quiz,
@@ -64,15 +63,14 @@ export class AnswerResults implements OnInit {
     });
   }
 
-  loadQuizData(): void {
-    this.isLoading = true;
-    this.error = null;
+  loadQuizData(): Promise<void> { // return promise becuase is is loading the llm call which may fail
+    return new Promise((resolve, reject) => {
+      this.isLoading = true;
+      this.error = null;
 
-    this.http
-      .get<{ ok: boolean; message: string; quiz: any }>(
+      this.http.get<{ ok: boolean; message: string; quiz: any }>(
         `${environment.apiBaseUrl}/quiz/${this.quizId}`
-      )
-      .subscribe({
+      ).subscribe({
         next: (response) => {
           if (response.ok) {
             this.quiz = response.quiz;
@@ -80,13 +78,16 @@ export class AnswerResults implements OnInit {
             this.error = response.message || 'Failed to load quiz data';
           }
           this.isLoading = false;
+          resolve();
         },
         error: (error) => {
           console.error('Error loading quiz:', error);
           this.error = 'Failed to load quiz data. Please try again.';
           this.isLoading = false;
-        },
+          reject(error);
+        }
       });
+    });
   }
 
   // Copy difficulty methods from quiz-results component
