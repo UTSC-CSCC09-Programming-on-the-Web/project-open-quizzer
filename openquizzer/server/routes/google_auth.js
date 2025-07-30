@@ -19,7 +19,7 @@ router.get("/google", async (req, res) => {
     params.append("code", code);
     params.append("client_id", process.env.GOOGLE_CLIENT_ID);
     params.append("client_secret", process.env.GOOGLE_CLIENT_SECRET);
-    params.append("redirect_uri", "http://localhost:3000/api/auth/google");
+    params.append("redirect_uri", `${environment.apiBaseUrl}/auth/google`);
     params.append("grant_type", "authorization_code");
 
     const tokenResponse = await axios.post(
@@ -64,7 +64,7 @@ router.get("/google", async (req, res) => {
     );
 
     //Redirect back to Angular app with token as query param
-    res.redirect(`http://localhost:4200/login?token=${appToken}`);
+    res.redirect(`${environment.frontendBaseUrl}/login?token=${appToken}`);
   } 
   catch (error) {
     console.error("Google OAuth error:", error.response?.data || error.message);

@@ -25,8 +25,8 @@ export class LoginPage implements OnInit{
   errorMessage = '';
 
   private googleClientId = '246084124226-5sl2r5124hl2ugd1hst63ko55k94p49u.apps.googleusercontent.com';
-  private googleRedirectUri = 'http://localhost:3000/api/auth/google';
-  
+  private googleRedirectUri = `${environment.apiBaseUrl}/auth/google`;
+
   constructor(private fb: FormBuilder, private http: HttpClient,private router: Router) {}
 
   ngOnInit(): void {
