@@ -25,8 +25,13 @@ const app = express();
 
 app.use(cors());
 //subscription routes in  our application
-const subscriptionRoutes = require("./routes/subscription");
-app.use("/webhook", subscriptionRoutes);
+// const subscriptionRoutes = require("./routes/subscription");
+app.post(
+  "/webhook",
+  express.raw({ type: "application/json" }),
+  require("./routes/subscription")
+);
+//app.use("/webhook", subscriptionRoutes);
 
 app.use(express.json());
 
