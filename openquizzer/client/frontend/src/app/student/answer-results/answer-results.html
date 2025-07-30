@@ -122,31 +122,32 @@
     <div *ngIf="!quiz" class="no-data">
       <p>No quiz data available.</p>
     </div>
+  </div>
 
-    <!-- Email Results Section - ALWAYS AVAILABLE -->
-    <div class="email-section">
-      <h3>📧 Save Your Results</h3>
-      <p>Get a copy of your quiz results sent to your email for future reference.</p>
-      
-      <!-- Email Button -->
-      <button 
-        class="btn btn-secondary" 
-        (click)="sendResultsViaEmail()"
-        [disabled]="isEmailLoading || emailSent">
-        <span *ngIf="!isEmailLoading && !emailSent">📧 Email Results</span>
-        <span *ngIf="isEmailLoading">Sending...</span>
-        <span *ngIf="emailSent">✅ Email Sent!</span>
-      </button>
-      
-      <!-- Email Status Messages -->
-      <div *ngIf="emailSent" class="success-message">
-        <p>✅ Quiz results have been sent to your email!</p>
-      </div>
-      
-      <div *ngIf="emailError" class="error-message">
-        <p>❌ {{ emailError }}</p>
-        <button class="btn btn-small" (click)="sendResultsViaEmail()">Try Again</button>
-      </div>
+  <!-- Email Results Section - MOVED OUTSIDE results-content -->
+  <div *ngIf="!isLoading && !error" class="email-section">
+    <h3>📧 Save Your Results</h3>
+    <p>Get a copy of your quiz results sent to your email for future reference.</p>
+    
+    <!-- Email Button -->
+    <button 
+      class="btn btn-secondary" 
+      (click)="sendResultsViaEmail()"
+      [disabled]="isEmailLoading || emailSent"
+      style="background-color: #28a745; color: white; padding: 12px 24px; margin: 10px 0; border: none; border-radius: 5px; font-size: 16px;">
+      <span *ngIf="!isEmailLoading && !emailSent">📧 Email Results</span>
+      <span *ngIf="isEmailLoading">Sending...</span>
+      <span *ngIf="emailSent">✅ Email Sent!</span>
+    </button>
+    
+    <!-- Email Status Messages -->
+    <div *ngIf="emailSent" class="success-message">
+      <p>✅ Quiz results have been sent to your email!</p>
+    </div>
+    
+    <div *ngIf="emailError" class="error-message">
+      <p>❌ {{ emailError }}</p>
+      <button class="btn btn-small" (click)="sendResultsViaEmail()">Try Again</button>
     </div>
   </div>
 
