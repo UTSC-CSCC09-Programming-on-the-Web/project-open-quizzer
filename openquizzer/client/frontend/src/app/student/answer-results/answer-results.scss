@@ -364,14 +364,14 @@
   h3 {
     color: #333;
     margin-bottom: 15px;
-    text-align: center;
+    text-align: left; 
   }
   
   .quiz-info-section {
     // This will inherit the existing styling from .quiz-info-section
     
     p {
-      text-align: center;
+      text-align: left; 
       margin-bottom: 20px;
       color: #666;
       font-size: 16px;
