@@ -46,6 +46,7 @@
     line-height: 1.2;
     text-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   }
+  
 
   // Subtitle
   > p {
@@ -141,7 +142,7 @@
   h2 {
     font-size: 2rem;
     font-weight: 700;
-    color: var(--text-primary);
+    color: black;
     margin: 0 0 1rem 0;
     background: var(--primary-gradient);
     background-clip: text;

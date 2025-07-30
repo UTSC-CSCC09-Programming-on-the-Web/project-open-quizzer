@@ -128,9 +128,9 @@
   <div *ngIf="!isLoading && !error" class="email-section">
     <h3>📧 Save Your Results</h3>
     <p>Get a copy of your quiz results sent to your email for future reference.</p>
-    
-    <!-- Email Button -->
-    <button 
+    <div class= "quiz-info-section"> 
+      <!-- Email Button -->
+      <button 
       class="btn btn-secondary" 
       (click)="sendResultsViaEmail()"
       [disabled]="isEmailLoading || emailSent"
@@ -149,6 +149,7 @@
       <p>❌ {{ emailError }}</p>
       <button class="btn btn-small" (click)="sendResultsViaEmail()">Try Again</button>
     </div>
+  </div>
   </div>
 
   <!-- Navigation Button -->
