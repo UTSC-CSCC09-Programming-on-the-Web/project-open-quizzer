@@ -13,11 +13,11 @@ exports.startCheckout = async ({priceId,userName}) => {
     line_items: [{price: priceId, quantity:1}],
     //where to navigate the user on successful payments
     //success_url:`${process.env.BASE_URL}/student/join?session_id={CHECKOUT_SESSION_ID}`,
-    success_url:`143.198.43.88/student/join?session_id={CHECKOUT_SESSION_ID}`,
+    success_url:`http://143.198.43.88/student/join?session_id={CHECKOUT_SESSION_ID}`,
 
     //where to navigate the user on unsuccessful payments
     //cancel_url: `${process.env.BASE_URL}/pay`,
-    cancel_url: `143.198.43.88/pay`,
+    cancel_url: `http://143.198.43.88/pay`,
 
     metadata: { userName },
     subscription_data: {
