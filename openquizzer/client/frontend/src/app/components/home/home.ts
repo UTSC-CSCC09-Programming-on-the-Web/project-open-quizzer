@@ -18,4 +18,8 @@ export class Home {
   navigateToQuizTaker(): void {
     this.router.navigate(['/quiz-taker']);
   }
+
+  navigateToCredits(): void {
+    this.router.navigate(['/credits']);
+  }
 }
