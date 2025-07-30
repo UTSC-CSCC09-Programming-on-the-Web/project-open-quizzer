@@ -8,7 +8,8 @@ import {
   AbstractControl,
 } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-masterform',
@@ -86,18 +87,27 @@ export class Masterform {
       };
 
       // actually call backend API
-      this.http.post('http://localhost:3000/api/quiz', quizData).subscribe({
-        next: (response: any) => {
-          console.log('Quiz created successfully:', response);
-          alert(`Quiz created successfully! \nQuiz Code: ${response.quiz.id}`);
-          // Clear form after submission
-          this.clearForm();
-        },
-        error: (error: any) => {
-          console.error('Error creating quiz. Please try again.');
-          alert('Failed to create quiz. Please try again.');
-        },
+      const token = localStorage.getItem('token'); // Your auth token storage
+
+      const headers = new HttpHeaders({
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
       });
+
+      this.http
+        .post(`${environment.apiBaseUrl}/quiz`, quizData, { headers })
+        .subscribe({
+          next: (response: any) => {
+            console.log('Quiz created successfully:', response);
+            alert(`Quiz created successfully! \nQuiz Code: ${response.quiz.id}`);
+            // Clear form after submission
+            this.clearForm();
+          },
+          error: (error: any) => {
+            console.error('Error creating quiz. Please try again.');
+            alert('Failed to create quiz. Please try again.');
+          },
+        });
     } else {
       Object.keys(this.quizForm.controls).forEach((field) => {
         const control = this.quizForm.get(field);
@@ -126,11 +136,15 @@ export class Masterform {
     const field = this.quizForm.get(fieldName);
     if (field?.errors && field.touched) {
       if (field.errors['required']) {
-        return `${fieldName.charAt(0).toUpperCase() + fieldName.slice(1)} is required`;
+        return `${
+          fieldName.charAt(0).toUpperCase() + fieldName.slice(1)
+        } is required`;
       }
       if (field.errors['minlength']) {
         const requiredLength = field.errors['minlength'].requiredLength;
-        return `${fieldName.charAt(0).toUpperCase() + fieldName.slice(1)} must be at least ${requiredLength} characters`;
+        return `${
+          fieldName.charAt(0).toUpperCase() + fieldName.slice(1)
+        } must be at least ${requiredLength} characters`;
       }
       if (field.errors['min']) {
         return `Minimum value is ${field.errors['min'].min}`;

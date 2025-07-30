@@ -2,10 +2,14 @@ const quizService = require("../services/quizService");
 
 exports.createQuiz = async (req, res) => {
     try {
-        const { id, userid, title, answer, time_limit, difficulty } = req.body;
+        const { id, title, answer, time_limit, difficulty } = req.body;
+        
+        // Get the authenticated user's ID from the middleware
+        const userid = req.user.id; // This comes from the authenticateToken middleware
+        
         const newQuiz = await quizService.createQuiz({
             id,
-            userid: userid || '00000', // TODO: Default with 00000 for now
+            userid: userid, // Use the actual authenticated user's ID
             title,
             answer,
             time_limit,

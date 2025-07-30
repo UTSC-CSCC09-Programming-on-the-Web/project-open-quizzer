@@ -6,7 +6,7 @@ import { Navbar } from '../navbar/navbar';
   selector: 'app-home',
   imports: [CommonModule, Navbar,],
   templateUrl: './home.html',
-  styleUrl: './home.scss'
+  styleUrl: './home.scss',
 })
 export class Home {
   constructor(private router: Router) {}

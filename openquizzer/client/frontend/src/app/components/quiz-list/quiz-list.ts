@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
+import { environment } from '../../../environments/environment';
 
 export interface Quiz {
   id: string;
@@ -16,7 +17,7 @@ export interface Quiz {
   selector: 'app-quiz-list',
   imports: [CommonModule],
   templateUrl: './quiz-list.html',
-  styleUrl: './quiz-list.scss'
+  styleUrl: './quiz-list.scss',
 })
 export class QuizList implements OnInit {
   quizzes: Quiz[] = [];
@@ -35,7 +36,10 @@ export class QuizList implements OnInit {
     this.isLoading = true;
     this.error = null;
 
-    this.http.get<{ ok: boolean; message: string; quizzes: Quiz[] }>('http://localhost:3000/api/quiz')
+    this.http
+      .get<{ ok: boolean; message: string; quizzes: Quiz[] }>(
+        `${environment.apiBaseUrl}/quiz`
+      )
       .subscribe({
         next: (response) => {
           if (response.ok) {
@@ -49,7 +53,7 @@ export class QuizList implements OnInit {
           console.error('Error loading quizzes:', error);
           this.error = 'Failed to load quizzes. Please try again.';
           this.isLoading = false;
-        }
+        },
       });
   }
 
@@ -58,12 +62,11 @@ export class QuizList implements OnInit {
   }
 
   activateQuiz(quizId: string): void {
-  this.http.patch(`http://localhost:3000/api/quiz/${quizId}`, {})
-    .subscribe({
+    this.http.patch(`${environment.apiBaseUrl}/quiz/${quizId}`, {}).subscribe({
       next: (response: any) => {
         console.log('Quiz activated successfully:', response);
         // Update the local quiz status immediately
-        const quiz = this.quizzes.find(q => q.id === quizId);
+        const quiz = this.quizzes.find((q) => q.id === quizId);
         if (quiz) {
           quiz.status = 'active';
         }
@@ -73,7 +76,7 @@ export class QuizList implements OnInit {
       error: (error) => {
         console.error('Failed to activate quiz:', error);
         alert('Failed to activate quiz. Please try again.');
-      }
+      },
     });
   }
 
@@ -89,7 +92,7 @@ export class QuizList implements OnInit {
   // Add UTC timer update method
   updateUtcTime(): void {
     const now = new Date();
-    
+
     // Format with AM/PM
     const utcTimeFormatted = now.toLocaleString('en-US', {
       timeZone: 'UTC',
@@ -98,22 +101,25 @@ export class QuizList implements OnInit {
       day: '2-digit',
       hour: 'numeric',
       minute: '2-digit',
-      hour12: true
+      hour12: true,
     });
-    
+
     // Replace comma with dash
     this.currentUtcTime = utcTimeFormatted.replace(',', ' -');
   }
-  
+
   // Keep your existing getFormattedDate method unchanged
   getFormattedDate(utcTimeString: string): string {
     if (!utcTimeString) return 'Unknown';
-    
+
     try {
       // Don't add 'Z' if the timestamp already has timezone info
       let dateToFormat: Date;
-      
-      if (utcTimeString.includes('T') && (utcTimeString.endsWith('Z') || utcTimeString.includes('+'))) {
+
+      if (
+        utcTimeString.includes('T') &&
+        (utcTimeString.endsWith('Z') || utcTimeString.includes('+'))
+      ) {
         dateToFormat = new Date(utcTimeString);
       } else {
         dateToFormat = new Date(utcTimeString + 'Z');
@@ -121,7 +127,7 @@ export class QuizList implements OnInit {
       if (isNaN(dateToFormat.getTime())) {
         return utcTimeString; // Fallback to original string
       }
-      
+
       // Format using local timezone
       return dateToFormat.toLocaleString('en-US', {
         year: 'numeric',
@@ -130,7 +136,7 @@ export class QuizList implements OnInit {
         hour: 'numeric',
         minute: '2-digit',
         second: '2-digit',
-        hour12: true
+        hour12: true,
       });
     } catch (error) {
       console.error('Error formatting date:', utcTimeString, error);

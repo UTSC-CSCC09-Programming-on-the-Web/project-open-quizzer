@@ -11,7 +11,7 @@ import { HttpClient } from '@angular/common/http';
 import { HttpHeaders } from '@angular/common/http';
 import { lastValueFrom } from 'rxjs';
 import { Router } from '@angular/router';
-
+import { environment } from '../../../environments/environment';
 @Component({
   selector: 'app-login-page',
   imports: [ReactiveFormsModule, CommonModule, RouterLink],
@@ -45,12 +45,12 @@ export class LoginPage implements OnInit{
     }
   }
 
-  async onSubmit(): Promise <void> {
+  async onSubmit(): Promise<void> {
     if (this.loginForm.invalid) {
       this.markFormGroupTouched();
       return;
     }
-    this.isLoading    = true;
+    this.isLoading = true;
     this.errorMessage = '';
     const { email, password } = this.loginForm.value;
     console.log('Form Submitted:', { email, password });
@@ -58,7 +58,7 @@ export class LoginPage implements OnInit{
     try {
       const res = await lastValueFrom(
         this.http.post<{ success: boolean; token?: string; error?: string }>(
-          'http://localhost:3000/api/auth/login',
+          `${environment.apiBaseUrl}/auth/login`,
           { email, password }
         )
       );
@@ -71,25 +71,21 @@ export class LoginPage implements OnInit{
         const token = localStorage.getItem('token')!;
         const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
         const profile = await lastValueFrom(
-        this.http.get<{ data: { user: { status: boolean }}}>(
-          'http://localhost:3000/api/auth/verify',
-          { headers }
-        )
+          this.http.get<{ data: { user: { status: boolean } } }>(
+            `${environment.apiBaseUrl}/auth/verify`,
+            { headers }
+          )
         );
         if (profile.data.user.status) {
-        this.router.navigateByUrl('/');
-        } 
-        else {
-        this.router.navigateByUrl('/pay');
+          this.router.navigateByUrl('/');
+        } else {
+          this.router.navigateByUrl('/pay');
         }
-
-      } 
-      else {
+      } else {
         this.errorMessage = res.error || 'Login failed';
       }
-    } 
-    catch (err) {
-      this.isLoading    = false;
+    } catch (err) {
+      this.isLoading = false;
       this.errorMessage = 'Server error. Please try again later.';
       console.error(err);
     }

@@ -1,13 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
+import { environment } from '../../../environments/environment';
 import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-quiz-results',
   imports: [CommonModule],
   templateUrl: './quiz-results.html',
-  styleUrl: './quiz-results.scss'
+  styleUrl: './quiz-results.scss',
 })
 export class QuizResults implements OnInit {
   quizId: string;
@@ -18,7 +19,7 @@ export class QuizResults implements OnInit {
   error: string | null = null;
 
   constructor(
-    private router: Router, 
+    private router: Router,
     private route: ActivatedRoute,
     private http: HttpClient
   ) {
@@ -41,7 +42,10 @@ export class QuizResults implements OnInit {
     this.isLoading = true;
     this.error = null;
 
-    this.http.get<{ ok: boolean; message: string; quiz: any }>(`http://localhost:3000/api/quiz/${this.quizId}`)
+    this.http
+      .get<{ ok: boolean; message: string; quiz: any }>(
+        `${environment.apiBaseUrl}/quiz/${this.quizId}`
+      )
       .subscribe({
         next: (response) => {
           if (response.ok) {
@@ -55,7 +59,7 @@ export class QuizResults implements OnInit {
           console.error('Error loading quiz:', error);
           this.error = 'Failed to load quiz data. Please try again.';
           this.isLoading = false;
-        }
+        },
       });
   }
 
@@ -76,10 +80,10 @@ export class QuizResults implements OnInit {
     const level = this.getDifficultyLevel();
     const difficultyMap: { [key: number]: string } = {
       1: 'Very Easy',
-      2: 'Easy', 
+      2: 'Easy',
       3: 'Moderate',
       4: 'Hard',
-      5: 'Very Hard'
+      5: 'Very Hard',
     };
     return difficultyMap[level] || 'Moderate';
   }
