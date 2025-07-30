@@ -4,6 +4,7 @@ const webhookSecret = process.env.STRIPE_WEBHOOK_KEY;
 
 exports.handleSubscription = async (req, res) => {
   console.log("Received Stripe webhook event reached Subscription Controller");
+  console.log("Request body:", req.body);
   let event;
   try {
     const signature = req.headers["stripe-signature"];
