@@ -17,6 +17,12 @@ export class AnswerResults implements OnInit {
   quizClosed: boolean = false;
   isLoading: boolean = true;
   error: string | null = null;
+  
+  // Add LLM scoring properties
+  isLoadingScore: boolean = false;
+  scoreError: string | null = null;
+  scoreGenerated: boolean = false;
+  llmScore: any = null;
 
   constructor(
     private route: ActivatedRoute,
@@ -38,9 +44,13 @@ export class AnswerResults implements OnInit {
     this.quizId = this.route.snapshot.params['id'] || this.quizId;
 
     // Always load full quiz data from API to ensure we have all properties
-    // Router state might only contain partial data (id, title) but not answer, difficulty
     this.loadQuizData();
-
+    
+    // Start LLM scoring if we have a submitted answer
+    if (this.submittedAnswer && this.submittedAnswer !== 'Manual navigation') {
+      this.generateScore();
+    }
+    
     console.log('Results page loaded with:', {
       quiz: this.quiz,
       quizId: this.quizId,
@@ -89,6 +99,47 @@ export class AnswerResults implements OnInit {
       5: 'Very Hard',
     };
     return difficultyMap[level] || 'Moderate';
+  }
+
+  generateScore(): void {
+    this.isLoadingScore = true;
+    this.scoreError = null;
+
+    console.log('Starting LLM scoring for student answer:', this.submittedAnswer);
+
+    this.http.post<{ 
+      success: boolean; 
+      score?: number;
+      feedback?: string;
+      correctness?: number;
+      error?: string; 
+    }>(`http://localhost:3000/api/score_answers`, {
+      quizId: this.quizId,
+      studentAnswer: this.submittedAnswer,
+      expectedAnswer: this.quiz?.answer,
+      question: this.quiz?.title  
+    })
+    .subscribe({
+      next: (response) => {
+        console.log('LLM scoring response:', response);
+        if (response.success) {
+          this.llmScore = response;
+          this.scoreGenerated = true;
+        } else {
+          this.scoreError = response.error || 'Failed to generate score';
+        }
+        this.isLoadingScore = false;
+      },
+      error: (error) => {
+        console.error('Error generating score:', error);
+        this.scoreError = 'Failed to generate score. Please try again.';
+        this.isLoadingScore = false;
+      }
+    });
+  }
+
+  retryScoring(): void {
+    this.generateScore();
   }
 
   rejoinQuiz(): void {

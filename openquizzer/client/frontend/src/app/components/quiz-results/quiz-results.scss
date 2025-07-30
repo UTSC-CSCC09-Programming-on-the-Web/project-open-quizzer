@@ -163,24 +163,21 @@ margin: 0;
   letter-spacing: 0.5px;
 }
 
-// Optional: Add hover effects for visual appeal
 .stars-container:hover .star.filled {
   transform: scale(1.1);
   filter: drop-shadow(0 0 5px rgba(102, 126, 234, 0.6));
 }
 
-// Alternative simpler version if gradient text doesn't work well
 .star.filled-simple {
   color: #667eea;
 }
 
-// Responsive adjustments
 @media (max-width: 480px) {
   .difficulty-rating {
     flex-direction: column;
     align-items: flex-start;
     gap: 8px;
-    margin: 0 auto; // centers stars
+    margin: 0 auto; 
     width: fit-content;
   }
   
@@ -190,5 +187,183 @@ margin: 0;
   
   .difficulty-text {
     font-size: 0.9rem;
+  }
+}
+
+.summary-section {
+  background: #f8f9fa;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 30px;
+  border: 1px solid #e9ecef;
+
+  h2 {
+    color: #007bff;
+    margin-bottom: 20px;
+    font-size: 1.5rem;
+  }
+}
+
+.llm-content {
+  .correctness-metric {
+    background: linear-gradient(135deg, #e8f5e8 0%, #d4edda 100%);
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+    border: 1px solid #c3e6cb;
+    border-left: 4px solid #28a745;
+    text-align: center;
+
+    .correctness-label {
+      display: block;
+      color: #155724;
+      font-size: 14px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 8px;
+    }
+
+    .correctness-value {
+      color: #155724;
+      font-weight: bold;
+      font-size: 2rem;
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    }
+  }
+
+  .summary-topics-section {
+    margin-top: 20px;
+    
+    .topics-header {
+      color: #495057;
+      font-size: 14px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 10px;
+    }
+
+    .topics-description {
+      margin-bottom: 15px;
+      
+      p {
+        color: #6c757d;
+        font-size: 14px;
+        font-style: italic;
+        margin: 0;
+        line-height: 1.4;
+      }
+    }
+
+    .topics-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .topic-tag {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 14px;
+      font-weight: 500;
+      text-transform: capitalize;
+      box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+      transition: all 0.3s ease;
+
+      &:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+      }
+    }
+  }
+}
+
+.metrics-section {
+  background: #f8f9fa;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 30px;
+  border: 1px solid #e9ecef;
+
+  h3 {
+    color: #495057;
+    margin-bottom: 20px;
+    font-size: 1.2rem;
+    text-align: center;
+  }
+}
+
+.metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 15px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.metric-card {
+  background: white;
+  border-radius: 8px;
+  padding: 20px;
+  text-align: center;
+  border: 1px solid #dee2e6;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+
+  h4 {
+    color: #495057;
+    font-size: 14px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin: 0 0 10px 0;
+  }
+
+  .metric-value {
+    color: #007bff;
+    font-size: 1.8rem;
+    font-weight: bold;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  }
+}
+
+@media (max-width: 768px) {
+  .metrics-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+  
+  .metric-card {
+    padding: 15px;
+    
+    .metric-value {
+      font-size: 1.5rem;
+    }
+  }
+  
+  .llm-content .topics-container {
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .metrics-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .llm-content .correctness-metric {
+    padding: 15px;
+    
+    .correctness-value {
+      font-size: 1.5rem;
+    }
   }
 }
