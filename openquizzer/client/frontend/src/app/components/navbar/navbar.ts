@@ -3,6 +3,7 @@ import { Router, RouterModule } from '@angular/router';
 import { lastValueFrom } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
+import { environment } from '../../../environments/environment.prod';
 
 @Component({
   selector: 'app-navbar',
@@ -29,7 +30,7 @@ export class Navbar {
     };
        lastValueFrom(
         this.http.post<{message:string }>(
-          'http://localhost:3000/api/auth/logout',
+          `${environment.apiBaseUrl}/auth/logout`,
           {},
           {headers}
         )
